@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSync 4.0 - Learning Path</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --stage-1: #8b5cf6;
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
+            --stage-5: #ec4899;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 36px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* Progress Overview */
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .progress-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .progress-card h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-card h3 i {
+            color: var(--primary);
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Learning Path Timeline */
+        .path-timeline {
+            margin-bottom: 50px;
+        }
+
+        .timeline-title {
+            font-size: 24px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timeline-title i {
+            color: var(--primary);
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--stage-1), var(--stage-2), var(--stage-3), var(--stage-4), var(--stage-5));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -36px;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .timeline-content {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover {
+            transform: translateX(10px);
+            border-color: var(--primary);
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stage-tag {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stage-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stage-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stage-title i {
+            color: var(--primary);
+        }
+
+        .stage-description {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .stage-features {
+            margin: 20px 0;
+        }
+
+        .features-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .features-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .feature-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-item i {
+            color: var(--secondary);
+            font-size: 12px;
+        }
+
+        .stage-progress {
+            margin: 20px 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        .progress-percent {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .stage-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-primary,
+        .btn-secondary,
+        .btn-disabled {
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-disabled {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        /* Daily Tasks */
+        .daily-tasks-section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .tasks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .task-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .task-category {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .task-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-description {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .task-reward {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent);
+        }
+
+        /* Learning Analytics */
+        .analytics-section {
+            margin-bottom: 50px;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .analytics-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .analytics-card h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analytics-card h3 i {
+            color: var(--primary);
+        }
+
+        /* Achievement Badges */
+        .badges-section {
+            margin-bottom: 50px;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .badge-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .badge-item:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .badge-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .badge-name {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .badge-desc {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .badge-earned {
+            border-color: var(--accent);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        /* Generate New Path */
+        .generate-path-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .generate-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .generate-subtitle {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .generate-form {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-label {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .checkbox-label:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .checkbox-label.selected {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .checkbox-input {
+            display: none;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .timeline-container {
+                padding-left: 20px;
+            }
+
+            .timeline-line {
+                left: 10px;
+            }
+
+            .timeline-marker {
+                left: -26px;
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+
+            .stage-actions {
+                flex-direction: column;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <span>EduSync 4.0</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="student_dashboard.html" class="nav-link">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="#" class="nav-link active">
+                <i class="fas fa-map-signs"></i> Learning Path
+            </a>
+            <a href="challenges.html" class="nav-link">
+                <i class="fas fa-trophy"></i> Challenges
+            </a>
+            <a href="profile.html" class="nav-link">
+                <i class="fas fa-user"></i> Profile
+            </a>
+        </div>
+
+        <div class="user-menu">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">JD</div>
+                <div>
+                    <div id="userName">John Doe</div>
+                    <div style="font-size: 12px; color: var(--text-muted);" id="userStage">Stage 1 • Communication</div>
+                </div>
+            </div>
+            <button class="back-btn" onclick="window.location.href='student_dashboard.html'">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <div class="page-header">
+            <h1 class="page-title">Your Personalized Learning Path</h1>
+            <p class="page-subtitle">Follow this AI-generated roadmap to achieve your learning goals. Complete daily
+                tasks, unlock achievements, and track your progress.</p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+            <div class="progress-card">
+                <h3><i class="fas fa-chart-line"></i> Overall Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overallProgress" style="width: 35%; background: var(--primary);">
+                    </div>
+                </div>
+                <div class="progress-stats">
+                    <div>
+                        <div class="stat-value" id="overallPercent">35%</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="daysRemaining">42</div>
+                        <div class="stat-label">Days Remaining</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-card">
+                <h3><i class="fas fa-calendar-check"></i> Daily Consistency</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="dailyConsistency" style="width: 75%; background: var(--secondary);">
+                    </div>
+                </div>
+                <div class="progress-stats">
+                    <div>
+                        <div class="stat-value" id="streakDays">7</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="tasksToday">3/5</div>
+                        <div class="stat-label">Tasks Today</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-card">
+                <h3><i class="fas fa-trophy"></i> Achievements</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="achievementProgress" style="width: 20%; background: var(--accent);">
+                    </div>
+                </div>
+                <div class="progress-stats">
+                    <div>
+                        <div class="stat-value" id="badgesEarned">3</div>
+                        <div class="stat-label">Badges Earned</div>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="xpEarned">1,250</div>
+                        <div class="stat-label">XP Points</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path Timeline -->
+        <div class="path-timeline">
+            <h2 class="timeline-title"><i class="fas fa-road"></i> Learning Journey Timeline</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <!-- Stage 1: Communication -->
+                <div class="timeline-item" id="timeline-stage1">
+                    <div class="timeline-marker" style="background: var(--stage-1);">1</div>
+                    <div class="timeline-content">
+                        <div class="stage-header">
+                            <div class="stage-tag" style="background: rgba(139, 92, 246, 0.2); color: var(--stage-1);">
+                                <i class="fas fa-microphone-alt"></i> Communication
+                            </div>
+                            <div class="stage-status"
+                                style="background: rgba(99, 102, 241, 0.2); color: var(--primary);">
+                                Active
+                            </div>
+                        </div>
+                        <h3 class="stage-title"><i class="fas fa-comments"></i> Communication & Soft Skills</h3>
+                        <p class="stage-description">Master English communication, public speaking, and interpersonal
+                            skills. Build confidence through voice challenges and real-time feedback.</p>
+
+                        <div class="stage-progress">
+                            <div class="progress-header">
+                                <div class="progress-text">Your Progress</div>
+                                <div class="progress-percent" id="stage1Progress">65%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="stage1ProgressBar"
+                                    style="width: 65%; background: var(--stage-1);"></div>
+                            </div>
+                        </div>
+
+                        <div class="stage-features">
+                            <div class="features-title">Key Features:</div>
+                            <ul class="features-list">
+                                <li class="feature-item"><i class="fas fa-check-circle"></i> Voice Challenges with AI
+                                    Feedback</li>
+                                <li class="feature-item"><i class="fas fa-check-circle"></i> Real-time Speech Analysis
+                                </li>
+                                <li class="feature-item"><i class="fas fa-check-circle"></i> Group Discussion Rooms</li>
+                                <li class="feature-item"><i class="fas fa-check-circle"></i> Vocabulary Builder (Tamil
+                                    Translations)</li>
+                            </ul>
+                        </div>
+
+                        <div class="stage-actions">
+                            <button class="btn-primary" onclick="enterStage(1)">
+                                <i class="fas fa-door-open"></i> Enter Stage 1
+                            </button>
+                            <button class="btn-secondary" onclick="viewStageDetails(1)">
+                                <i class="fas fa-chart-bar"></i> View Statistics
+                            </button>
+                            <button class="btn-secondary" onclick="generateStagePlan(1)">
+                                <i class="fas fa-calendar-alt"></i> Weekly Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 2: Coding -->
+                <div class="timeline-item" id="timeline-stage2">
+                    <div class="timeline-marker" style="background: var(--stage-2);">2</div>
+                    <div class="timeline-content">
+                        <div class="stage-header">
+                            <div class="stage-tag" style="background: rgba(59, 130, 246, 0.2); color: var(--stage-2);">
+                                <i class="fas fa-code"></i> Coding
+                            </div>
+                            <div class="stage-status"
+                                style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">
+                                Locked
+                            </div>
+                        </div>
+                        <h3 class="stage-title"><i class="fas fa-laptop-code"></i> Coding Fundamentals</h3>
+                        <p class="stage-description">Learn programming basics, solve coding challenges, and build
+                            logical thinking. Complete Stage 1 to unlock.</p>
+
+                        <div class="stage-progress">
+                            <div class="progress-header">
+                                <div class="progress-text">Requirements to Unlock</div>
+                                <div class="progress-percent" id="stage2Required">35%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%; background: var(--stage-2);"></div>
+                            </div>
+                        </div>
+
+                        <div class="stage-features">
+                            <div class="features-title">Will Unlock:</div>
+                            <ul class="features-list">
+                                <li class="feature-item"><i class="fas fa-terminal"></i> Live Code Compiler (7+
+                                    Languages)</li>
+                                <li class="feature-item"><i class="fas fa-puzzle-piece"></i> Daily Coding Challenges
+                                </li>
+                                <li class="feature-item"><i class="fas fa-robot"></i> AI Code Assistant & Review</li>
+                                <li class="feature-item"><i class="fas fa-question-circle"></i> Programming Quiz Games
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="stage-actions">
+                            <button class="btn-disabled">
+                                <i class="fas fa-lock"></i> Complete Stage 1 First
+                            </button>
+                            <button class="btn-secondary" onclick="previewStage(2)">
+                                <i class="fas fa-eye"></i> Preview Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 3: Projects -->
+                <div class="timeline-item" id="timeline-stage3">
+                    <div class="timeline-marker" style="background: var(--stage-3);">3</div>
+                    <div class="timeline-content">
+                        <div class="stage-header">
+                            <div class="stage-tag" style="background: rgba(16, 185, 129, 0.2); color: var(--stage-3);">
+                                <i class="fas fa-project-diagram"></i> Projects
+                            </div>
+                            <div class="stage-status"
+                                style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">
+                                Locked
+                            </div>
+                        </div>
+                        <h3 class="stage-title"><i class="fas fa-tools"></i> Real-world Projects</h3>
+                        <p class="stage-description">Build real projects, collaborate with teams, and learn GitHub
+                            workflow. Complete Stage 2 to unlock.</p>
+
+                        <div class="stage-features">
+                            <div class="features-title">Will Unlock:</div>
+                            <ul class="features-list">
+                                <li class="feature-item"><i class="fab fa-github"></i> GitHub-like Code Repositories
+                                </li>
+                                <li class="feature-item"><i class="fas fa-users-cog"></i> Team Collaboration Projects
+                                </li>
+                                <li class="feature-item"><i class="fas fa-code-branch"></i> Peer Code Review System</li>
+                                <li class="feature-item"><i class="fas fa-tasks"></i> Project Management Tools</li>
+                            </ul>
+                        </div>
+
+                        <div class="stage-actions">
+                            <button class="btn-disabled">
+                                <i class="fas fa-lock"></i> Complete Stage 2 First
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 4: Career -->
+                <div class="timeline-item" id="timeline-stage4">
+                    <div class="timeline-marker" style="background: var(--stage-4);">4</div>
+                    <div class="timeline-content">
+                        <div class="stage-header">
+                            <div class="stage-tag" style="background: rgba(245, 158, 11, 0.2); color: var(--stage-4);">
+                                <i class="fas fa-briefcase"></i> Career
+                            </div>
+                            <div class="stage-status"
+                                style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">
+                                Locked
+                            </div>
+                        </div>
+                        <h3 class="stage-title"><i class="fas fa-user-tie"></i> Career Preparation</h3>
+                        <p class="stage-description">Prepare for interviews, build your portfolio, and get job-ready.
+                            Complete Stage 3 to unlock.</p>
+
+                        <div class="stage-features">
+                            <div class="features-title">Will Unlock:</div>
+                            <ul class="features-list">
+                                <li class="feature-item"><i class="fas fa-comments"></i> AI Mock Interviews</li>
+                                <li class="feature-item"><i class="fas fa-file-alt"></i> Smart Resume Builder</li>
+                                <li class="feature-item"><i class="fas fa-bullseye"></i> Job & Internship Board</li>
+                                <li class="feature-item"><i class="fas fa-network-wired"></i> Professional Network</li>
+                            </ul>
+                        </div>
+
+                        <div class="stage-actions">
+                            <button class="btn-disabled">
+                                <i class="fas fa-lock"></i> Complete Stage 3 First
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stage 5: Alumni -->
+                <div class="timeline-item" id="timeline-stage5">
+                    <div class="timeline-marker" style="background: var(--stage-5);">5</div>
+                    <div class="timeline-content">
+                        <div class="stage-header">
+                            <div class="stage-tag" style="background: rgba(236, 72, 153, 0.2); color: var(--stage-5);">
+                                <i class="fas fa-graduation-cap"></i> Alumni
+                            </div>
+                            <div class="stage-status"
+                                style="background: rgba(148, 163, 184, 0.2); color: var(--text-muted);">
+                                Final Stage
+                            </div>
+                        </div>
+                        <h3 class="stage-title"><i class="fas fa-hands-helping"></i> Alumni & Mentorship</h3>
+                        <p class="stage-description">Give back by mentoring others, participate in alumni network, and
+                            continue lifelong learning.</p>
+
+                        <div class="stage-features">
+                            <div class="features-title">Final Stage:</div>
+                            <ul class="features-list">
+                                <li class="feature-item"><i class="fas fa-chalkboard-teacher"></i> Become a Mentor</li>
+                                <li class="feature-item"><i class="fas fa-handshake"></i> Industry Connections</li>
+                                <li class="feature-item"><i class="fas fa-book-open"></i> Continuous Learning</li>
+                                <li class="feature-item"><i class="fas fa-star"></i> Premium Features Access</li>
+                            </ul>
+                        </div>
+
+                        <div class="stage-actions">
+                            <button class="btn-disabled">
+                                <i class="fas fa-flag-checkered"></i> Final Destination
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Tasks Section -->
+        <div class="daily-tasks-section">
+            <div class="section-header">
+                <h2 class="section-title"><i class="fas fa-tasks"></i> Today's Learning Tasks</h2>
+                <button class="btn-secondary" onclick="refreshTasks()">
+                    <i class="fas fa-sync-alt"></i> Refresh Tasks
+                </button>
+            </div>
+
+            <div class="tasks-container" id="tasksContainer">
+                <!-- Tasks will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Learning Analytics -->
+        <div class="analytics-section">
+            <h2 class="section-title"><i class="fas fa-chart-pie"></i> Learning Analytics</h2>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <h3><i class="fas fa-clock"></i> Time Spent</h3>
+                    <div id="timeChart"
+                        style="height: 200px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+                        Chart will load here...
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <h3><i class="fas fa-brain"></i> Skill Development</h3>
+                    <div id="skillChart"
+                        style="height: 200px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+                        Chart will load here...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Badges -->
+        <div class="badges-section">
+            <h2 class="section-title"><i class="fas fa-award"></i> Earned Badges</h2>
+            <div class="badges-grid" id="badgesGrid">
+                <!-- Badges will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Generate New Learning Path -->
+        <div class="generate-path-section">
+            <h2 class="generate-title">Need a Custom Learning Path?</h2>
+            <p class="generate-subtitle">Our AI can generate a personalized learning path based on your goals, skills,
+                and preferences. Get a tailored roadmap to success.</p>
+
+            <div class="generate-form">
+                <div class="form-group">
+                    <label for="focusAreas"><i class="fas fa-bullseye"></i> Focus Areas</label>
+                    <div class="checkbox-group" id="focusAreasGroup">
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" value="communication">
+                            <span>Communication Skills</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" value="programming">
+                            <span>Programming</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" value="datascience">
+                            <span>Data Science</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" value="webdev">
+                            <span>Web Development</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" class="checkbox-input" value="ai-ml">
+                            <span>AI & Machine Learning</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration"><i class="fas fa-calendar-alt"></i> Duration</label>
+                    <select id="duration" class="form-control">
+                        <option value="30">30 Days (Fast Track)</option>
+                        <option value="60" selected>60 Days (Recommended)</option>
+                        <option value="90">90 Days (Comprehensive)</option>
+                        <option value="180">180 Days (Deep Learning)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goals"><i class="fas fa-flag"></i> Primary Goal</label>
+                    <textarea id="goals" class="form-control" rows="3"
+                        placeholder="E.g., I want to become a Full Stack Developer and improve my communication skills..."></textarea>
+                </div>
+
+                <button class="btn-primary" onclick="generateNewLearningPath()" style="width: 100%;">
+                    <i class="fas fa-magic"></i> Generate Custom Learning Path
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div style="margin-top: 20px; color: var(--text);" id="loadingText">Loading...</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:8000/api';
+
+        // DOM Elements
+        const userName = document.getElementById('userName');
+        const userAvatar = document.getElementById('userAvatar');
+        const userStage = document.getElementById('userStage');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        const tasksContainer = document.getElementById('tasksContainer');
+        const badgesGrid = document.getElementById('badgesGrid');
+
+        // User data
+        let userData = {};
+        let learningPathData = {};
+
+        // Initialize page
+        async function initPage() {
+            showLoading('Loading your learning path...');
+
+            // Check authentication
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                // Fetch user data
+                await fetchUserData();
+
+                // Fetch learning path
+                await fetchLearningPath();
+
+                // Fetch daily tasks
+                await fetchDailyTasks();
+
+                // Fetch badges
+                await fetchBadges();
+
+                // Update UI
+                updateUI();
+
+                // Initialize charts
+                initCharts();
+
+            } catch (error) {
+                console.error('Failed to initialize page:', error);
+                showToast('Failed to load learning path data', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Fetch user data
+        async function fetchUserData() {
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/users/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    userData = await response.json();
+                    localStorage.setItem('user_data', JSON.stringify(userData));
+                } else if (response.status === 401) {
+                    // Token expired, try refresh
+                    await refreshToken();
+                    return fetchUserData();
+                }
+            } catch (error) {
+                console.error('Failed to fetch user data:', error);
+                throw error;
+            }
+        }
+
+        // Fetch learning path
+        async function fetchLearningPath() {
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/learning-paths`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.learning_paths && data.learning_paths.length > 0) {
+                        learningPathData = data.learning_paths[0];
+                    } else {
+                        // No learning path exists, create default
+                        await createDefaultLearningPath();
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch learning path:', error);
+                throw error;
+            }
+        }
+
+        // Create default learning path
+        async function createDefaultLearningPath() {
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/learning-paths/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        focus_areas: ['communication', 'programming'],
+                        duration_days: 60,
+                        goals: ['Improve communication skills', 'Learn programming basics']
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    learningPathData = data.learning_path;
+                }
+            } catch (error) {
+                console.error('Failed to create learning path:', error);
+                throw error;
+            }
+        }
+
+        // Fetch daily tasks
+        async function fetchDailyTasks() {
+            try {
+                const token = localStorage.getItem('access_token');
+                // In production, this would be a real API endpoint
+                // For now, we'll simulate with mock data
+
+                const mockTasks = [
+                    {
+                        id: 1,
+                        title: "Voice Challenge: Self Introduction",
+                        description: "Record a 30-second self introduction in English. Focus on pronunciation.",
+                        category: "voice",
+                        difficulty: "easy",
+                        xp_reward: 50,
+                        credits_reward: 25,
+                        time_estimate: 15,
+                        completed: true
+                    },
+                    {
+                        id: 2,
+                        title: "Vocabulary Builder: Daily Words",
+                        description: "Learn 5 new English words with Tamil translations and usage examples.",
+                        category: "vocabulary",
+                        difficulty: "easy",
+                        xp_reward: 30,
+                        credits_reward: 15,
+                        time_estimate: 10,
+                        completed: false
+                    },
+                    {
+                        id: 3,
+                        title: "Group Discussion Practice",
+                        description: "Join a group discussion room and participate in a 10-minute conversation.",
+                        category: "communication",
+                        difficulty: "medium",
+                        xp_reward: 75,
+                        credits_reward: 35,
+                        time_estimate: 20,
+                        completed: false
+                    },
+                    {
+                        id: 4,
+                        title: "Pronunciation Practice: Vowel Sounds",
+                        description: "Practice English vowel sounds with AI feedback and improvement tips.",
+                        category: "pronunciation",
+                        difficulty: "medium",
+                        xp_reward: 60,
+                        credits_reward: 30,
+                        time_estimate: 15,
+                        completed: false
+                    }
+                ];
+
+                displayTasks(mockTasks);
+
+            } catch (error) {
+                console.error('Failed to fetch tasks:', error);
+                throw error;
+            }
+        }
+
+        // Display tasks
+        function displayTasks(tasks) {
+            tasksContainer.innerHTML = '';
+
+            tasks.forEach(task => {
+                const taskCard = document.createElement('div');
+                taskCard.className = 'task-card';
+
+                const categoryColors = {
+                    'voice': 'var(--stage-1)',
+                    'vocabulary': 'var(--stage-2)',
+                    'communication': 'var(--stage-3)',
+                    'pronunciation': 'var(--primary)'
+                };
+
+                taskCard.innerHTML = `
+                    <div class="task-header">
+                        <div class="task-category" style="background: ${categoryColors[task.category] + '20'}; color: ${categoryColors[task.category]}">
+                            ${task.category.charAt(0).toUpperCase() + task.category.slice(1)}
+                        </div>
+                        <div style="font-size: 12px; color: ${task.completed ? 'var(--secondary)' : 'var(--text-muted)'}">
+                            ${task.completed ? '✓ Completed' : 'Pending'}
+                        </div>
+                    </div>
+                    <h3 class="task-title">
+                        ${task.completed ? '<i class="fas fa-check-circle" style="color: var(--secondary);"></i>' : '<i class="fas fa-circle" style="color: var(--text-muted);"></i>'}
+                        ${task.title}
+                    </h3>
+                    <p class="task-description">${task.description}</p>
+                    <div class="task-meta">
+                        <div>
+                            <i class="fas fa-clock"></i> ${task.time_estimate} mins
+                            <span style="margin-left: 15px;"><i class="fas fa-signal"></i> ${task.difficulty}</span>
+                        </div>
+                        <div class="task-reward">
+                            <i class="fas fa-coins"></i> +${task.credits_reward} credits
+                            <span style="margin-left: 10px;"><i class="fas fa-star"></i> +${task.xp_reward} XP</span>
+                        </div>
+                    </div>
+                    ${!task.completed ? `
+                        <button class="btn-primary" style="width: 100%; margin-top: 15px;" onclick="startTask(${task.id})">
+                            <i class="fas fa-play"></i> Start Task
+                        </button>
+                    ` : ''}
+                `;
+
+                tasksContainer.appendChild(taskCard);
+            });
+        }
+
+        // Fetch badges
+        async function fetchBadges() {
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/badges`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayBadges(data.badges || []);
+                }
+            } catch (error) {
+                console.error('Failed to fetch badges:', error);
+                throw error;
+            }
+        }
+
+        // Display badges
+        function displayBadges(badges) {
+            badgesGrid.innerHTML = '';
+
+            // Sample badges if none exist
+            if (badges.length === 0) {
+                badges = [
+                    {
+                        name: "Welcome Aboard!",
+                        icon: "🎉",
+                        description: "Welcome to EduSync 4.0",
+                        category: "welcome",
+                        earned_date: new Date().toISOString()
+                    },
+                    {
+                        name: "7-Day Streak",
+                        icon: "🔥",
+                        description: "Logged in for 7 consecutive days",
+                        category: "streak",
+                        earned_date: new Date().toISOString()
+                    },
+                    {
+                        name: "Voice Starter",
+                        icon: "🎤",
+                        description: "Completed first voice challenge",
+                        category: "voice",
+                        earned_date: new Date().toISOString()
+                    }
+                ];
+            }
+
+            badges.forEach(badge => {
+                const badgeItem = document.createElement('div');
+                badgeItem.className = 'badge-item badge-earned';
+
+                badgeItem.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="badge-name">${badge.name}</div>
+                    <div class="badge-desc">${badge.description}</div>
+                    <div style="font-size: 10px; color: var(--text-muted); margin-top: 5px;">
+                        ${new Date(badge.earned_date).toLocaleDateString()}
+                    </div>
+                `;
+
+                badgesGrid.appendChild(badgeItem);
+            });
+        }
+
+        // Update UI with user data
+        function updateUI() {
+            // Set user info
+            userName.textContent = userData.full_name || 'Student';
+
+            // Set avatar initials
+            const initials = (userData.full_name || 'JD').split(' ').map(n => n[0]).join('').toUpperCase();
+            userAvatar.textContent = initials;
+
+            // Set stage info
+            const stageInfo = getStageInfo(userData.stage || 'freshie');
+            userStage.textContent = stageInfo.text;
+
+            // Update progress stats
+            updateProgressStats();
+
+            // Update stage cards
+            updateStageCards();
+        }
+
+        // Get stage information
+        function getStageInfo(stage) {
+            const stages = {
+                'freshie': { number: 1, name: 'Communication', text: 'Stage 1 • Communication' },
+                'sophomore': { number: 2, name: 'Coding', text: 'Stage 2 • Coding' },
+                'junior': { number: 3, name: 'Projects', text: 'Stage 3 • Projects' },
+                'final_year': { number: 4, name: 'Career', text: 'Stage 4 • Career' },
+                'alumni': { number: 5, name: 'Alumni', text: 'Alumni • Mentor' }
+            };
+
+            return stages[stage] || stages['freshie'];
+        }
+
+        // Update progress statistics
+        function updateProgressStats() {
+            // Overall progress
+            const overallPercent = userData.current_stage_progress || 0;
+            document.getElementById('overallProgress').style.width = `${overallPercent}%`;
+            document.getElementById('overallPercent').textContent = `${overallPercent}%`;
+
+            // Days remaining (simulated)
+            const daysRemaining = Math.ceil((100 - overallPercent) / 5);
+            document.getElementById('daysRemaining').textContent = daysRemaining;
+
+            // Daily streak
+            const streakDays = userData.daily_login_streak || 0;
+            document.getElementById('streakDays').textContent = streakDays;
+            document.getElementById('dailyConsistency').style.width = `${Math.min(streakDays * 10, 100)}%`;
+
+            // Tasks today (simulated)
+            document.getElementById('tasksToday').textContent = '1/4';
+
+            // Badges earned
+            document.getElementById('badgesEarned').textContent = '3';
+            document.getElementById('achievementProgress').style.width = '30%';
+
+            // XP earned
+            document.getElementById('xpEarned').textContent = userData.xp ? userData.xp.toLocaleString() : '0';
+        }
+
+        // Update stage cards
+        function updateStageCards() {
+            const currentStage = userData.stage || 'freshie';
+            const stageNumber = getStageInfo(currentStage).number;
+
+            // Update each stage card
+            for (let i = 1; i <= 5; i++) {
+                const card = document.getElementById(`timeline-stage${i}`);
+                const statusDiv = card.querySelector('.stage-status');
+                const progressPercent = card.querySelector('.progress-percent');
+
+                if (i < stageNumber) {
+                    // Completed stages
+                    statusDiv.textContent = 'Completed';
+                    statusDiv.style.background = 'rgba(16, 185, 129, 0.2)';
+                    statusDiv.style.color = 'var(--secondary)';
+
+                    if (progressPercent) {
+                        progressPercent.textContent = '100%';
+                        card.querySelector('.progress-fill').style.width = '100%';
+                    }
+
+                } else if (i === stageNumber) {
+                    // Current stage
+                    statusDiv.textContent = 'Active';
+                    statusDiv.style.background = 'rgba(99, 102, 241, 0.2)';
+                    statusDiv.style.color = 'var(--primary)';
+
+                    if (progressPercent) {
+                        progressPercent.textContent = `${userData.current_stage_progress || 0}%`;
+                        card.querySelector('.progress-fill').style.width = `${userData.current_stage_progress || 0}%`;
+                    }
+
+                } else if (i === stageNumber + 1) {
+                    // Next stage
+                    statusDiv.textContent = 'Next Up';
+                    statusDiv.style.background = 'rgba(148, 163, 184, 0.3)';
+                    statusDiv.style.color = 'var(--text)';
+
+                    if (progressPercent) {
+                        const requiredPercent = 100 - (userData.current_stage_progress || 0);
+                        progressPercent.textContent = `${requiredPercent}% to unlock`;
+                    }
+
+                } else {
+                    // Future stages
+                    statusDiv.textContent = 'Locked';
+                    statusDiv.style.background = 'rgba(148, 163, 184, 0.2)';
+                    statusDiv.style.color = 'var(--text-muted)';
+                }
+            }
+        }
+
+        // Initialize charts
+        function initCharts() {
+            // Time spent chart
+            const timeCtx = document.createElement('canvas');
+            document.getElementById('timeChart').innerHTML = '';
+            document.getElementById('timeChart').appendChild(timeCtx);
+
+            new Chart(timeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Communication', 'Coding', 'Projects', 'Career Prep'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [
+                            'var(--stage-1)',
+                            'var(--stage-2)',
+                            'var(--stage-3)',
+                            'var(--stage-4)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'var(--text)',
+                                padding: 20
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Skill development chart
+            const skillCtx = document.createElement('canvas');
+            document.getElementById('skillChart').innerHTML = '';
+            document.getElementById('skillChart').appendChild(skillCtx);
+
+            new Chart(skillCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Communication', 'Programming', 'Problem Solving', 'Teamwork', 'Time Management'],
+                    datasets: [{
+                        label: 'Current Skills',
+                        data: [75, 40, 60, 70, 65],
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        borderColor: 'var(--primary)',
+                        pointBackgroundColor: 'var(--primary)'
+                    }, {
+                        label: 'Target Skills',
+                        data: [90, 80, 85, 90, 85],
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderColor: 'var(--secondary)',
+                        pointBackgroundColor: 'var(--secondary)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            pointLabels: {
+                                color: 'var(--text)'
+                            },
+                            ticks: {
+                                color: 'var(--text-muted)',
+                                backdropColor: 'transparent'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'var(--text)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Enter a stage
+        function enterStage(stageNumber) {
+            showLoading(`Entering Stage ${stageNumber}...`);
+
+            setTimeout(() => {
+                hideLoading();
+
+                switch (stageNumber) {
+                    case 1:
+                        window.location.href = 'communication_stage (1).html';
+                        break;
+                    case 2:
+                        if (userData.stage !== 'freshie') {
+                            window.location.href = 'stage2_coding.html';
+                        } else {
+                            showToast('Complete Stage 1 to unlock Stage 2', 'warning');
+                        }
+                        break;
+                    case 3:
+                        if (userData.stage === 'junior' || userData.stage === 'final_year' || userData.stage === 'alumni') {
+                            window.location.href = 'stage3_projects.html';
+                        } else {
+                            showToast('Complete Stage 2 to unlock Stage 3', 'warning');
+                        }
+                        break;
+                    case 4:
+                        if (userData.stage === 'final_year' || userData.stage === 'alumni') {
+                            window.location.href = 'stage4_career.html';
+                        } else {
+                            showToast('Complete Stage 3 to unlock Stage 4', 'warning');
+                        }
+                        break;
+                }
+            }, 1000);
+        }
+
+        // View stage details
+        function viewStageDetails(stageNumber) {
+            showLoading(`Loading Stage ${stageNumber} details...`);
+
+            setTimeout(() => {
+                hideLoading();
+                alert(`Stage ${stageNumber} Details\n\nComing soon: Detailed statistics, performance metrics, and personalized recommendations for this stage.`);
+            }, 500);
+        }
+
+        // Generate stage weekly plan
+        function generateStagePlan(stageNumber) {
+            showLoading(`Generating weekly plan for Stage ${stageNumber}...`);
+
+            setTimeout(() => {
+                hideLoading();
+
+                const plans = {
+                    1: `Weekly Plan for Communication Stage:\n\n📅 Monday: Voice Challenge - Self Introduction\n📅 Tuesday: Vocabulary Builder (10 words)\n📅 Wednesday: Group Discussion Practice\n📅 Thursday: Pronunciation Drills\n📅 Friday: Mock Presentation\n📅 Saturday: Review & Feedback\n📅 Sunday: Rest & Reflection`,
+                    2: `Weekly Plan for Coding Stage:\n\n📅 Monday: Python Basics Tutorial\n📅 Tuesday: Solve 5 Coding Problems\n📅 Wednesday: Learn Data Structures\n📅 Thursday: Build Mini Project\n📅 Friday: Code Review Session\n📅 Saturday: Algorithm Practice\n📅 Sunday: Rest & Documentation`,
+                    3: `Weekly Plan for Projects Stage:\n\n📅 Monday: Project Planning & Design\n📅 Tuesday: Setup Repository & Tools\n📅 Wednesday: Core Development\n📅 Thursday: Testing & Debugging\n📅 Friday: Documentation & Demo\n📅 Saturday: Team Review\n📅 Sunday: Rest & Planning`,
+                    4: `Weekly Plan for Career Stage:\n\n📅 Monday: Resume Building\n📅 Tuesday: Mock Interview Practice\n📅 Wednesday: Portfolio Enhancement\n📅 Thursday: Networking Skills\n📅 Friday: Job Search Strategy\n📅 Saturday: Interview Preparation\n📅 Sunday: Rest & Self-assessment`
+                };
+
+                alert(plans[stageNumber] || 'Weekly plan not available for this stage.');
+            }, 800);
+        }
+
+        // Preview stage features
+        function previewStage(stageNumber) {
+            const previews = {
+                2: `Stage 2 Preview: Coding Fundamentals\n\n✨ Features you'll unlock:\n• Live Code Compiler (Python, JavaScript, Java, C++, more)\n• Daily Coding Challenges with AI Review\n• Programming Quiz Games\n• AI Code Assistant for instant help\n• GitHub-like repositories\n• Pair Programming Sessions\n\n🎯 Goals:\n• Master basic programming concepts\n• Solve 100+ coding problems\n• Build 5+ mini projects\n• Understand data structures & algorithms`,
+                3: `Stage 3 Preview: Real-world Projects\n\n✨ Features you'll unlock:\n• Full GitHub-like workflow\n• Team Collaboration Tools\n• Project Management Dashboard\n• Code Review System\n• Portfolio Builder\n• Deployment Guides\n\n🎯 Goals:\n• Complete 3+ major projects\n• Collaborate with team members\n• Learn software development lifecycle\n• Build professional portfolio`,
+                4: `Stage 4 Preview: Career Preparation\n\n✨ Features you'll unlock:\n• AI Mock Interview System\n• Smart Resume Builder\n• Job Board with real opportunities\n• Professional Network\n• Interview Preparation Resources\n• Career Counseling\n\n🎯 Goals:\n• Prepare for technical interviews\n• Build impressive resume\n• Connect with industry professionals\n• Secure internship/job opportunities`
+            };
+
+            alert(previews[stageNumber] || 'Preview not available.');
+        }
+
+        // Start a task
+        function startTask(taskId) {
+            showLoading('Starting task...');
+
+            setTimeout(() => {
+                hideLoading();
+
+                // Redirect to appropriate page based on task type
+                if (taskId <= 4) {
+                    // Communication tasks
+                    window.location.href = 'communication_stage.html';
+                } else {
+                    // Other tasks
+                    showToast('Task started! Redirecting to task page...', 'success');
+                }
+            }, 800);
+        }
+
+        // Refresh tasks
+        function refreshTasks() {
+            showLoading('Refreshing tasks...');
+
+            setTimeout(() => {
+                hideLoading();
+                showToast('Tasks refreshed successfully!', 'success');
+                fetchDailyTasks();
+            }, 1000);
+        }
+
+        // Generate new learning path
+        function generateNewLearningPath() {
+            const focusAreas = Array.from(document.querySelectorAll('#focusAreasGroup input:checked'))
+                .map(cb => cb.value);
+            const duration = document.getElementById('duration').value;
+            const goals = document.getElementById('goals').value.trim();
+
+            if (focusAreas.length === 0) {
+                showToast('Please select at least one focus area', 'warning');
+                return;
+            }
+
+            if (!goals) {
+                showToast('Please describe your learning goals', 'warning');
+                return;
+            }
+
+            showLoading('AI is generating your custom learning path...');
+
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading();
+
+                // Create new learning path
+                const newPath = {
+                    id: 'custom-' + Date.now(),
+                    focus_areas: focusAreas,
+                    duration_days: parseInt(duration),
+                    goals: goals.split('\n').filter(g => g.trim()),
+                    created_at: new Date().toISOString(),
+                    progress: 0
+                };
+
+                // Update UI with new path
+                learningPathData = newPath;
+
+                showToast('Custom learning path generated successfully!', 'success');
+
+                // Show success message with details
+                setTimeout(() => {
+                    alert(`🎉 Your Custom Learning Path is Ready!\n\n📊 Focus Areas: ${focusAreas.join(', ')}\n⏱️ Duration: ${duration} days\n🎯 Goals: ${goals}\n\nYour personalized roadmap has been created. Check the timeline above for your new learning journey!`);
+                }, 500);
+
+            }, 2000);
+        }
+
+        // Handle checkbox selection
+        document.querySelectorAll('.checkbox-label').forEach(label => {
+            const checkbox = label.querySelector('.checkbox-input');
+
+            label.addEventListener('click', () => {
+                checkbox.checked = !checkbox.checked;
+                if (checkbox.checked) {
+                    label.classList.add('selected');
+                } else {
+                    label.classList.remove('selected');
+                }
+            });
+        });
+
+        // Token refresh function
+        async function refreshToken() {
+            try {
+                const refreshToken = localStorage.getItem('refresh_token');
+                if (!refreshToken) {
+                    window.location.href = 'login.html';
+                    return false;
+                }
+
+                const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ refresh_token: refreshToken })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('access_token', data.access_token);
+                    return true;
+                } else {
+                    window.location.href = 'login.html';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Token refresh failed:', error);
+                window.location.href = 'login.html';
+                return false;
+            }
+        }
+
+        // Show loading overlay
+        function showLoading(text = 'Loading...') {
+            loadingText.textContent = text;
+            loadingOverlay.style.display = 'flex';
+        }
+
+        // Hide loading overlay
+        function hideLoading() {
+            loadingOverlay.style.display = 'none';
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'info') {
+            const backgroundColor = {
+                success: '#10b981',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#3b82f6'
+            }[type];
+
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: backgroundColor,
+                stopOnFocus: true
+            }).showToast();
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initPage();
+
+            // Check authentication on load
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+    </script>
+</body>
+
+</html>
