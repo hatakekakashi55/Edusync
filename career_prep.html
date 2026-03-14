@@ -16,24 +16,33 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        :root {
-            --primary: #f59e0b;
-            --primary-dark: #d97706;
-            --primary-light: #fbbf24;
+                :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
             --secondary: #10b981;
-            --accent: #6366f1;
+            --accent: #f59e0b;
             --danger: #ef4444;
-            --success: #22c55e;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --stage-1: #8b5cf6;
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
+        }
+
+                                [data-theme="dark"] {
             --dark: #0f172a;
             --darker: #020617;
             --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text: #e2e8f0;
             --text-muted: #94a3b8;
-            --stage-4-yellow: #f59e0b;
-            --stage-4-yellow-dark: #d97706;
-            --stage-4-yellow-light: #fef3c7;
         }
 
         body {
@@ -45,7 +54,7 @@
 
         /* Top Navigation */
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 30px;
@@ -123,7 +132,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border-right: 1px solid var(--glass-border);
             padding: 20px 0;
         }
@@ -150,7 +159,7 @@
         }
 
         .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -247,7 +256,7 @@
 
         .progress-bar {
             height: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border-radius: 4px;
             overflow: hidden;
         }
@@ -393,7 +402,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
             flex: 1;
             justify-content: center;
         }
@@ -404,19 +413,19 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
         .btn-success {
             background: linear-gradient(135deg, var(--success), #16a34a);
-            color: white;
+            color: var(--text);
         }
 
         .btn-success:hover {
@@ -562,7 +571,7 @@
 
         /* Voice Interview Interface */
         .voice-interview-container {
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border-radius: 20px;
             padding: 30px;
             margin-top: 20px;
@@ -694,7 +703,7 @@
             border-radius: 50%;
             border: none;
             background: var(--primary);
-            color: white;
+            color: #ffffff;
             font-size: 20px;
             cursor: pointer;
             transition: all 0.3s;
@@ -779,14 +788,14 @@
             align-items: center;
             gap: 15px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             margin-bottom: 15px;
             transition: all 0.3s;
         }
 
         .checklist-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             transform: translateX(10px);
         }
 
@@ -809,7 +818,7 @@
         .checklist-item.completed .checkmark {
             border-color: var(--success);
             background: var(--success);
-            color: white;
+            color: var(--text);
         }
 
         .checklist-content {
@@ -852,16 +861,16 @@
             padding: 15px;
             color: var(--text-muted);
             font-weight: 600;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .leaderboard-table td {
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .leaderboard-table tr:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
         }
 
         .rank {
@@ -872,7 +881,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            color: white;
+            color: var(--text);
         }
 
         .rank-1 {
@@ -973,7 +982,7 @@
             justify-content: space-between;
             margin-bottom: 10px;
             padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .match-value {
@@ -1174,13 +1183,13 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--glass-border);
             padding-bottom: 10px;
         }
 
         .tab {
             padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
@@ -1198,7 +1207,140 @@
         .tab-content.active {
             display: block;
         }
+    
+        
+        /* Fancy Theme Switcher Styles - Smaller Version */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon {
+            color: #d4a017;
+            font-size: 10px;
+        }
+
+        .moon-icon {
+            color: #f1f5f9;
+            font-size: 10px;
+            display: none;
+        }
+
+        .cloud {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            transition: .4s;
+        }
+
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round {
+            background-color: #1e293b;
+        }
+
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        input:checked + .slider-round .sun-icon {
+            display: none;
+        }
+
+        input:checked + .slider-round .moon-icon {
+            display: block;
+            color: #94a3b8;
+        }
+
+        input:checked + .slider-round .cloud {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        input:checked + .slider-round .star {
+            opacity: 1;
+        }
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
     </style>
+<script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 
 <body>
@@ -1703,8 +1845,8 @@
                         style="margin-top: 30px; padding: 20px; background: rgba(245, 158, 11, 0.1); border-radius: 15px;">
                         <h4 style="color: var(--primary); margin-bottom: 10px;">Your Portfolio URL</h4>
                         <div style="display: flex; gap: 10px; align-items: center;">
-                            <input type="text" id="portfolioUrl" readonly style="flex: 1; padding: 10px; background: rgba(255, 255, 255, 0.1); 
-                                       border: 1px solid rgba(255, 255, 255, 0.2); 
+                            <input type="text" id="portfolioUrl" readonly style="flex: 1; padding: 10px; background: var(--glass); 
+                                       border: 1px solid var(--glass-border); 
                                        border-radius: 8px; color: var(--text);">
                             <button class="btn-secondary" onclick="copyPortfolioUrl()">
                                 <i class="fas fa-copy"></i> Copy
@@ -1815,15 +1957,15 @@
                                 Keywords</label>
                             <input type="text" id="linkedinJobKeywords"
                                 placeholder="e.g., Software Engineer, Data Analyst"
-                                style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); 
-                                          border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--text);">
+                                style="width: 100%; padding: 12px; background: var(--glass); 
+                                          border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                         </div>
                         <div>
                             <label
                                 style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Location</label>
                             <input type="text" id="linkedinJobLocation" placeholder="e.g., India, Bangalore"
-                                style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); 
-                                          border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--text);">
+                                style="width: 100%; padding: 12px; background: var(--glass); 
+                                          border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                         </div>
                         <div style="display: flex; align-items: flex-end;">
                             <button class="btn-primary" onclick="searchLinkedInJobs()" style="white-space: nowrap;">
@@ -1862,8 +2004,8 @@
                                 Username or Profile URL</label>
                             <input type="text" id="linkedinProfileUsername"
                                 placeholder="e.g., john-doe or https://linkedin.com/in/john-doe"
-                                style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); 
-                                          border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--text);">
+                                style="width: 100%; padding: 12px; background: var(--glass); 
+                                          border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                         </div>
                         <div style="display: flex; align-items: flex-end;">
                             <button class="btn-primary" onclick="viewLinkedInProfile()" style="white-space: nowrap;">
@@ -1874,7 +2016,7 @@
 
                     <!-- LinkedIn Profile Display -->
                     <div id="linkedinProfileContainer" style="display: none;">
-                        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; padding: 30px;">
+                        <div style="background: var(--glass); border-radius: 15px; padding: 30px;">
                             <!-- Profile Header -->
                             <div style="display: flex; gap: 20px; margin-bottom: 30px; align-items: flex-start;">
                                 <img id="linkedinProfilePic" src="" alt="Profile"
@@ -2198,17 +2340,17 @@
                 <h4 style="margin-bottom: 15px; color: var(--primary); display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-briefcase"></i> Challenge Details
                 </h4>
-                <div id="careerChallengeDescription" style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; border-left: 3px solid var(--primary); color: var(--text); margin-bottom: 20px;">
+                <div id="careerChallengeDescription" style="background: var(--glass); padding: 20px; border-radius: 10px; border-left: 3px solid var(--primary); color: var(--text); margin-bottom: 20px;">
                 </div>
 
                 <h4 style="margin-bottom: 15px; color: var(--primary); display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-tasks"></i> What You'll Learn
                 </h4>
-                <div id="careerChallengeLearnings" style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; margin-bottom: 20px; color: var(--text);">
+                <div id="careerChallengeLearnings" style="background: var(--glass); padding: 20px; border-radius: 10px; margin-bottom: 20px; color: var(--text);">
                 </div>
 
                 <div style="display: flex; gap: 10px;">
-                    <button onclick="startCareerChallenge()" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: var(--primary); color: white; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <button onclick="startCareerChallenge()" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: var(--primary); color: var(--text); cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
                         <i class="fas fa-play"></i> Start Challenge
                     </button>
                     <button onclick="closeCareerChallengeModal()" style="flex: 1; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
@@ -2342,7 +2484,7 @@
                 top: 20px;
                 right: 20px;
                 background: ${type === 'success' ? '#10b981' : '#3b82f6'};
-                color: white;
+                color: var(--text);
                 padding: 15px 20px;
                 border-radius: 8px;
                 z-index: 10000;
@@ -2526,7 +2668,7 @@
                     document.getElementById('linkedinJobsContainer').style.display = 'block';
                     document.getElementById('linkedinJobCount').textContent = data.jobs.length;
                     jobsList.innerHTML = data.jobs.map(job => `
-                        <div class="job-card" style="margin-bottom: 20px; border: 1px solid var(--glass-border); padding: 20px; border-radius: 12px; background: rgba(255,255,255,0.02);">
+                        <div class="job-card" style="margin-bottom: 20px; border: 1px solid var(--glass-border); padding: 20px; border-radius: 12px; background: var(--glass);">
                             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
                                 <div style="font-weight: 600; font-size: 16px;">${job.title}</div>
                                 <img src="${job.companyLogo || 'https://via.placeholder.com/40'}" style="width: 40px; height: 40px; border-radius: 4px;">
@@ -2571,7 +2713,7 @@
                     const experiences = prof.experiences || prof.experience || [];
                     if (experiences.length > 0) {
                         expContainer.innerHTML = experiences.map(exp => `
-                            <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <div style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
                                 <div style="font-weight: 600; color: #fff;">${exp.title}</div>
                                 <div style="color: var(--primary); font-size: 14px;">${exp.company}</div>
                                 <div style="font-size: 12px; color: var(--text-muted);">${exp.duration || ''} ${exp.location ? '(' + exp.location + ')' : ''}</div>
@@ -2834,7 +2976,7 @@
                             <div class="stat-label">Score</div>
                         </div>
                     </div>
-                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <div style="background: var(--glass); padding: 15px; border-radius: 10px; margin-top: 15px;">
                         <p style="color: var(--text); line-height: 1.6;">${feedback.feedback}</p>
                     </div>
                 </div>
@@ -2950,8 +3092,8 @@
             modalContent.innerHTML = `
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 10px; color: var(--text);">Portfolio Theme</label>
-                    <select id="themeSelect" style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.1); 
-                           border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: var(--text);">
+                    <select id="themeSelect" style="width: 100%; padding: 10px; background: var(--glass); 
+                           border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text);">
                         <option value="professional">Professional</option>
                         <option value="creative">Creative</option>
                         <option value="modern">Modern</option>
@@ -3284,7 +3426,7 @@
                 top: 20px;
                 right: 20px;
                 background: ${bgColor};
-                color: white;
+                color: var(--text);
                 padding: 15px 20px;
                 border-radius: 8px;
                 z-index: 10001;
@@ -3312,6 +3454,36 @@
 
 
     </script>
+
+    
+
+
+    <!-- Fancy Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckbox = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(themeCheckbox) themeCheckbox.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if(themeCheckbox) themeCheckbox.checked = false;
+            }
+            if(themeCheckbox) {
+                themeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

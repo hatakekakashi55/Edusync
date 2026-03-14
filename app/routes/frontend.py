@@ -69,8 +69,8 @@ async def favicon():
 
 @router.get("/", include_in_schema=False)
 async def root():
-    """Serve login page at root"""
-    return FileResponse("login.html", media_type="text/html")
+    """Serve landing page at root"""
+    return FileResponse("index.html", media_type="text/html")
 
 
 @router.get("/login", tags=["Frontend"])
@@ -166,7 +166,7 @@ async def serve_html(path: str):
         else:
             # Default to login page for root
             if path == "" or path == "/":
-                file_path = "login.html"
+                file_path = "index.html"
             else:
                 return JSONResponse({"error": "Not found"}, status_code=404)
         

@@ -16,27 +16,33 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        :root {
+                        :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --stage-1: #8b5cf6;
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
+        }
+
+                                        [data-theme="dark"] {
             --dark: #0f172a;
             --darker: #020617;
             --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text: #e2e8f0;
             --text-muted: #94a3b8;
-            --stage-1: #8b5cf6;
-            /* Purple - Communication */
-            --stage-2: #3b82f6;
-            /* Blue - Coding */
-            --stage-3: #10b981;
-            /* Green - Projects */
-            --stage-4: #f59e0b;
-            /* Orange - Career */
         }
 
         body {
@@ -48,7 +54,7 @@
 
         /* Top Navigation */
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 30px;
@@ -123,7 +129,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border-right: 1px solid var(--glass-border);
             padding: 20px 0;
         }
@@ -150,7 +156,7 @@
         }
 
         .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -417,7 +423,7 @@
         }
 
         .feature-item {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 10px;
             padding: 15px;
             border-left: 3px solid;
@@ -426,7 +432,7 @@
 
         .feature-item:hover {
             transform: translateX(5px);
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
         }
 
         .stage-1 .feature-item {
@@ -484,7 +490,7 @@
 
         .progress-bar {
             height: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border-radius: 4px;
             overflow: hidden;
         }
@@ -535,7 +541,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
         }
 
         .btn-primary:hover {
@@ -544,13 +550,13 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -588,7 +594,7 @@
         .btn-challenge {
             padding: 8px 16px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -773,7 +779,7 @@
         .form-group input,
         .form-group textarea {
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text);
@@ -814,7 +820,7 @@
 
         .metric-input input {
             padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 6px;
             color: var(--text);
@@ -831,7 +837,7 @@
             flex: 1;
             padding: 12px 24px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
             border: none;
             border-radius: 8px;
             font-weight: 600;
@@ -847,7 +853,7 @@
         .btn-cancel {
             flex: 1;
             padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
@@ -857,7 +863,7 @@
         }
 
         .btn-cancel:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
         }
 
         /* Recent Activity */
@@ -878,7 +884,7 @@
             align-items: center;
             gap: 15px;
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .activity-item:last-child {
@@ -965,7 +971,7 @@
             left: 50%;
             transform: translateX(-50%);
             background: linear-gradient(135deg, var(--secondary), #0ea5e9);
-            color: white;
+            color: var(--text);
             padding: 15px 25px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
@@ -1111,7 +1117,7 @@
 
         .btn-start {
             background: linear-gradient(135deg, var(--secondary), #0ea5e9);
-            color: white;
+            color: var(--text);
             padding: 10px 20px;
             border-radius: 10px;
             border: none;
@@ -1253,7 +1259,7 @@
 
         .module-item {
             padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 10px;
             margin-bottom: 8px;
             cursor: pointer;
@@ -1262,7 +1268,7 @@
         }
 
         .module-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             transform: translateX(5px);
         }
 
@@ -1286,7 +1292,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             align-items: center;
             justify-content: center;
             margin-right: 10px;
@@ -1295,15 +1301,143 @@
 
         .module-item.completed .module-check {
             background: var(--secondary);
-            color: white;
+            color: var(--text);
         }
+    
+        
+        /* Fancy Theme Switcher Styles - Smaller Version */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon {
+            color: #d4a017;
+            font-size: 10px;
+        }
+
+        .moon-icon {
+            color: #f1f5f9;
+            font-size: 10px;
+            display: none;
+        }
+
+        .cloud {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            transition: .4s;
+        }
+
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round {
+            background-color: #1e293b;
+        }
+
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        input:checked + .slider-round .sun-icon {
+            display: none;
+        }
+
+        input:checked + .slider-round .moon-icon {
+            display: block;
+            color: #94a3b8;
+        }
+
+        input:checked + .slider-round .cloud {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        input:checked + .slider-round .star {
+            opacity: 1;
+        }
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
     </style>
     <style>
         /* Mail System Styles */
         .mail-container {
             display: flex;
             height: calc(100vh - 140px);
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 15px;
             overflow: hidden;
@@ -1313,7 +1447,7 @@
 
         .mail-sidebar {
             width: 250px;
-            background: rgba(30, 41, 59, 0.4);
+            background: var(--glass);
             border-right: 1px solid var(--glass-border);
             padding: 20px;
             display: flex;
@@ -1338,7 +1472,7 @@
         }
 
         .mail-folder:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -1356,7 +1490,7 @@
 
         .mail-folder .badge {
             margin-left: auto;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
             font-size: 0.75em;
             padding: 2px 8px;
@@ -1376,7 +1510,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(30, 41, 59, 0.4);
+            background: var(--glass);
         }
 
         .mail-list-content {
@@ -1388,13 +1522,13 @@
             display: flex;
             align-items: center;
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
             cursor: pointer;
             transition: background 0.2s;
         }
 
         .mail-item:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--glass);
         }
 
         .mail-item.unread {
@@ -1447,7 +1581,7 @@
             border-left: 1px solid var(--glass-border);
             display: none;
             flex-direction: column;
-            background: rgba(30, 41, 59, 0.4);
+            background: var(--glass);
         }
 
         .mail-viewer-header {
@@ -1472,7 +1606,7 @@
 
         .mail-meta {
             padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--glass);
             border-radius: 8px;
             margin-bottom: 20px;
             font-size: 0.9em;
@@ -1489,7 +1623,7 @@
             display: inline-flex;
             align-items: center;
             padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 6px;
             margin-right: 10px;
             margin-bottom: 10px;
@@ -1503,6 +1637,18 @@
             background: rgba(99, 102, 241, 0.1);
         }
     </style>
+
+    
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -1520,6 +1666,24 @@
                     <div id="userName">John Doe</div>
                     <div style="font-size: 12px; color: var(--text-muted);" id="userStage">Stage 1 • Communication</div>
                 </div>
+            </div>
+                        <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider-round">
+                        <div class="sun-moon">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </div>
+                        <div class="clouds-stars">
+                            <div class="cloud cloud1"><i class="fas fa-cloud"></i></div>
+                            <div class="cloud cloud2"><i class="fas fa-cloud"></i></div>
+                            <div class="star star1"></div>
+                            <div class="star star2"></div>
+                            <div class="star star3"></div>
+                        </div>
+                    </div>
+                </label>
             </div>
             <button class="logout-btn" id="logoutBtn">
                 <i class="fas fa-sign-out-alt"></i> Logout
@@ -1549,7 +1713,7 @@
                         <i class="fas fa-chalkboard menu-icon"></i>
                         <span>My Classrooms</span>
                         <span class="classroom-request-count" id="classroomRequestCount"
-                            style="margin-left: auto; display: none; background: #f59e0b; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px;">0</span>
+                            style="margin-left: auto; display: none; background: #f59e0b; color: var(--text); padding: 2px 6px; border-radius: 10px; font-size: 10px;">0</span>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -1811,7 +1975,7 @@
 
                         <!-- Right Side: Progress & Navigation -->
                         <div class="sidebar-side"
-                            style="width: 300px; padding: 20px; background: rgba(15, 23, 42, 0.6);">
+                            style="width: 300px; padding: 20px; background: var(--glass);">
                             <h4 style="margin-bottom: 20px;">Course Progress</h4>
 
                             <!-- Module Progress -->
@@ -4538,7 +4702,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
 
                 card.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px;">
+                        <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text); font-weight: bold; font-size: 18px;">
                             ${request.classroom_name?.substring(0, 1).toUpperCase() || 'C'}
                         </div>
                         <div style="flex: 1;">
@@ -4558,7 +4722,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
                             border: none;
                             border-radius: 6px;
-                            color: white;
+                            color: var(--text);
                             cursor: pointer;
                             font-weight: 500;
                             font-size: 13px;
@@ -4652,11 +4816,11 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                         position: relative;
                         overflow: hidden;
                     ">
-                        <div style="position: absolute; right: -20px; top: -20px; font-size: 120px; font-weight: bold; opacity: 0.1; color: white;">
+                        <div style="position: absolute; right: -20px; top: -20px; font-size: 120px; font-weight: bold; opacity: 0.1; color: var(--text);">
                             ${initials}
                         </div>
                         <div style="position: relative; z-index: 1; flex: 1;">
-                            <h3 style="margin: 0; color: white; font-size: 20px; font-weight: 600; word-break: break-word;">
+                            <h3 style="margin: 0; color: var(--text); font-size: 20px; font-weight: 600; word-break: break-word;">
                                 ${classroom.name || 'Classroom'}
                             </h3>
                             <p style="margin: 4px 0 0 0; color: rgba(255,255,255,0.9); font-size: 13px;">
@@ -4668,11 +4832,11 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                     <div style="
                         flex: 1;
                         padding: 16px;
-                        background: rgba(15, 23, 42, 0.7);
+                        background: var(--glass);
                         display: flex;
                         flex-direction: column;
                         justify-content: space-between;
-                        border-top: 1px solid rgba(255,255,255,0.1);
+                        border-top: 1px solid var(--glass-border);
                     ">
                         <div>
                             <div style="
@@ -4902,8 +5066,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                 <div id="student-tab-content-people" style="display: none;">
                     <div style="margin-bottom: 30px;">
                         <h3 style="color: var(--text); margin: 0 0 15px 0;">Teacher</h3>
-                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px; display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                        <div style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 15px; display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text); font-weight: bold;">
                                 ${classroom.faculty_name?.substring(0, 1).toUpperCase() || 'F'}
                             </div>
                             <div>
@@ -4915,7 +5079,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
 
                     <div>
                         <h3 style="color: var(--text); margin: 0 0 15px 0;">Classmates (${classroom.student_count - 1} others)</h3>
-                        <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 15px;">
+                        <div style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 15px;">
                             <p style="color: var(--text-muted); text-align: center; margin: 0;">View classmate list coming soon</p>
                         </div>
                     </div>
@@ -4985,8 +5149,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
 
                     return `
                         <div style="
-                            background: rgba(255,255,255,0.02);
-                            border: 1px solid rgba(255,255,255,0.1);
+                            background: var(--glass);
+                            border: 1px solid var(--glass-border);
                             border-radius: 8px;
                             padding: 20px;
                             margin-bottom: 15px;
@@ -4996,7 +5160,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                         onmouseout="this.style.background='rgba(255,255,255,0.02)'; this.style.borderColor='rgba(255,255,255,0.1)';">
                             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
                                 <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
-                                    <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">
+                                    <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text); font-weight: bold; font-size: 14px;">
                                         ${ann.faculty_name?.substring(0, 1).toUpperCase() || 'F'}
                                     </div>
                                     <div>
@@ -5140,8 +5304,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
 
                 return `
                     <div style="
-                        background: rgba(255,255,255,0.02);
-                        border: 1px solid rgba(255,255,255,0.1);
+                        background: var(--glass);
+                        border: 1px solid var(--glass-border);
                         border-radius: 8px;
                         padding: 16px;
                         margin-bottom: 12px;
@@ -5197,7 +5361,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                                 width: 100%;
                                 padding: 10px;
                                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                                color: white;
+                                color: var(--text);
                                 border: none;
                                 border-radius: 6px;
                                 cursor: pointer;
@@ -5212,7 +5376,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                             <button onclick="showAssignmentDetails('${asg.assignment_id}', ${JSON.stringify(asg).replace(/"/g, '&quot;')})" style="
                                 width: 100%;
                                 padding: 10px;
-                                background: rgba(255,255,255,0.1);
+                                background: var(--glass);
                                 color: var(--text);
                                 border: none;
                                 border-radius: 6px;
@@ -5262,8 +5426,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                                     align-items: center;
                                     gap: 10px;
                                     padding: 10px;
-                                    background: rgba(255,255,255,0.05);
-                                    border: 1px solid rgba(255,255,255,0.1);
+                                    background: var(--glass);
+                                    border: 1px solid var(--glass-border);
                                     border-radius: 6px;
                                     color: #667eea;
                                     text-decoration: none;
@@ -5301,7 +5465,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                             ` : ''}
                         </div>
                         <button onclick="this.closest('[style*=z-index]').remove();" style="
-                            background: rgba(255,255,255,0.1);
+                            background: var(--glass);
                             border: none;
                             color: var(--text);
                             cursor: pointer;
@@ -5353,7 +5517,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                                 white-space: pre-wrap;
                                 word-wrap: break-word;
                                 padding: 12px;
-                                background: rgba(255,255,255,0.03);
+                                background: var(--glass);
                                 border-radius: 6px;
                             ">${assignmentData.description}</div>
                         </div>
@@ -5384,7 +5548,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                             width: 100%;
                             padding: 12px;
                             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                            color: white;
+                            color: var(--text);
                             border: none;
                             border-radius: 8px;
                             cursor: pointer;
@@ -5520,8 +5684,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                         <textarea id="submissionText" placeholder="Type your answer, essay, or response here..." style="
                             width: 100%;
                             padding: 12px;
-                            background: rgba(255,255,255,0.05);
-                            border: 1px solid rgba(255,255,255,0.1);
+                            background: var(--glass);
+                            border: 1px solid var(--glass-border);
                             border-radius: 6px;
                             color: var(--text);
                             font-size: 13px;
@@ -5580,8 +5744,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
 
                         <!-- Uploaded Files List -->
                         <div id="uploadedFiles_${assignmentId}" style="
-                            background: rgba(255,255,255,0.03);
-                            border: 1px solid rgba(255,255,255,0.1);
+                            background: var(--glass);
+                            border: 1px solid var(--glass-border);
                             border-radius: 6px;
                             padding: 12px;
                             margin-bottom: 12px;
@@ -5590,8 +5754,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
 
                         <!-- Drive Links List -->
                         <div id="driveLinks_${assignmentId}" style="
-                            background: rgba(255,255,255,0.03);
-                            border: 1px solid rgba(255,255,255,0.1);
+                            background: var(--glass);
+                            border: 1px solid var(--glass-border);
                             border-radius: 6px;
                             padding: 12px;
                             display: none;
@@ -5606,8 +5770,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                         <input type="url" id="submissionLink_${assignmentId}" placeholder="Paste your link here (e.g., https://...)" style="
                             width: 100%;
                             padding: 12px;
-                            background: rgba(255,255,255,0.05);
-                            border: 1px solid rgba(255,255,255,0.1);
+                            background: var(--glass);
+                            border: 1px solid var(--glass-border);
                             border-radius: 6px;
                             color: var(--text);
                             font-size: 13px;
@@ -5623,8 +5787,8 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                         <textarea id="privateComment_${assignmentId}" placeholder="Optional: Add a private note for your instructor..." style="
                             width: 100%;
                             padding: 12px;
-                            background: rgba(255,255,255,0.05);
-                            border: 1px solid rgba(255,255,255,0.1);
+                            background: var(--glass);
+                            border: 1px solid var(--glass-border);
                             border-radius: 6px;
                             color: var(--text);
                             font-size: 13px;
@@ -5648,7 +5812,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                             flex: 1;
                             padding: 12px;
                             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                            color: white;
+                            color: var(--text);
                             border: none;
                             border-radius: 6px;
                             cursor: pointer;
@@ -5663,7 +5827,7 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
                         <button onclick="this.closest('[style*=z-index]').remove();" style="
                             flex: 1;
                             padding: 12px;
-                            background: rgba(255,255,255,0.1);
+                            background: var(--glass);
                             color: var(--text);
                             border: none;
                             border-radius: 6px;
@@ -5891,6 +6055,39 @@ ${challenge.target ? `Target: ${challenge.target}` : ''}
             loadStudentClassrooms();
         });
     </script>
+
+    
+    
+
+    
+
+
+    <!-- Fancy Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckbox = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(themeCheckbox) themeCheckbox.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if(themeCheckbox) themeCheckbox.checked = false;
+            }
+            if(themeCheckbox) {
+                themeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

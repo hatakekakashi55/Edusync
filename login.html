@@ -21,11 +21,21 @@
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #f59e0b;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+        }
+
+                [data-theme="dark"] {
             --dark: #0f172a;
             --darker: #020617;
             --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text: #e2e8f0;
             --text-muted: #94a3b8;
         }
@@ -37,7 +47,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
             position: relative;
             overflow-x: hidden;
         }
@@ -89,28 +100,113 @@
         /* Main container */
         .container {
             width: 100%;
-            max-width: 1200px;
+            height: 100vh;
             display: flex;
             background: var(--glass);
             backdrop-filter: blur(20px);
-            border-radius: 30px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
             overflow: hidden;
-            min-height: 700px;
         }
 
         /* Left side - Branding */
         .brand-section {
             flex: 1;
-            padding: 50px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Slider Styles */
+        .slider-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            padding: 50px;
+            color: white;
+            text-align: center;
             position: relative;
-            overflow: hidden;
         }
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+        .slide-content {
+            position: relative;
+            z-index: 1;
+        }
+        .slide-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .slide-content p {
+            font-size: 18px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .slider-nav {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 2;
+        }
+        .slider-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .slider-dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .slider-btn:hover { background: rgba(255, 255, 255, 0.5); }
+        .slider-prev { left: 20px; }
+        .slider-next { right: 20px; }
 
         .brand-section::before {
             content: '';
@@ -148,6 +244,7 @@
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -213,10 +310,18 @@
             padding: 50px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+        }
+
+        .form-header, .form-container {
+            width: 100%;
+            max-width: 420px;
         }
 
         .form-header {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
@@ -225,6 +330,7 @@
             margin-bottom: 10px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -252,14 +358,15 @@
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 500;
             color: var(--text);
+            font-size: 14px;
         }
 
         .input-group {
@@ -277,19 +384,18 @@
 
         .form-input {
             width: 100%;
-            padding: 18px 20px 18px 55px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            padding: 16px 20px 16px 50px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             color: var(--text);
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
@@ -341,11 +447,11 @@
 
         .submit-btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -354,7 +460,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .submit-btn:hover {
@@ -650,6 +756,11 @@
             background: rgba(139, 92, 246, 0.3) !important;
         }
     </style>
+<script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 
 <body>
@@ -662,58 +773,57 @@
     <div class="container">
         <!-- Left side - Branding -->
         <div class="brand-section">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
+            <button class="slider-btn slider-prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-btn slider-next"><i class="fas fa-chevron-right"></i></button>
+
+            <div class="slider-container" id="sliderContainer">
+                <div class="slide" style="background-image: url('/static/assets/slider_collab.png');">
+                    <div class="slide-content">
+                        <div class="logo" style="justify-content: center; margin-bottom: 30px;">
+                            <div class="logo-icon" style="background: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="logo-text">EduSync 4.0</div>
+                        </div>
+                        <h2>Collaborative Learning</h2>
+                        <p>Study groups, pair programming, and real-time collaboration with peers across your campus.</p>
+                    </div>
                 </div>
-                <div class="logo-text">EduSync 4.0</div>
+                <div class="slide" style="background-image: url('/static/assets/slider_ai.png');">
+                    <div class="slide-content">
+                        <div class="logo" style="justify-content: center; margin-bottom: 30px;">
+                            <div class="logo-icon" style="background: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="logo-text">EduSync 4.0</div>
+                        </div>
+                        <h2>AI-Powered Tutors</h2>
+                        <p>Receive personalized guidance, automated grading, and smart suggestions directly from our AI systems.</p>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('/static/assets/slider_coding.png');">
+                    <div class="slide-content">
+                        <div class="logo" style="justify-content: center; margin-bottom: 30px;">
+                            <div class="logo-icon" style="background: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="logo-text">EduSync 4.0</div>
+                        </div>
+                        <h2>Real-time Coding</h2>
+                        <p>Execute code in over 7 languages instantly with our integrated browser-based IDE and assignments playground.</p>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('/static/assets/slider_game.png');">
+                    <div class="slide-content">
+                        <div class="logo" style="justify-content: center; margin-bottom: 30px;">
+                            <div class="logo-icon" style="background: var(--primary);"><i class="fas fa-graduation-cap"></i></div>
+                            <div class="logo-text">EduSync 4.0</div>
+                        </div>
+                        <h2>Gamified Experience</h2>
+                        <p>Challenges, badges, and leaderboards to keep you motivated. Join engaging quests and level up your skills.</p>
+                    </div>
+                </div>
             </div>
 
-            <p class="tagline">
-                Revolutionizing campus learning with AI-powered education,
-                real-time collaboration, and personalized learning paths.
-            </p>
-
-            <div class="features">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="feature-text">
-                        <div class="feature-title">AI-Powered Learning</div>
-                        <div class="feature-desc">Personalized learning paths with AI tutor</div>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="feature-text">
-                        <div class="feature-title">Real-time Coding</div>
-                        <div class="feature-desc">Code execution in 7+ languages</div>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="feature-text">
-                        <div class="feature-title">Collaborative Learning</div>
-                        <div class="feature-desc">Study groups & pair programming</div>
-                    </div>
-                </div>
-
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <div class="feature-text">
-                        <div class="feature-title">Gamified Experience</div>
-                        <div class="feature-desc">Challenges, badges & leaderboards</div>
-                    </div>
-                </div>
+            <div class="slider-nav" id="sliderNav">
+                <div class="slider-dot active" data-index="0"></div>
+                <div class="slider-dot" data-index="1"></div>
+                <div class="slider-dot" data-index="2"></div>
+                <div class="slider-dot" data-index="3"></div>
             </div>
         </div>
 
@@ -1409,7 +1519,64 @@
         });
 
         // Initialize page
-        window.addEventListener('DOMContentLoaded', initPage);
+        window.addEventListener('DOMContentLoaded', () => {
+            initPage();
+            initSlider();
+        });
+
+        // Image Slider logic
+        function initSlider() {
+            const container = document.getElementById('sliderContainer');
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            const prevBtn = document.querySelector('.slider-prev');
+            const nextBtn = document.querySelector('.slider-next');
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+            let slideInterval;
+
+            if (!container || slides.length === 0) return;
+
+            function goToSlide(index) {
+                if (index < 0) index = totalSlides - 1;
+                if (index >= totalSlides) index = 0;
+                container.style.transform = `translateX(-${index * 100}%)`;
+                dots.forEach(d => d.classList.remove('active'));
+                dots[index].classList.add('active');
+                currentIndex = index;
+
+                // Toggle arrow visibility
+                if (prevBtn) {
+                    prevBtn.style.display = (index === 0) ? 'none' : 'flex';
+                }
+                if (nextBtn) {
+                    nextBtn.style.display = (index === totalSlides - 1) ? 'none' : 'flex';
+                }
+            }
+
+            function nextSlide() { goToSlide(currentIndex + 1); }
+            function prevSlide() { goToSlide(currentIndex - 1); }
+
+            function resetInterval() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            if(prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+            if(nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
+            
+            dots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    goToSlide(parseInt(dot.getAttribute('data-index')));
+                    resetInterval();
+                });
+            });
+
+            slideInterval = setInterval(nextSlide, 5000);
+            
+            // Initialize arrow visibility
+            goToSlide(0);
+        }
     </script>
 </body>
 

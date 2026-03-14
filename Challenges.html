@@ -16,29 +16,33 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        :root {
+                :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --stage-1: #8b5cf6;
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
+        }
+
+                                [data-theme="dark"] {
             --dark: #0f172a;
             --darker: #020617;
             --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text: #e2e8f0;
             --text-muted: #94a3b8;
-            --easy: #10b981;
-            --medium: #f59e0b;
-            --hard: #ef4444;
-            --expert: #8b5cf6;
-            --voice-challenge: #8b5cf6;
-            --coding-challenge: #3b82f6;
-            --quiz-challenge: #10b981;
-            --project-challenge: #f59e0b;
-            --writing-challenge: #ec4899;
-            --presentation-challenge: #06b6d4;
         }
 
         body {
@@ -49,7 +53,7 @@
 
         /* Top Navigation */
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 30px;
@@ -100,9 +104,9 @@
         }
 
         .back-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
             padding: 8px 16px;
             border-radius: 10px;
             cursor: pointer;
@@ -113,7 +117,7 @@
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -232,8 +236,8 @@
         }
 
         .filter-select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
             color: var(--text);
             padding: 10px 15px;
             border-radius: 10px;
@@ -268,7 +272,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
         }
 
         .btn-primary:hover {
@@ -277,13 +281,13 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -422,7 +426,7 @@
 
         .credits-badge {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
             padding: 6px 12px;
             border-radius: 10px;
             font-size: 14px;
@@ -454,7 +458,7 @@
 
         .progress-bar {
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border-radius: 3px;
             overflow: hidden;
         }
@@ -474,7 +478,7 @@
             flex: 1;
             padding: 12px 20px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
             border: none;
             border-radius: 10px;
             font-weight: 600;
@@ -493,9 +497,9 @@
 
         .btn-view {
             padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
@@ -506,7 +510,7 @@
         }
 
         .btn-view:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -601,9 +605,9 @@
             width: 40px;
             height: 40px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -612,12 +616,12 @@
         }
 
         .page-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
         }
 
         .page-btn.active {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
         }
 
         .page-info {
@@ -696,7 +700,140 @@
                 font-size: 24px;
             }
         }
+    
+        
+        /* Fancy Theme Switcher Styles - Smaller Version */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon {
+            color: #d4a017;
+            font-size: 10px;
+        }
+
+        .moon-icon {
+            color: #f1f5f9;
+            font-size: 10px;
+            display: none;
+        }
+
+        .cloud {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            transition: .4s;
+        }
+
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round {
+            background-color: #1e293b;
+        }
+
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        input:checked + .slider-round .sun-icon {
+            display: none;
+        }
+
+        input:checked + .slider-round .moon-icon {
+            display: block;
+            color: #94a3b8;
+        }
+
+        input:checked + .slider-round .cloud {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        input:checked + .slider-round .star {
+            opacity: 1;
+        }
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
     </style>
+<script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 
 <body>
@@ -965,7 +1102,7 @@
         async function checkAuth() {
             const token = localStorage.getItem('access_token');
             if (!token) {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return false;
             }
 
@@ -991,7 +1128,7 @@
 
             } catch (error) {
                 console.error('Auth check error:', error);
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return false;
             }
         }
@@ -1000,7 +1137,7 @@
         async function refreshToken() {
             const refreshToken = localStorage.getItem('refresh_token');
             if (!refreshToken) {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return false;
             }
 
@@ -1022,7 +1159,7 @@
                 }
             } catch (error) {
                 console.error('Token refresh error:', error);
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return false;
             }
         }
@@ -1212,7 +1349,7 @@
                             </div>
                             <div class="meta-item">
                                 <i class="fas fa-tag"></i>
-                                ${challenge.tags?.slice(0, 2).map(tag => `<span style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px;">${tag}</span>`).join('') || 'No tags'}
+                                ${challenge.tags?.slice(0, 2).map(tag => `<span style="background: var(--glass); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px;">${tag}</span>`).join('') || 'No tags'}
                             </div>
                         </div>
                         <div class="credits-badge">
@@ -1441,7 +1578,7 @@
                                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                                     ${challenge.tags.map(tag => `
                                         <span style="
-                                            background: rgba(255,255,255,0.1);
+                                            background: var(--glass);
                                             padding: 6px 12px;
                                             border-radius: 15px;
                                             font-size: 12px;
@@ -1455,19 +1592,19 @@
                         <div style="margin-bottom: 25px;">
                             <h3 style="font-size: 18px; margin-bottom: 10px; color: var(--text);">Statistics</h3>
                             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                                <div style="background: var(--glass); padding: 15px; border-radius: 10px;">
                                     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Attempts</div>
                                     <div style="font-size: 24px; font-weight: 600; color: var(--text);">
                                         ${challenge.statistics?.total_attempts || 0}
                                     </div>
                                 </div>
-                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                                <div style="background: var(--glass); padding: 15px; border-radius: 10px;">
                                     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Completion Rate</div>
                                     <div style="font-size: 24px; font-weight: 600; color: var(--text);">
                                         ${challenge.statistics?.completion_rate || 0}%
                                     </div>
                                 </div>
-                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+                                <div style="background: var(--glass); padding: 15px; border-radius: 10px;">
                                     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 5px;">Average Score</div>
                                     <div style="font-size: 24px; font-weight: 600; color: var(--text);">
                                         ${challenge.statistics?.average_score || 0}%
@@ -1479,9 +1616,9 @@
                         ${challenge.user_submissions && challenge.user_submissions.length > 0 ? `
                             <div style="margin-bottom: 25px;">
                                 <h3 style="font-size: 18px; margin-bottom: 10px; color: var(--text);">Your Submissions</h3>
-                                <div style="background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden;">
+                                <div style="background: var(--glass); border-radius: 10px; overflow: hidden;">
                                     ${challenge.user_submissions.map((sub, index) => `
-                                        <div style="padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+                                        <div style="padding: 15px; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
                                             <div>
                                                 <div style="color: var(--text); margin-bottom: 5px;">
                                                     Attempt ${challenge.user_submissions.length - index}
@@ -1667,6 +1804,36 @@
             alert(`Error: ${message}`);
         }
     </script>
+
+    
+
+
+    <!-- Fancy Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckbox = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(themeCheckbox) themeCheckbox.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if(themeCheckbox) themeCheckbox.checked = false;
+            }
+            if(themeCheckbox) {
+                themeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

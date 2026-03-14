@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSync 4.0 - Revolutionizing Education</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --bg-light: #F8FAFC;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --white: #FFFFFF;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism Classes */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* Navbar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 15px 5%;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            border-radius: 50px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white !important;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 5% 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 50px;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-main);
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass-card-preview {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            border-radius: 30px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .preview-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .preview-lines div {
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 40px;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            padding: 40px 30px;
+            border-radius: 24px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .feature-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary);
+        }
+
+        .fc-2 .feature-icon-wrapper { background: rgba(16, 185, 129, 0.1); color: var(--secondary); }
+        .fc-3 .feature-icon-wrapper { background: rgba(245, 158, 11, 0.1); color: var(--accent); }
+        .fc-4 .feature-icon-wrapper { background: rgba(236, 72, 153, 0.1); color: #EC4899; }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Call to Action */
+        .cta-section {
+            padding: 100px 5%;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px;
+            border-radius: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 20px 50px rgba(79, 70, 229, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cta-container h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-container p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn {
+            background: white;
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            color: var(--text-muted);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="glass">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                EduSync
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/login" class="login-btn">Log In</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-star" style="color: var(--accent);"></i> Welcome to EduSync 4.0</div>
+            <h1>The Future of <span>Learning</span> is Here.</h1>
+            <p>Revolutionizing campus learning with AI-powered education, real-time collaboration, coding playgrounds, and personalized learning paths designed just for you.</p>
+            <div class="hero-buttons">
+                <a href="/login" class="btn-primary">Get Started <i class="fas fa-arrow-right"></i></a>
+                <a href="#features" class="btn-secondary">Explore Features <i class="fas fa-compass"></i></a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="glass-card-preview">
+                <div class="preview-header">
+                    <div class="preview-icon"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <h3 style="color: var(--text-main); font-size: 18px;">AI Teaching Assistant</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;">Online & Ready</p>
+                    </div>
+                </div>
+                <div style="flex: 1; background: rgba(0,0,0,0.02); border-radius: 15px; padding: 20px;">
+                    <div class="preview-lines">
+                        <div style="width: 80%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent);"></div>
+                        <div style="width: 60%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent);"></div>
+                        <div style="width: 90%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent); margin-top: 20px;"></div>
+                        <div style="width: 40%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent);"></div>
+                    </div>
+                </div>
+                <div style="height: 50px; background: rgba(0,0,0,0.04); border-radius: 25px; display: flex; align-items: center; padding: 0 20px;">
+                    <p style="color: var(--text-muted); font-size: 14px;">Ask me anything...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Everything you need to excel</h2>
+            <p>EduSync provides a comprehensive suite of tools designed to enhance student potential and streamline the learning experience.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card fc-1">
+                <div class="feature-icon-wrapper"><i class="fas fa-brain"></i></div>
+                <h3>AI-Powered Learning</h3>
+                <p>Experience personalized learning paths guided by an intelligent AI tutor that adapts to your unique learning style.</p>
+            </div>
+            <div class="feature-card fc-2">
+                <div class="feature-icon-wrapper"><i class="fas fa-code"></i></div>
+                <h3>Real-time Coding</h3>
+                <p>Execute code in 7+ different languages instantly. Practice algorithms and build projects right in your browser.</p>
+            </div>
+            <div class="feature-card fc-3">
+                <div class="feature-icon-wrapper"><i class="fas fa-users"></i></div>
+                <h3>Collaborative Learning</h3>
+                <p>Join study groups, engage in pair programming, and collaborate with peers seamlessly across the campus.</p>
+            </div>
+            <div class="feature-card fc-4">
+                <div class="feature-icon-wrapper"><i class="fas fa-trophy"></i></div>
+                <h3>Gamified Experience</h3>
+                <p>Stay motivated with engaging challenges, earn badges, and climb the leaderboard as you master new skills.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Ready to transform your learning journey?</h2>
+            <p>Join thousands of students already experiencing the future of education with EduSync 4.0.</p>
+            <a href="/login" class="cta-btn">Sign In to Dashboard</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 EduSync. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Simple scroll effect for navbar
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.padding = '10px 5%';
+            } else {
+                header.style.padding = '15px 5%';
+            }
+        });
+    </script>
+</body>
+</html>

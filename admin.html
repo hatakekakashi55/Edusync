@@ -16,25 +16,33 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        :root {
+                        :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --dark: #0f172a;
-            --darker: #020617;
-            --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
             --stage-1: #8b5cf6;
             --stage-2: #3b82f6;
             --stage-3: #10b981;
             --stage-4: #f59e0b;
+        }
+
+                                        [data-theme="dark"] {
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
         }
 
         body {
@@ -64,7 +72,7 @@
         }
 
         .login-card {
-            background: rgba(15, 23, 42, 0.9);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 50px;
@@ -113,7 +121,7 @@
         }
 
         .form-input {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 12px 16px;
@@ -134,7 +142,7 @@
 
         .login-btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
             border: none;
             padding: 12px 20px;
             border-radius: 10px;
@@ -170,7 +178,7 @@
 
         /* Top Navigation */
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 30px;
@@ -245,7 +253,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border-right: 1px solid var(--glass-border);
             padding: 20px 0;
         }
@@ -273,7 +281,7 @@
         }
 
         .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -418,7 +426,7 @@
             font-size: 24px;
             margin-bottom: 15px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
         }
 
         .card-title {
@@ -453,7 +461,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
         }
 
         .btn-primary:hover {
@@ -462,13 +470,13 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -513,7 +521,7 @@
 
         .search-box {
             padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text);
@@ -536,12 +544,12 @@
 
         .admin-table td {
             padding: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
             color: var(--text);
         }
 
         .admin-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--glass);
         }
 
         .status-badge {
@@ -689,7 +697,7 @@
         .form-input {
             width: 100%;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text);
@@ -705,7 +713,7 @@
         .form-select {
             width: 100%;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text);
@@ -715,7 +723,7 @@
         .form-textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text);
@@ -878,7 +886,147 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+    
+        
+        /* Fancy Theme Switcher Styles - Smaller Version */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon {
+            color: #d4a017;
+            font-size: 10px;
+        }
+
+        .moon-icon {
+            color: #f1f5f9;
+            font-size: 10px;
+            display: none;
+        }
+
+        .cloud {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            transition: .4s;
+        }
+
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round {
+            background-color: #1e293b;
+        }
+
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        input:checked + .slider-round .sun-icon {
+            display: none;
+        }
+
+        input:checked + .slider-round .moon-icon {
+            display: block;
+            color: #94a3b8;
+        }
+
+        input:checked + .slider-round .cloud {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        input:checked + .slider-round .star {
+            opacity: 1;
+        }
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
     </style>
+
+    
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+        })();
+    </script>
 </head>
 
 <body>
@@ -899,6 +1047,24 @@
                     <div id="userName">Admin User</div>
                     <div style="font-size: 12px; color: var(--text-muted);">Super Administrator</div>
                 </div>
+            </div>
+                        <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider-round">
+                        <div class="sun-moon">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </div>
+                        <div class="clouds-stars">
+                            <div class="cloud cloud1"><i class="fas fa-cloud"></i></div>
+                            <div class="cloud cloud2"><i class="fas fa-cloud"></i></div>
+                            <div class="star star1"></div>
+                            <div class="star star2"></div>
+                            <div class="star star3"></div>
+                        </div>
+                    </div>
+                </label>
             </div>
             <button class="logout-btn" id="logoutBtn">
                 <i class="fas fa-sign-out-alt"></i> Logout
@@ -2936,7 +3102,7 @@ PostgreSQL..."></textarea>
                             <button class="btn btn-small btn-secondary" onclick="viewUser('${user._id}')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn btn-small" style="background: #ff9800; color: white; border: 1px solid #ff9800;" onclick="deactivateUser('${user._id}')" title="Deactivate Account">
+                            <button class="btn btn-small" style="background: #ff9800; color: var(--text); border: 1px solid #ff9800;" onclick="deactivateUser('${user._id}')" title="Deactivate Account">
                                 <i class="fas fa-ban"></i>
                             </button>
                             <button class="btn btn-small btn-danger" onclick="openDeletePINModal('${user._id}')" title="Permanent Delete">
@@ -2989,7 +3155,7 @@ PostgreSQL..."></textarea>
                     <td>${formatDate(user.updated_at)}</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn btn-small" style="background: #10b981; color: white; border: 1px solid #10b981;" onclick="activateUser('${user._id}')" title="Reactivate Account">
+                            <button class="btn btn-small" style="background: #10b981; color: var(--text); border: 1px solid #10b981;" onclick="activateUser('${user._id}')" title="Reactivate Account">
                                 <i class="fas fa-redo"></i> Activate
                             </button>
                             <button class="btn btn-small btn-danger" onclick="openDeletePINModal('${user._id}')" title="Permanent Delete">
@@ -3125,7 +3291,7 @@ PostgreSQL..."></textarea>
 
             // Show sync status
             const syncBadge = document.createElement('div');
-            syncBadge.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: rgba(16, 185, 129, 0.9); color: white; padding: 10px 15px; border-radius: 20px; font-size: 12px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2);';
+            syncBadge.style.cssText = 'position: fixed; bottom: 20px; right: 20px; background: rgba(16, 185, 129, 0.9); color: var(--text); padding: 10px 15px; border-radius: 20px; font-size: 12px; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.2);';
             syncBadge.innerHTML = '✨ All changes are live with students!';
 
             const existing = document.querySelector('[style*="bottom: 20px; right: 20px"]');
@@ -5499,7 +5665,7 @@ PostgreSQL..."></textarea>
                 <tr>
                     <td>${problem.ps_number || problem._id.substring(18)}</td>
                     <td><b>${escapeHtml(problem.title)}</b><br><small style="color:var(--text-muted);">${escapeHtml(problem.organization)}</small></td>
-                    <td><span class="status-badge" style="background:rgba(255,255,255,0.05);">${problem.mode || 'admin'}</span></td>
+                    <td><span class="status-badge" style="background: var(--glass);">${problem.mode || 'admin'}</span></td>
                     <td>${escapeHtml(problem.category)}</td>
                     <td>${problem.credits}</td>
                     <td><span class="status-badge ${problem.status === 'open' ? 'status-active' : 'status-inactive'}">${problem.status}</span></td>
@@ -5862,7 +6028,7 @@ PostgreSQL..."></textarea>
                             <button type="submit" class="btn btn-primary" style="flex: 1; padding: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; cursor: pointer; font-weight: 600;">
                                 <i class="fas fa-plus"></i> Create
                             </button>
-                            <button type="button" class="btn btn-secondary" style="flex: 1; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); cursor: pointer; font-weight: 600;" onclick="document.getElementById('stage1TaskModal').remove()">
+                            <button type="button" class="btn btn-secondary" style="flex: 1; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); cursor: pointer; font-weight: 600;" onclick="document.getElementById('stage1TaskModal').remove()">
                                 <i class="fas fa-times"></i> Cancel
                             </button>
                         </div>
@@ -6799,6 +6965,39 @@ PostgreSQL..."></textarea>
             }
         }
     </script>
+
+    
+    
+
+    
+
+
+    <!-- Fancy Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckbox = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(themeCheckbox) themeCheckbox.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if(themeCheckbox) themeCheckbox.checked = false;
+            }
+            if(themeCheckbox) {
+                themeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>

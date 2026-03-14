@@ -18,24 +18,33 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        :root {
+                :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --stage-1: #8b5cf6;
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
+        }
+
+                                [data-theme="dark"] {
             --dark: #0f172a;
             --darker: #020617;
             --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --text: #e2e8f0;
             --text-muted: #94a3b8;
-            --stage-color: #3b82f6;
-            /* Blue for Coding Stage */
-            --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
         }
 
         body {
@@ -47,7 +56,7 @@
 
         /* Top Navigation */
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 30px;
@@ -138,13 +147,13 @@
         }
 
         .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
         .nav-btn.primary {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
+            color: #ffffff;
         }
 
         /* Main Container */
@@ -156,7 +165,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border-right: 1px solid var(--glass-border);
             padding: 20px 0;
         }
@@ -183,7 +192,7 @@
         }
 
         .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -290,7 +299,7 @@
         }
 
         .tab:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
         }
 
         .tab.active {
@@ -325,7 +334,7 @@
         .compiler-layout {
             display: flex;
             height: 650px;
-            background: #0f172a;
+            background: var(--dark);
             border: 1px solid #1e293b;
             border-radius: 6px;
             overflow: hidden;
@@ -351,9 +360,9 @@
         }
 
         .lang-select-minimal {
-            background: #334155;
+            background: var(--glass-border);
             border: 1px solid #475569;
-            color: #e2e8f0;
+            color: var(--text);
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 13px;
@@ -364,13 +373,13 @@
         .header-actions-minimal {
             display: flex;
             gap: 15px;
-            color: #94a3b8;
+            color: var(--text-muted);
         }
 
         .icon-btn-minimal {
             background: transparent;
             border: none;
-            color: #94a3b8;
+            color: var(--text-muted);
             cursor: pointer;
             font-size: 16px;
             transition: color 0.2s;
@@ -385,12 +394,12 @@
         .editor-content-minimal {
             flex: 1;
             overflow: hidden;
-            background: #0f172a;
+            background: var(--dark);
         }
 
         .divider-v {
             width: 4px;
-            background: #020617;
+            background: var(--darker);
             cursor: col-resize;
             display: flex;
             align-items: center;
@@ -412,12 +421,12 @@
             min-width: 300px;
             display: flex;
             flex-direction: column;
-            background: #0f172a;
+            background: var(--dark);
         }
 
         .run-btn-minimal {
             background: #2563eb;
-            color: white;
+            color: var(--text);
             border: none;
             padding: 5px 20px;
             border-radius: 4px;
@@ -440,7 +449,7 @@
 
         .input-section-minimal {
             padding: 15px;
-            background: #0f172a;
+            background: var(--dark);
         }
 
         .input-area-minimal {
@@ -449,7 +458,7 @@
             background: #1e293b;
             border: 1px solid #334155;
             border-radius: 4px;
-            color: #e2e8f0;
+            color: var(--text);
             padding: 12px;
             font-family: 'Fira Code', monospace;
             font-size: 13px;
@@ -468,7 +477,7 @@
             background: #1e293b;
             border-top: 1px solid #334155;
             border-bottom: 1px solid #334155;
-            color: #94a3b8;
+            color: var(--text-muted);
             font-size: 14px;
             font-weight: 500;
             display: flex;
@@ -483,7 +492,7 @@
             font-family: 'Fira Code', monospace;
             font-size: 14px;
             overflow-y: auto;
-            background: #020617;
+            background: var(--darker);
             line-height: 1.6;
         }
 
@@ -498,12 +507,12 @@
         }
 
         .CodeMirror {
-            background: #0f172a !important;
+            background: var(--dark) !important;
             height: 100% !important;
         }
 
         .CodeMirror-gutters {
-            background: #0f172a !important;
+            background: var(--dark) !important;
             border-right: 1px solid #1e293b !important;
         }
 
@@ -531,7 +540,7 @@
             padding: 10px;
             margin: 5px 0;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
         }
 
         .test-case.passed {
@@ -916,7 +925,7 @@
             font-weight: 600;
             padding: 4px 10px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text-muted);
         }
 
@@ -950,7 +959,7 @@
             width: 50px;
             height: 50px;
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -988,7 +997,140 @@
         .course-locked .course-description {
             opacity: 0.5;
         }
+    
+        
+        /* Fancy Theme Switcher Styles - Smaller Version */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon {
+            color: #d4a017;
+            font-size: 10px;
+        }
+
+        .moon-icon {
+            color: #f1f5f9;
+            font-size: 10px;
+            display: none;
+        }
+
+        .cloud {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            transition: .4s;
+        }
+
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round {
+            background-color: #1e293b;
+        }
+
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        input:checked + .slider-round .sun-icon {
+            display: none;
+        }
+
+        input:checked + .slider-round .moon-icon {
+            display: block;
+            color: #94a3b8;
+        }
+
+        input:checked + .slider-round .cloud {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        input:checked + .slider-round .star {
+            opacity: 1;
+        }
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
     </style>
+<script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 
 <body>
@@ -1112,7 +1254,7 @@
                 <div
                     style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2)); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; justify-content: space-between;">
                     <div>
-                        <h3 style="color: white; margin-bottom: 5px;"><i class="fas fa-bullseye"
+                        <h3 style="color: var(--text); margin-bottom: 5px;"><i class="fas fa-bullseye"
                                 style="color: var(--warning);"></i> Daily Goal: 5-10 Mins of Coding</h3>
                         <p style="color: var(--text-muted); font-size: 14px;">Complete 1 Lesson + 1 Quiz to earn daily
                             XP and maintain your streak!</p>
@@ -1137,7 +1279,7 @@
                     <div class="feature-card" style="cursor: pointer; position: relative;"
                         onclick="openCourseModalMock('Python Developer')">
                         <div
-                            style="position: absolute; top: 15px; right: 15px; background: var(--success); color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+                            style="position: absolute; top: 15px; right: 15px; background: var(--success); color: var(--text); padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">
                             0% Complete</div>
                         <div class="feature-icon" style="color: #3b82f6; background: rgba(59, 130, 246, 0.1);">
                             <i class="fab fa-python"></i>
@@ -1157,7 +1299,7 @@
                     <div class="feature-card" style="cursor: pointer; position: relative;"
                         onclick="openCourseModalMock('Web Developer')">
                         <div
-                            style="position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1); color: var(--text-muted); padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">
+                            style="position: absolute; top: 15px; right: 15px; background: var(--glass); color: var(--text-muted); padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;">
                             <i class="fas fa-lock"></i> Locked
                         </div>
                         <div class="feature-icon"
@@ -1571,7 +1713,7 @@ hello_world()</textarea>
                     <div
                         style="background: var(--darker); border: 1px solid var(--glass-border); border-radius: 15px; width: 100%; max-width: 800px; padding: 30px; margin-top: 50px; max-height: 90vh; overflow-y: auto; position: relative;">
                         <button onclick="document.getElementById('arcadeModal').style.display='none'"
-                            style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; color: white; cursor: pointer; font-size: 20px;"><i
+                            style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; color: var(--text); cursor: pointer; font-size: 20px;"><i
                                 class="fas fa-times"></i></button>
                         <h2 id="arcadeModalTitle" style="color: var(--primary); margin-bottom: 15px;"><i
                                 class="fas fa-gamepad"></i> Game Mode</h2>
@@ -1604,7 +1746,7 @@ hello_world()</textarea>
                             tests
                             wins!</p>
                         <button class="nav-btn danger"
-                            style="width: 100%; margin-top: 15px; background: var(--danger); color: white;"
+                            style="width: 100%; margin-top: 15px; background: var(--danger); color: var(--text);"
                             onclick="findDuelMatch()">
                             <i class="fas fa-search"></i> Search Opponent
                         </button>
@@ -1757,7 +1899,7 @@ hello_world()</textarea>
 
                     <!-- Right Side: Progress & Navigation -->
                     <div class="sidebar-side"
-                        style="flex: 1; min-width: 300px; padding: 20px; background: rgba(15, 23, 42, 0.6);">
+                        style="flex: 1; min-width: 300px; padding: 20px; background: var(--glass);">
                         <h4 style="margin-bottom: 20px;">Course Progress</h4>
 
                         <!-- Module Progress -->
@@ -1827,7 +1969,7 @@ hello_world()</textarea>
                         <i class="fas fa-book"></i> Challenge Description
                     </h4>
                     <div id="challengeDescription"
-                        style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; border-left: 3px solid var(--stage-color); color: var(--text);">
+                        style="background: var(--glass); padding: 20px; border-radius: 10px; border-left: 3px solid var(--stage-color); color: var(--text);">
                     </div>
                 </div>
 
@@ -1866,11 +2008,11 @@ hello_world()</textarea>
                 <!-- Action Buttons -->
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <button onclick="runDetailChallenge()" class="action-btn primary"
-                        style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #10b981; color: white; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #10b981; color: var(--text); cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
                         <i class="fas fa-play"></i> Run Code
                     </button>
                     <button onclick="submitDetailChallenge()" class="action-btn success"
-                        style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #8B5CF6; color: white; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #8B5CF6; color: var(--text); cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
                         <i class="fas fa-paper-plane"></i> Submit Solution
                     </button>
                     <button onclick="requestHintForCredits()" class="action-btn"
@@ -2226,7 +2368,7 @@ hello_world()</textarea>
 
             // Check authentication
             if (!accessToken) {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return;
             }
 
@@ -2291,7 +2433,7 @@ hello_world()</textarea>
                 top: 20px;
                 right: 20px;
                 background: ${type === 'success' ? '#10b981' : '#3b82f6'};
-                color: white;
+                color: var(--text);
                 padding: 15px 20px;
                 border-radius: 8px;
                 z-index: 10000;
@@ -3267,7 +3409,7 @@ fn main() {
             try {
                 const refreshToken = localStorage.getItem('refresh_token');
                 if (!refreshToken) {
-                    window.location.href = 'login.html';
+                    window.location.href = '/login';
                     return false;
                 }
 
@@ -3285,12 +3427,12 @@ fn main() {
                     accessToken = data.access_token;
                     return true;
                 } else {
-                    window.location.href = 'login.html';
+                    window.location.href = '/login';
                     return false;
                 }
             } catch (error) {
                 console.error('Token refresh failed:', error);
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return false;
             }
         }
@@ -3466,7 +3608,7 @@ fn main() {
 
                         document.getElementById('courseContent').innerHTML = `
                             ${headerTag}
-                            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 20px; line-height: 1.6;">
+                            <div style="background: var(--glass); padding: 15px; border-radius: 8px; margin-bottom: 20px; line-height: 1.6;">
                                 <p><strong><i class="fas fa-stopwatch"></i> Time: 5 mins</strong></p>
                                 <p>Welcome to this bite-sized lesson on ${mod.title}. In this quick session, we'll cover the fundamental concepts and put them to practice immediately.</p>
                             </div>
@@ -3635,7 +3777,7 @@ fn main() {
         <p><strong>AI Interviewer:</strong> "Hello! Let's start with a classic problem. Write a program to reverse a string in-place."</p>
         <textarea id="interviewCode" style="width:100%; height:120px; background:#1e1e1e; color:white; font-family:monospace; padding:10px; margin-top:15px; margin-bottom:15px;" placeholder="Write your solution here..."></textarea>
         <button class="nav-btn primary" onclick="submitInterview()">Submit & Analyze <i class="fas fa-paper-plane"></i></button>
-        <div id="interviewFeedback" style="margin-top:20px; padding:15px; background:rgba(255,255,255,0.05); border-radius:10px; display:none;"></div>
+        <div id="interviewFeedback" style="margin-top:20px; padding:15px; background: var(--glass); border-radius:10px; display:none;"></div>
     `);
         }
 
@@ -3682,7 +3824,7 @@ fn main() {
 
                 let questsHtml = "";
                 data.forEach(q => {
-                    questsHtml += `<div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                    questsHtml += `<div style="background: var(--glass); padding:15px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <strong>${q.desc}</strong>
                     <div style="font-size:12px; color:var(--text-muted);">Reward: ${q.reward} Coins</div>
@@ -3740,7 +3882,7 @@ fn main() {
         <p>Submit your code snippet to get instant AI feedback on optimization and edge cases.</p>
         <textarea id="reviewCode" style="width:100%; height:150px; background:#1e1e1e; color:white; font-family:monospace; padding:10px; margin-top:10px;" placeholder="Paste code here..."></textarea>
          <button class="nav-btn" style="width:100%; margin-top:15px; background:rgba(99,102,241,0.2); color:#6366f1;" onclick="submitForReview(this)">Get Review <i class="fas fa-search"></i></button>
-         <div id="reviewFeedback" style="display:none; margin-top:20px; padding:15px; background:rgba(255,255,255,0.05); border-radius:10px;"></div>
+         <div id="reviewFeedback" style="display:none; margin-top:20px; padding:15px; background: var(--glass); border-radius:10px;"></div>
     `);
         }
 
@@ -3897,6 +4039,36 @@ fn main() {
             document.getElementById("arcadeModalContent").innerHTML = initialContent;
             document.getElementById("arcadeModal").style.display = "flex";
         }
+    </script>
+
+
+    
+
+
+    <!-- Fancy Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckbox = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(themeCheckbox) themeCheckbox.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if(themeCheckbox) themeCheckbox.checked = false;
+            }
+            if(themeCheckbox) {
+                themeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
     </script>
 
 </body>

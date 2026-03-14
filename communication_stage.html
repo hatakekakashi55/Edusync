@@ -10,15 +10,23 @@
         rel="stylesheet">
     <style>
         /* EduSync Premium Mail System - Centralized Styles */
-        :root {
-            --mail-primary: #6366f1;
-            --mail-secondary: #4f46e5;
-            --mail-accent: #a855f7;
-            --mail-glass: rgba(15, 23, 42, 0.7);
-            --mail-glass-border: rgba(255, 255, 255, 0.1);
-            --mail-text: #e2e8f0;
-            --mail-text-muted: #94a3b8;
-            --mail-bg-dark: #0f172a;
+                :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --stage-1: #8b5cf6;
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
         }
 
         /* Base Container */
@@ -65,7 +73,7 @@
 
         .mail-compose-btn {
             background: linear-gradient(135deg, var(--mail-primary), var(--mail-secondary));
-            color: white;
+            color: var(--text);
             border: none;
             padding: 14px;
             border-radius: 12px;
@@ -106,7 +114,7 @@
         }
 
         .mail-nav-item:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--mail-text);
         }
 
@@ -158,7 +166,7 @@
 
         .mail-search input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--mail-glass-border);
             border-radius: 12px;
             padding: 10px 16px 10px 44px;
@@ -170,7 +178,7 @@
         .mail-search input:focus {
             outline: none;
             border-color: var(--mail-primary);
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
 
@@ -192,7 +200,7 @@
         }
 
         .mail-item:hover {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--glass);
         }
 
         .mail-item.unread {
@@ -290,7 +298,17 @@
             font-weight: 600;
         }
 
-        .mail-modal-body {
+        .mail-modal-                        [data-theme="dark"] {
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
+        body {
             padding: 24px;
         }
 
@@ -309,7 +327,7 @@
         .mail-field input,
         .mail-field textarea {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--mail-glass-border);
             border-radius: 12px;
             padding: 12px 16px;
@@ -362,7 +380,7 @@
 
         .mail-items::-webkit-scrollbar-thumb,
         .mail-modal-body::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border-radius: 10px;
         }
 
@@ -373,7 +391,7 @@
 
         /* Small Buttons */
         .btn-icon {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--mail-glass-border);
             color: var(--mail-text);
             width: 36px;
@@ -387,7 +405,7 @@
         }
 
         .btn-icon:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             transform: scale(1.05);
         }
 
@@ -400,7 +418,7 @@
 
         .btn-primary {
             background: var(--mail-primary);
-            color: white;
+            color: var(--text);
             border: none;
             padding: 10px 24px;
             border-radius: 10px;
@@ -410,7 +428,7 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--mail-text);
             border: 1px solid var(--mail-glass-border);
             padding: 10px 24px;
@@ -464,6 +482,134 @@
             white-space: pre-wrap;
             color: var(--mail-text-muted);
         }
+    
+        
+        /* Fancy Theme Switcher Styles - Smaller Version */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon {
+            color: #d4a017;
+            font-size: 10px;
+        }
+
+        .moon-icon {
+            color: #f1f5f9;
+            font-size: 10px;
+            display: none;
+        }
+
+        .cloud {
+            position: absolute;
+            color: #fff;
+            opacity: 0.8;
+            transition: .4s;
+        }
+
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: .4s;
+        }
+
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round {
+            background-color: #1e293b;
+        }
+
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px);
+            background-color: #f1f5f9;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        input:checked + .slider-round .sun-icon {
+            display: none;
+        }
+
+        input:checked + .slider-round .moon-icon {
+            display: block;
+            color: #94a3b8;
+        }
+
+        input:checked + .slider-round .cloud {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        input:checked + .slider-round .star {
+            opacity: 1;
+        }
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
     </style>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
@@ -475,21 +621,23 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        :root {
+                :root {
             --primary: #6366f1;
             --primary-dark: #4f46e5;
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
-            --dark: #0f172a;
-            --darker: #020617;
-            --light: #f1f5f9;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
             --stage-1: #8b5cf6;
-            /* Purple - Communication */
+            --stage-2: #3b82f6;
+            --stage-3: #10b981;
+            --stage-4: #f59e0b;
         }
 
         body {
@@ -501,7 +649,7 @@
 
         /* Top Navigation */
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 15px 30px;
@@ -531,9 +679,9 @@
         }
 
         .back-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
             padding: 10px 20px;
             border-radius: 10px;
             cursor: pointer;
@@ -545,7 +693,7 @@
         }
 
         .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -568,7 +716,7 @@
 
         .api-key-btn:hover {
             background: var(--stage-1);
-            color: white;
+            color: var(--text);
         }
 
         /* Main Container */
@@ -580,7 +728,7 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border-right: 1px solid var(--glass-border);
             padding: 20px 0;
         }
@@ -607,7 +755,7 @@
         }
 
         .menu-link:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -688,7 +836,7 @@
 
         .progress-bar {
             height: 10px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border-radius: 5px;
             overflow: hidden;
         }
@@ -777,7 +925,7 @@
 
         .btn-primary {
             background: linear-gradient(135deg, var(--stage-1), #7c3aed);
-            color: white;
+            color: var(--text);
         }
 
         .btn-primary:hover {
@@ -786,13 +934,13 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
             transform: translateY(-2px);
         }
 
@@ -833,7 +981,7 @@
         }
 
         .modal-content {
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             width: 90%;
@@ -873,7 +1021,7 @@
         }
 
         .close-modal {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: none;
             color: var(--text);
             width: 40px;
@@ -946,7 +1094,7 @@
 
         /* Voice Recording Section */
         .voice-recording {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 30px;
@@ -1048,27 +1196,27 @@
 
         .record-btn {
             background: linear-gradient(135deg, var(--danger), #dc2626);
-            color: white;
+            color: var(--text);
         }
 
         .stop-btn {
             background: linear-gradient(135deg, var(--accent), #d97706);
-            color: white;
+            color: var(--text);
         }
 
         .play-btn {
             background: linear-gradient(135deg, var(--secondary), #059669);
-            color: white;
+            color: var(--text);
         }
 
         .speak-btn {
             background: linear-gradient(135deg, var(--primary), #4f46e5);
-            color: white;
+            color: var(--text);
         }
 
         .analyze-btn {
             background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: white;
+            color: var(--text);
         }
 
         .record-btn:hover,
@@ -1090,14 +1238,14 @@
 
         /* Speech Recognition Section */
         .speech-recognition-container {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             padding: 25px;
             margin: 20px 0;
         }
 
         .speech-input {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 15px;
@@ -1152,7 +1300,7 @@
 
         /* AI Feedback Section */
         .ai-feedback {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             padding: 25px;
             margin-top: 30px;
@@ -1179,7 +1327,7 @@
         }
 
         .score-card {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             border-radius: 10px;
             padding: 15px;
             text-align: center;
@@ -1214,7 +1362,7 @@
         }
 
         .feedback-details {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
@@ -1263,7 +1411,7 @@
             display: flex;
             flex-direction: column;
             height: 600px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
@@ -1336,7 +1484,7 @@
 
         .message.system {
             align-self: center;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             font-size: 14px;
             color: var(--text-muted);
             text-align: center;
@@ -1353,7 +1501,7 @@
         .chat-input-container {
             padding: 20px;
             border-top: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
         }
 
         .chat-input-wrapper {
@@ -1363,7 +1511,7 @@
 
         .chat-input {
             flex: 1;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 12px 16px;
@@ -1399,7 +1547,7 @@
         }
 
         .send-btn i {
-            color: white;
+            color: var(--text);
         }
 
         .chat-actions {
@@ -1410,7 +1558,7 @@
         }
 
         .action-btn {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 8px 15px;
@@ -1424,14 +1572,14 @@
         }
 
         .action-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--glass);
             color: var(--text);
             transform: translateY(-2px);
         }
 
         /* Mode Button Styles */
         .mode-btn {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 8px 15px;
@@ -1445,7 +1593,7 @@
         }
 
         .mode-btn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: var(--glass);
             color: var(--text);
         }
 
@@ -1496,7 +1644,7 @@
         }
 
         .detail-item {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             padding: 15px;
             border-radius: 10px;
             border-left: 4px solid var(--stage-1);
@@ -1521,7 +1669,7 @@
         }
 
         .category-btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             padding: 15px;
@@ -1683,7 +1831,7 @@
         }
 
         .quiz-option {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 15px 20px;
@@ -1694,7 +1842,7 @@
         }
 
         .quiz-option:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             transform: translateX(5px);
         }
 
@@ -1754,7 +1902,7 @@
 
         /* My Words List */
         .word-item {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 15px;
@@ -1766,7 +1914,7 @@
         }
 
         .word-item:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             border-color: var(--stage-1);
             transform: translateY(-2px);
         }
@@ -1803,7 +1951,7 @@
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: none;
             color: var(--text);
             cursor: pointer;
@@ -1821,7 +1969,7 @@
         /* Badges */
         .badge {
             background: linear-gradient(135deg, var(--stage-1), #7c3aed);
-            color: white;
+            color: var(--text);
             padding: 8px 15px;
             border-radius: 20px;
             font-size: 12px;
@@ -1865,7 +2013,7 @@
 
         .ai-tips-list li {
             padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -1885,9 +2033,9 @@
         .corrected-version-container {
             margin-top: 25px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--glass);
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
         }
 
         .word-analysis-container h4,
@@ -1909,7 +2057,7 @@
             padding: 12px;
             border-radius: 8px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
             transition: transform 0.2s;
         }
 
@@ -1969,7 +2117,7 @@
         }
 
         .selection-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 30px 20px;
@@ -1984,7 +2132,7 @@
 
         .selection-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border-color: var(--primary-light);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
@@ -1997,14 +2145,14 @@
             align-items: center;
             justify-content: center;
             font-size: 32px;
-            color: white;
+            color: var(--text);
             margin-bottom: 5px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .selection-card.small {
             padding: 20px;
-            background: rgba(15, 23, 42, 0.4);
+            background: var(--glass);
         }
 
         .selection-icon.small {
@@ -2045,7 +2193,7 @@
         .challenge-info-bar {
             display: flex;
             justify-content: space-around;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             padding: 12px;
             border-radius: 12px;
@@ -2070,7 +2218,7 @@
         .writing-input {
             width: 100%;
             height: 250px;
-            background: rgba(15, 23, 42, 0.5);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 15px;
             padding: 20px;
@@ -2084,7 +2232,7 @@
         .writing-input:focus {
             outline: none;
             border-color: #10b981;
-            background: rgba(15, 23, 42, 0.7);
+            background: var(--glass);
             box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
         }
 
@@ -2154,7 +2302,7 @@
 
         /* New Conversation Features */
         .conversation-simulator {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             padding: 25px;
             margin: 20px 0;
@@ -2209,7 +2357,7 @@
             display: flex;
             flex-direction: column;
             height: 500px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             overflow: hidden;
         }
@@ -2229,12 +2377,12 @@
         .chat-footer {
             padding: 15px 20px;
             border-top: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
         }
 
         /* Pronunciation Practice */
         .pronunciation-practice {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-radius: 15px;
             padding: 25px;
             margin: 20px 0;
@@ -2422,7 +2570,7 @@
             border-radius: 50%;
             background: linear-gradient(135deg, var(--stage-1), #7c3aed);
             border: none;
-            color: white;
+            color: var(--text);
             font-size: 24px;
             cursor: pointer;
             display: flex;
@@ -2454,7 +2602,7 @@
             right: 30px;
             width: 400px;
             max-height: 500px;
-            background: rgba(15, 23, 42, 0.95);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             backdrop-filter: blur(20px);
@@ -2500,7 +2648,7 @@
             width: 35px;
             height: 35px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: none;
             color: var(--text);
             cursor: pointer;
@@ -2547,7 +2695,7 @@
             align-self: flex-start;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
             border: 1px solid rgba(139, 92, 246, 0.3);
-            color: #e2e8f0;
+            color: var(--text);
             border-bottom-left-radius: 4px;
         }
 
@@ -2561,9 +2709,9 @@
 
         .assistant-message.system {
             align-self: center;
-            background: rgba(255, 255, 255, 0.08);
+            background: var(--glass);
             font-size: 13px;
-            color: #94a3b8;
+            color: var(--text-muted);
             text-align: center;
             max-width: 95%;
             padding: 8px 15px;
@@ -2585,7 +2733,7 @@
         .assistant-status {
             padding: 15px 20px;
             border-top: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -2742,11 +2890,11 @@
             gap: 10px;
             padding: 15px;
             border-top: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--glass);
         }
 
         .command-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             border-radius: 10px;
             padding: 10px;
@@ -2777,14 +2925,14 @@
             display: flex;
             gap: 10px;
             padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--glass);
             border-bottom: 1px solid var(--glass-border);
         }
 
         .lang-btn {
             padding: 8px 15px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--glass);
             border: 1px solid var(--glass-border);
             color: var(--text-muted);
             font-size: 12px;
@@ -2799,7 +2947,7 @@
         }
 
         .lang-btn:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.15);
+            background: var(--glass);
         }
 
         /* Responsive */
@@ -2820,6 +2968,11 @@
             }
         }
     </style>
+<script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
 </head>
 
 <body>
@@ -2830,12 +2983,12 @@
             EduSync
         </a>
         <div class="user-credits"
-            style="margin-left: auto; margin-right: 20px; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: 500;">
+            style="margin-left: auto; margin-right: 20px; background: var(--glass); padding: 8px 15px; border-radius: 20px; display: flex; align-items: center; gap: 8px; font-weight: 500;">
             <i class="fas fa-coins" style="color: #ffd700;"></i>
             <span id="userCredits">0</span> Credits
         </div>
         <button class="back-btn" onclick="goBack()"
-            style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);">
+            style="background: var(--glass); border: 1px solid var(--glass-border);">
             <i class="fas fa-arrow-left"></i> Back
         </button>
     </nav>
@@ -3535,7 +3688,7 @@
                                             style="color: var(--secondary);">0%</span></span>
                                 </div>
                                 <div
-                                    style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                                    style="width: 100%; height: 8px; background: var(--glass); border-radius: 4px; overflow: hidden;">
                                     <div id="quizProgressFill"
                                         style="width: 10%; height: 100%; background: linear-gradient(90deg, var(--stage-1), var(--secondary)); transition: width 0.3s ease;">
                                     </div>
@@ -3544,7 +3697,7 @@
 
                             <!-- Question Display -->
                             <div id="quizQuestion"
-                                style="background: rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 15px; border-left: 4px solid var(--stage-1); margin-bottom: 25px; display: none;">
+                                style="background: var(--glass); padding: 25px; border-radius: 15px; border-left: 4px solid var(--stage-1); margin-bottom: 25px; display: none;">
                                 <!-- Quiz question will be loaded here -->
                             </div>
 
@@ -3568,7 +3721,7 @@
 
                             <!-- Quiz Result Feedback -->
                             <div id="quizResult"
-                                style="display: none; margin-top: 25px; padding: 20px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);">
+                                style="display: none; margin-top: 25px; padding: 20px; border-radius: 12px; background: var(--glass); border: 1px solid var(--glass-border);">
                                 <!-- Quiz result will be shown here -->
                             </div>
 
@@ -3726,7 +3879,7 @@
 
                         <div style="margin-top: 30px;">
                             <h3 style="margin-bottom: 15px;">Weekly Progress</h3>
-                            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 20px;">
+                            <div style="background: var(--glass); border-radius: 10px; padding: 20px;">
                                 <canvas id="progressChart" width="400" height="200"></canvas>
                             </div>
                         </div>
@@ -3943,7 +4096,7 @@
                     <!-- Input -->
                     <div style="display: flex; gap: 10px; margin-top: 12px;">
                         <input type="text" id="roleplayInput" placeholder="Type your response..."
-                            style="flex:1; padding: 14px 18px; border-radius: 14px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.06); color: var(--text); font-size: 14px; outline: none; transition: border-color 0.3s;"
+                            style="flex:1; padding: 14px 18px; border-radius: 14px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 14px; outline: none; transition: border-color 0.3s;"
                             onkeydown="if(event.key==='Enter') sendRoleplayMessage()">
                         <button class="btn-primary" onclick="sendRoleplayMessage()" id="roleplaySendBtn"
                             style="padding: 14px 22px; border-radius: 14px;">
@@ -3995,21 +4148,21 @@
                     <div id="analyzerStep1Indicator"
                         style="display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3); color: #06b6d4; font-size: 13px; font-weight: 600;">
                         <span
-                            style="width: 24px; height: 24px; border-radius: 50%; background: #06b6d4; color: white; display: flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
+                            style="width: 24px; height: 24px; border-radius: 50%; background: #06b6d4; color: var(--text); display: flex; align-items: center; justify-content: center; font-size: 12px;">1</span>
                         Record
                     </div>
-                    <div style="width: 40px; height: 2px; background: rgba(255,255,255,0.1);"></div>
+                    <div style="width: 40px; height: 2px; background: var(--glass);"></div>
                     <div id="analyzerStep2Indicator"
-                        style="display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: rgba(255,255,255,0.03); color: var(--text-muted); font-size: 13px; font-weight: 600;">
+                        style="display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: var(--glass); color: var(--text-muted); font-size: 13px; font-weight: 600;">
                         <span
-                            style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
+                            style="width: 24px; height: 24px; border-radius: 50%; background: var(--glass); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 12px;">2</span>
                         Transcribe
                     </div>
-                    <div style="width: 40px; height: 2px; background: rgba(255,255,255,0.1);"></div>
+                    <div style="width: 40px; height: 2px; background: var(--glass);"></div>
                     <div id="analyzerStep3Indicator"
-                        style="display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: rgba(255,255,255,0.03); color: var(--text-muted); font-size: 13px; font-weight: 600;">
+                        style="display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: var(--glass); color: var(--text-muted); font-size: 13px; font-weight: 600;">
                         <span
-                            style="width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,0.1); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
+                            style="width: 24px; height: 24px; border-radius: 50%; background: var(--glass); color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 12px;">3</span>
                         Report
                     </div>
                 </div>
@@ -4033,7 +4186,7 @@
 
                     <!-- Tab Switcher: Record vs Text -->
                     <div
-                        style="display: flex; gap: 0; margin-bottom: 20px; background: rgba(255,255,255,0.03); border-radius: 14px; padding: 4px; border: 1px solid var(--glass-border);">
+                        style="display: flex; gap: 0; margin-bottom: 20px; background: var(--glass); border-radius: 14px; padding: 4px; border: 1px solid var(--glass-border);">
                         <button id="analyzerTabRecord" onclick="switchAnalyzerTab('record')" class="btn-primary"
                             style="flex: 1; border-radius: 10px; padding: 10px; font-size: 13px;">
                             <i class="fas fa-microphone"></i> Record Audio
@@ -4083,13 +4236,13 @@
                         <div style="margin-bottom: 15px;">
                             <textarea id="analyzerTranscript" rows="5"
                                 placeholder="Paste or type your speech transcript here... &#10;&#10;Example: Um, so basically I think that like, you know, the project went really well actually..."
-                                style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text); font-size: 14px; resize: vertical; font-family: 'Poppins', sans-serif; line-height: 1.6;"></textarea>
+                                style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 14px; resize: vertical; font-family: 'Poppins', sans-serif; line-height: 1.6;"></textarea>
                         </div>
                         <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <label style="font-size: 13px; color: var(--text-muted);">Duration (sec):</label>
                                 <input type="number" id="analyzerDuration" value="60" min="5" max="600"
-                                    style="width: 80px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text); font-size: 14px; text-align: center;">
+                                    style="width: 80px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 14px; text-align: center;">
                             </div>
                             <button class="btn-primary" onclick="runSpeechAnalysis()" id="analyzeBtn">
                                 <i class="fas fa-search"></i> Analyze Speech
@@ -4112,19 +4265,19 @@
                                 <span style="color: #06b6d4; font-size: 14px;">Uploading audio to Whisper STT...</span>
                             </div>
                             <div id="pipelineStep2"
-                                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
+                                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; background: var(--glass); border: 1px solid var(--glass-border);">
                                 <i class="fas fa-circle" style="color: var(--text-muted); font-size: 8px;"></i>
                                 <span style="color: var(--text-muted); font-size: 14px;">Detecting filler words (Um, Uh,
                                     Like...)</span>
                             </div>
                             <div id="pipelineStep3"
-                                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
+                                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; margin-bottom: 8px; background: var(--glass); border: 1px solid var(--glass-border);">
                                 <i class="fas fa-circle" style="color: var(--text-muted); font-size: 8px;"></i>
                                 <span style="color: var(--text-muted); font-size: 14px;">Calculating WPM & pace
                                     rating</span>
                             </div>
                             <div id="pipelineStep4"
-                                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border);">
+                                style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; background: var(--glass); border: 1px solid var(--glass-border);">
                                 <i class="fas fa-circle" style="color: var(--text-muted); font-size: 8px;"></i>
                                 <span style="color: var(--text-muted); font-size: 14px;">Generating AI feedback
                                     report</span>
@@ -4275,7 +4428,7 @@
                             Reference Text (the correct sentence):</label>
                         <textarea id="shadowRefText" rows="3"
                             placeholder="Enter the original sentence to practice... Example: The quick brown fox jumps over the lazy dog"
-                            style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text); font-size: 14px; resize: vertical; font-family: 'Poppins', sans-serif;"></textarea>
+                            style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 14px; resize: vertical; font-family: 'Poppins', sans-serif;"></textarea>
                     </div>
                     <div style="margin-bottom: 20px;">
                         <label
@@ -4283,7 +4436,7 @@
                             Your Speech (what you actually said):</label>
                         <textarea id="shadowUserText" rows="3"
                             placeholder="Type what you spoke... Example: The quick brown fax jumps over the lazy dock"
-                            style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.05); color: var(--text); font-size: 14px; resize: vertical; font-family: 'Poppins', sans-serif;"></textarea>
+                            style="width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass); color: var(--text); font-size: 14px; resize: vertical; font-family: 'Poppins', sans-serif;"></textarea>
                     </div>
                     <div style="display: flex; gap: 12px;">
                         <button class="btn-primary" onclick="runShadowAnalysis()" id="shadowAnalyzeBtn">
@@ -4373,35 +4526,35 @@
                     <label style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Word
                         *</label>
                     <input type="text" id="wordInput" placeholder="Enter the word"
-                        style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
+                        style="width: 100%; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Meaning
                         *</label>
                     <input type="text" id="meaningInput" placeholder="Enter the meaning"
-                        style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
+                        style="width: 100%; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Tamil
                         Meaning *</label>
                     <input type="text" id="tamilInput" placeholder="Enter Tamil meaning"
-                        style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
+                        style="width: 100%; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Example
                         Sentence</label>
                     <textarea id="exampleInput" placeholder="Enter example sentence" rows="3"
-                        style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text); resize: vertical;"></textarea>
+                        style="width: 100%; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text); resize: vertical;"></textarea>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 25px;">
                     <label
                         style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Category</label>
                     <select id="categoryInput"
-                        style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
+                        style="width: 100%; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text);">
                         <option value="my-words">My Words</option>
                         <option value="basic">Basic English</option>
                         <option value="communication">Communication</option>
@@ -4414,7 +4567,7 @@
                     <label style="display: block; margin-bottom: 8px; color: var(--text); font-weight: 500;">Notes
                         (Optional)</label>
                     <textarea id="notesInput" placeholder="Add any notes..." rows="2"
-                        style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text); resize: vertical;"></textarea>
+                        style="width: 100%; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--text); resize: vertical;"></textarea>
                 </div>
 
                 <div style="display: flex; gap: 15px;">
@@ -4468,7 +4621,7 @@
                 </div>
 
                 <h3 style="margin-bottom: 15px; font-size: 18px; font-weight: 600;">Weekly Goal Progress</h3>
-                <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+                <div style="background: var(--glass); padding: 20px; border-radius: 10px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                         <span>Goal: 20 words/week</span>
                         <span id="goalProgressText">0/20</span>
@@ -5433,13 +5586,13 @@
                     feedbackTitle.innerHTML = `<i class="fas fa-book-reader" style="color: var(--primary);"></i> Reading Analysis Complete!`;
 
                     let feedbackHTML = `
-                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; margin-top: 20px; border: 1px solid var(--glass-border);">
                             <div style="display: flex; justify-content: space-around; margin-bottom: 25px; text-align: center;">
                                 <div>
                                     <div style="font-size: 24px; font-weight: 700; color: var(--primary);">${perfection}%</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">ACCURACY</div>
                                 </div>
-                                <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">
+                                <div style="border-left: 1px solid var(--glass-border); padding-left: 20px;">
                                     <div style="font-size: 24px; font-weight: 700; color: #10b981;">+${creditsEarned}</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">CREDITS</div>
                                 </div>
@@ -5718,17 +5871,17 @@
 
                     // Build rich feedback HTML
                     let feedbackHTML = `
-                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; margin-top: 20px; border: 1px solid var(--glass-border);">
                             <div style="display: flex; justify-content: space-around; margin-bottom: 25px; text-align: center;">
                                 <div>
                                     <div style="font-size: 24px; font-weight: 700; color: var(--accent);">${result.score}%</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">OVERALL</div>
                                 </div>
-                                <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">
+                                <div style="border-left: 1px solid var(--glass-border); padding-left: 20px;">
                                     <div style="font-size: 24px; font-weight: 700; color: var(--primary);">${result.word_count}</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">WORDS</div>
                                 </div>
-                                <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">
+                                <div style="border-left: 1px solid var(--glass-border); padding-left: 20px;">
                                     <div style="font-size: 24px; font-weight: 700; color: #10b981;">+${result.credits_earned}</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">CREDITS</div>
                                 </div>
@@ -6081,13 +6234,13 @@
                     feedbackTitle.innerHTML = `<i class="fas fa-microphone-alt" style="color: var(--stage-1);"></i> Speaking Analysis Complete!`;
 
                     let feedbackHTML = `
-                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; margin-top: 20px; border: 1px solid var(--glass-border);">
                             <div style="display: flex; justify-content: space-around; margin-bottom: 25px; text-align: center;">
                                 <div>
                                     <div style="font-size: 24px; font-weight: 700; color: var(--stage-1);">${score}%</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">ACCURACY</div>
                                 </div>
-                                <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">
+                                <div style="border-left: 1px solid var(--glass-border); padding-left: 20px;">
                                     <div style="font-size: 24px; font-weight: 700; color: #10b981;">+${creditsEarned}</div>
                                     <div style="font-size: 12px; color: var(--text-muted);">CREDITS</div>
                                 </div>
@@ -6309,7 +6462,7 @@
             // Check authentication
             const token = localStorage.getItem('access_token');
             if (!token) {
-                window.location.href = 'login.html';
+                window.location.href = '/login';
                 return;
             }
 
@@ -6822,7 +6975,7 @@ Provide feedback in JSON format:
             analyser.getByteFrequencyData(dataArray);
 
             canvasCtx.clearRect(0, 0, width, height);
-            canvasCtx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+            canvasCtx.fillStyle = 'var(--glass)';
             canvasCtx.fillRect(0, 0, width, height);
 
             const barWidth = (width / dataArray.length) * 2.5;
@@ -8028,8 +8181,8 @@ Provide feedback in JSON format:
             if (optionsContainer) {
                 optionsContainer.style.display = 'grid';
                 optionsContainer.innerHTML = quiz.options.map((option, index) => `
-                    <div class="quiz-option" onclick="checkMeaningAnswer(${index})" style="cursor: pointer; padding: 15px; background: rgba(255,255,255,0.05); border: 2px solid var(--glass-border); border-radius: 10px; transition: all 0.2s ease;">
-                        <span style="display: inline-block; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 600; margin-right: 12px; vertical-align: middle;">${String.fromCharCode(65 + index)}</span>
+                    <div class="quiz-option" onclick="checkMeaningAnswer(${index})" style="cursor: pointer; padding: 15px; background: var(--glass); border: 2px solid var(--glass-border); border-radius: 10px; transition: all 0.2s ease;">
+                        <span style="display: inline-block; width: 24px; height: 24px; background: var(--primary); color: var(--text); border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; font-weight: 600; margin-right: 12px; vertical-align: middle;">${String.fromCharCode(65 + index)}</span>
                         <span style="vertical-align: middle;">${option}</span>
                     </div>
                 `).join('');
@@ -9030,7 +9183,7 @@ Keep learning! 📚
 
                     // Add tips section if available
                     if (data.tips && Array.isArray(data.tips) && data.tips.length > 0) {
-                        responseHTML += `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);">`;
+                        responseHTML += `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--glass-border);">`;
                         data.tips.forEach((tip, idx) => {
                             if (idx < 2) { // Limit to 2 tips for cleaner look
                                 responseHTML += `<div style="margin: 6px 0; font-size: 0.95em; opacity: 0.9;">• ${escapeHtml(tip)}</div>`;
@@ -9590,7 +9743,7 @@ Keep learning! 📚
                         flex: 1;
                         padding: 12px;
                         background: var(--stage-1);
-                        color: white;
+                        color: var(--text);
                         border: none;
                         border-radius: 8px;
                         cursor: pointer;
@@ -9718,8 +9871,8 @@ Keep learning! 📚
                 max-width: 80%; padding: 12px 16px; border-radius: 16px;
                 font-size: 14px; line-height: 1.6; animation: fadeIn 0.3s ease;
                 ${isUser
-                    ? 'align-self: flex-end; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border-bottom-right-radius: 4px;'
-                    : 'align-self: flex-start; background: rgba(255,255,255,0.08); color: var(--text); border: 1px solid var(--glass-border); border-bottom-left-radius: 4px;'
+                    ? 'align-self: flex-end; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: var(--text); border-bottom-right-radius: 4px;'
+                    : 'align-self: flex-start; background: var(--glass); color: var(--text); border: 1px solid var(--glass-border); border-bottom-left-radius: 4px;'
                 }
             `;
             bubble.textContent = content;
@@ -9742,7 +9895,7 @@ Keep learning! 📚
             const chatBox = document.getElementById('roleplayChatMessages');
             const typingEl = document.createElement('div');
             typingEl.id = 'roleplayTyping';
-            typingEl.style.cssText = 'align-self: flex-start; padding: 10px 16px; border-radius: 16px; background: rgba(255,255,255,0.05); color: var(--text-muted); font-size: 13px; border: 1px solid var(--glass-border);';
+            typingEl.style.cssText = 'align-self: flex-start; padding: 10px 16px; border-radius: 16px; background: var(--glass); color: var(--text-muted); font-size: 13px; border: 1px solid var(--glass-border);';
             typingEl.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> AI is thinking...';
             chatBox.appendChild(typingEl);
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -9768,10 +9921,10 @@ Keep learning! 📚
 
                     if (data.tone_analysis) {
                         const toneBar = document.getElementById('roleplayToneBar');
-                        const toneColors = { confident: '#10b981', hesitant: '#f59e0b', neutral: '#94a3b8' };
+                        const toneColors = { confident: '#10b981', hesitant: '#f59e0b', neutral: 'var(--text-muted)' };
                         toneBar.style.display = 'flex';
                         toneBar.innerHTML = `
-                            <span style="color: ${toneColors[data.tone_analysis.tone] || '#94a3b8'}">
+                            <span style="color: ${toneColors[data.tone_analysis.tone] || 'var(--text-muted)'}">
                                 <i class="fas fa-${data.tone_analysis.tone === 'confident' ? 'fire' : data.tone_analysis.tone === 'hesitant' ? 'question-circle' : 'minus-circle'}"></i>
                                 ${data.tone_analysis.tone}
                             </span>
@@ -9856,7 +10009,7 @@ Keep learning! 📚
                         ${scores.filter(s => s.label !== 'Overall').map(s => `
                             <div style="display: flex; align-items: center; gap: 10px;">
                                 <span style="min-width: 130px; font-size: 13px; color: var(--text-muted);">${s.label}</span>
-                                <div style="flex: 1; height: 8px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden;">
+                                <div style="flex: 1; height: 8px; border-radius: 4px; background: var(--glass); overflow: hidden;">
                                     <div style="height: 100%; width: ${s.value}%; border-radius: 4px; background: ${scoreColor(s.value)}; transition: width 1s ease;"></div>
                                 </div>
                                 <span style="min-width: 35px; text-align: right; font-weight: 600; font-size: 13px; color: ${scoreColor(s.value)};">${s.value}</span>
@@ -9899,7 +10052,7 @@ Keep learning! 📚
                 const data = await resp.json();
                 if (data.sessions?.length) {
                     list.innerHTML = data.sessions.map(s => `
-                        <div style="padding: 12px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="padding: 12px 16px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
                             <div>
                                 <strong style="font-size: 14px;">${s.scenario_name}</strong>
                                 <span style="font-size: 12px; color: var(--text-muted); margin-left: 8px;">${s.difficulty}</span>
@@ -10412,7 +10565,7 @@ Keep learning! 📚
             // Tips
             const tipsList = document.getElementById('shadowTipsList');
             tipsList.innerHTML = (data.tips || []).map(tip => `
-                <li style="padding: 8px 0; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.05);">💡 ${tip}</li>
+                <li style="padding: 8px 0; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid var(--glass-border);">💡 ${tip}</li>
             `).join('');
 
             document.getElementById('shadowResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -10443,6 +10596,36 @@ Keep learning! 📚
 
     </script>
     <!-- Mail system removed -->
+
+    
+
+
+    <!-- Fancy Theme Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckbox = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if(themeCheckbox) themeCheckbox.checked = true;
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                if(themeCheckbox) themeCheckbox.checked = false;
+            }
+            if(themeCheckbox) {
+                themeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.documentElement.setAttribute('data-theme', 'dark');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
 </html>
