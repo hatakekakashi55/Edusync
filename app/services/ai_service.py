@@ -388,14 +388,20 @@ class AIService:
         system_prompt = f"""You are an expert {language} programming tutor. Help students fix code errors and improve their solutions.
         Provide clear explanations and examples."""
         
+        # Pre-process conditional sections to avoid backslashes in f-string expressions
+        code_section = f"Code Provided:\n```{language}\n{code}\n```" if code else ""
+        error_section = f"Error Message:\n{error}" if error else ""
+        req_section = f"Requirement:\n{requirement}" if requirement else ""
+        context_section = f"Context:\n{context}" if context else ""
+        
         prompt = f"""
         Programming Help Request:
         Language: {language}
         
-        {f"Code Provided:\n```{language}\n{code}\n```" if code else ""}
-        {f"Error Message:\n{error}" if error else ""}
-        {f"Requirement:\n{requirement}" if requirement else ""}
-        {f"Context:\n{context}" if context else ""}
+        {code_section}
+        {error_section}
+        {req_section}
+        {context_section}
         
         Provide comprehensive help including:
         1. Problem analysis

@@ -4115,8 +4115,11 @@ PostgreSQL..."></textarea>
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
         }
 
         // Form Submission Functions
@@ -5919,13 +5922,7 @@ PostgreSQL..."></textarea>
             }
         };
 
-        // Close Modal Helper
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.remove();
-            }
-        }
+
         // =============== PROBLEM STATEMENT ADMIN FUNCTIONS ===============
         let adminProblemStatements = [];
 
