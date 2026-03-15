@@ -72,3 +72,17 @@ class PronunciationAnalysisRequest(BaseModel):
     audio_text: Optional[str] = None
     language: Optional[str] = "en"
 
+
+class ListeningEvaluationRequest(BaseModel):
+    user_answer: str
+    actual_sentence: str
+    challenge_id: Optional[str] = None
+    time_taken: Optional[int] = 0
+
+
+class ListeningMCQEvaluationRequest(BaseModel):
+    selected_index: int
+    correct_index: int
+    challenge_id: Optional[str] = None
+    difficulty: Optional[str] = "medium"
+

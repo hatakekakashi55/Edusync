@@ -25,6 +25,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.ai_service import AIService
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -100,10 +101,6 @@ async def get_ai_read_challenge(current_user: dict = Depends(get_current_user)):
     ]
     
     try:
-        model = get_gemini_model("sentence")
-        if not model:
-            raise Exception("AI model not configured for sentences")
-        
         prompt = """Generate a single, clear English sentence for an ESL student to practice pronunciation.
         The sentence should be:
         - 10-15 words long
@@ -112,8 +109,11 @@ async def get_ai_read_challenge(current_user: dict = Depends(get_current_user)):
         - About a daily situation or interesting topic
         Just give the sentence, nothing else."""
         
-        response = model.generate_content(prompt)
-        sentence_text = response.text.strip().strip('"').strip("'")
+        sentence_text = await AIService.call_kimi(prompt)
+        if not sentence_text:
+            raise Exception("Kimi model response was empty")
+        
+        sentence_text = sentence_text.strip().strip('"').strip("'")
         
         # Create temporary AI sentence
         sentence_data = {
@@ -201,20 +201,15 @@ async def submit_read_challenge(
         
         while not ai_success and retry_count < max_retries:
             try:
-                model = get_gemini_model("pronunciation")
-                if not model:
-                    logger.warning(f"⚠️ AI model unavailable (attempt {retry_count + 1}/{max_retries})")
-                    raise Exception("AI model unavailable")
-                
-                prompt = f"""You are a friendly and professional English speech coach.
-                Compare the student's spoken text with the correct reference text and provide constructive feedback.
+                system_prompt = "You are a friendly and professional English speech coach."
+                prompt = f"""Compare the student's spoken text with the correct reference text and provide constructive feedback.
                 
                 Correct Text: "{original_text}"
                 Student Spoken: "{user_text}"
                 
                 Provide clear, encouraging feedback and identify specific pronunciation improvements needed.
                 
-                Output valid JSON only:
+                Your response must be a valid JSON object ONLY:
                 {{
                     "score": integer (0-100),
                     "passed": boolean,
@@ -229,11 +224,9 @@ async def submit_read_challenge(
                     "suggestions": ["how to specifically improve next time"]
                 }}"""
                 
-                response = model.generate_content(prompt)
-                if not response or not response.text:
+                json_str = await AIService.call_kimi(prompt, system_prompt, json_mode=True)
+                if not json_str:
                     raise Exception("Empty AI response")
-                    
-                json_str = response.text
                 if "```" in json_str:
                     import re
                     match = re.search(r'\{.*\}', json_str, re.DOTALL)
@@ -257,7 +250,7 @@ async def submit_read_challenge(
                 suggestions = result.get("suggestions", ["Try to relax while speaking."])
                 
                 ai_success = True
-                raw_ai_response = response.text
+                raw_ai_response = json_str
                 logger.info(f"✅ AI evaluation successful on attempt {retry_count + 1}")
                 
             except json.JSONDecodeError as e:
@@ -373,24 +366,34 @@ async def generate_reading_challenge(
     # Fallback reading passages when Ollama fails
     fallback_passages = [
         {
-            "content": "The Great Barrier Reef is the world's largest coral reef system. Located off the coast of Australia, it stretches over 2,300 kilometers. The reef is home to thousands of species of fish and coral. However, climate change and pollution are threatening its survival.",
-            "instructions": "What is the Great Barrier Reef and where is it located?",
-            "example_answer": "The Great Barrier Reef is the world's largest coral reef system located off the coast of Australia, stretching over 2,300 kilometers."
+            "content": "The Great Barrier Reef is the world's largest coral reef system, extending over 2,300 kilometers along Australia's coast. It consists of thousands of individual reefs and hundreds of islands, providing a home for a diverse range of marine life, including colorful fish, sea turtles, and whales. However, the reef faces significant threats from rising ocean temperatures, which cause coral bleaching, and pollution from nearby land development. Conservation efforts are underway to protect this natural wonder, but global action on climate change remains the most critical factor for its long-term survival.",
+            "instructions": "Where is the Great Barrier Reef located and why is it currently under threat?",
+            "example_answer": "It is located off the coast of Australia. It is threatened by rising ocean temperatures (causing bleaching) and pollution.",
+            "multi_questions": [
+                {"id": 1, "question": "Where is the Great Barrier Reef located and how long is it?", "example_answer": "It is located off the coast of Australia and is over 2,300 kilometers long."},
+                {"id": 2, "question": "Name two types of marine life mentioned that live in the reef.", "example_answer": "Fish, sea turtles, and whales were mentioned."},
+                {"id": 3, "question": "What is the most critical factor for the reef's long-term survival?", "example_answer": "Global action on climate change is the most critical factor."}
+            ]
         },
         {
-            "content": "Marie Curie was a Polish-born physicist and chemist who conducted pioneering research on radioactivity. She was the first woman to win a Nobel Prize and the first person to win Nobel Prizes in two scientific fields. Despite facing discrimination as a woman in science, she made groundbreaking discoveries that changed our understanding of atoms.",
-            "instructions": "Why was Marie Curie important in the history of science?",
-            "example_answer": "Marie Curie was important because she conducted pioneering research on radioactivity and was the first woman and first person to win Nobel Prizes in two scientific fields."
+            "content": "Marie Curie was a pioneering physicist and chemist, born in Poland in 1867. She is best known for her discovery of radium and polonium, and her extensive research on radioactivity. Curie's work was groundbreaking, as she became the first woman to win a Nobel Prize and the only person to win Nobel Prizes in two different scientific fields: Physics and Chemistry. Despite the challenges she faced as a woman in a male-dominated field, her dedication and brilliance paved the way for future generations of scientists. She also developed mobile X-ray units during World War I to help treat wounded soldiers.",
+            "instructions": "What scientific achievements is Marie Curie best known for?",
+            "example_answer": "She discovered radium and polonium, researched radioactivity, and won two Nobel Prizes in different fields.",
+            "multi_questions": [
+                {"id": 1, "question": "What elements did Marie Curie discover?", "example_answer": "She discovered radium and polonium."},
+                {"id": 2, "question": "What was unique about Marie Curie's Nobel Prize achievements?", "example_answer": "She was the first woman to win one and the only person to win in two different scientific fields."},
+                {"id": 3, "question": "How did she contribute to the war effort during World War I?", "example_answer": "She developed mobile X-ray units to help treat wounded soldiers."}
+            ]
         },
         {
-            "content": "Renewable energy sources like solar and wind power are becoming increasingly important. Unlike fossil fuels, they don't produce greenhouse gases. Countries around the world are investing in renewable energy to combat climate change and reduce pollution. By using renewable energy, we can create a more sustainable future for our planet.",
-            "instructions": "What are the advantages of renewable energy?",
-            "example_answer": "Renewable energy sources don't produce greenhouse gases and help combat climate change and pollution, creating a more sustainable future."
-        },
-        {
-            "content": "The Amazon Rainforest is often called the 'lungs of the Earth' because it produces about 20% of the world's oxygen. It is home to millions of plant and animal species. However, deforestation is destroying this vital ecosystem at an alarming rate. Protecting the Amazon is crucial for fighting climate change.",
-            "instructions": "Why is the Amazon Rainforest important to the world?",
-            "example_answer": "The Amazon Rainforest is important because it produces about 20% of the world's oxygen, is home to millions of species, and is crucial for fighting climate change."
+            "content": "Sustainable cities are designed to minimize their environmental impact through efficient energy use, reduced waste, and the promotion of public transportation and green spaces. Many modern cities are now integrating vertical gardens on buildings and implementing smart grids to manage electricity more effectively. Furthermore, urban planning that prioritizes walking and cycling over cars helps to reduce air pollution and improve the health of residents. Creating a sustainable urban environment is essential for accommodating the world's growing population while preserving resources for future generations.",
+            "instructions": "What are the main goals and features of a sustainable city?",
+            "example_answer": "The goals are to minimize environmental impact. Features include efficient energy use, public transport, and green spaces.",
+            "multi_questions": [
+                {"id": 1, "question": "What are two features of modern sustainable cities mentioned in the text?", "example_answer": "Vertical gardens and smart grids for electricity management."},
+                {"id": 2, "question": "How does prioritizing walking and cycling benefit city residents?", "example_answer": "It reduces air pollution and improves the health of residents."},
+                {"id": 3, "question": "Why is creating sustainable urban environments considered essential?", "example_answer": "It is necessary to accommodate the growing population while preserving resources."}
+            ]
         }
     ]
     
@@ -398,73 +401,63 @@ async def generate_reading_challenge(
         difficulty = request_data.get("difficulty", "intermediate")
         topic = request_data.get("topic", "general")
         
-        # Use Ollama directly to generate passage
-        prompt = f"""Generate a short reading passage about {topic} at {difficulty} level for English learners.
-The passage should be 2-3 sentences long and easy to understand.
-
-Format your response as:
-PASSAGE: [the passage text]
-QUESTION: [a comprehension question about the passage]
-ANSWER: [a brief example answer]
-
-Make it appropriate for {difficulty} level English learners."""
+        # Use Kimi to generate passage and questions
+        prompt = f"""Generate a detailed reading comprehension challenge about {topic} at {difficulty} level for English learners.
+        The passage should be substantial (about 150-200 words) and use natural but appropriate vocabulary.
         
-        # Direct Ollama call
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.8,
-                        "top_p": 0.9
-                    }
-                }
-            )
+        You must provide exactly 3 comprehension questions based on the passage that test different levels of understanding.
+        
+        Return your response as a valid JSON object ONLY:
+        {{
+            "passage": "Full passage text...",
+            "questions": [
+                {{
+                    "id": 1,
+                    "question": "Question text...",
+                    "example_answer": "Brief correct answer for teacher reference..."
+                }},
+                {{
+                    "id": 2,
+                    "question": "Question text...",
+                    "example_answer": "Brief correct answer for teacher reference..."
+                }},
+                {{
+                    "id": 3,
+                    "question": "Question text...",
+                    "example_answer": "Brief correct answer for teacher reference..."
+                }}
+            ]
+        }}"""
+        
+        json_str = await AIService.call_kimi(prompt, json_mode=True)
+        if not json_str:
+            raise Exception("Kimi model response was empty")
+        
+        if "```" in json_str:
+            import re
+            match = re.search(r'\{.*\}', json_str, re.DOTALL)
+            if match:
+                json_str = match.group(0)
+                
+        try:
+            result_data = json.loads(json_str)
+            passage = result_data.get("passage", "")
+            questions_list = result_data.get("questions", [])
             
-            if response.status_code != 200:
-                raise Exception(f"Ollama API error: {response.status_code}")
+            # Convert to internal format (keeping compatibility)
+            # We'll store multiple questions in a field, but keep instructions/example_answer for legacy UI support if needed
+            question = questions_list[0].get("question", "") if questions_list else "Question not generated"
+            answer = questions_list[0].get("example_answer", "") if questions_list else ""
             
-            result = response.json()
-            generated_text = result.get("response", "").strip()
-        
-        # Robust Parsing
-        passage = ""
-        question = ""
-        answer = ""
-        
-        # Try to extract using regex
-        import re
-        p_match = re.search(r'(?i)(?:PASSAGE|Passage):\s*([\s\S]*?)(?=(?:QUESTION|Question|ANSWER|Answer|$))', generated_text)
-        q_match = re.search(r'(?i)(?:QUESTION|Question):\s*([\s\S]*?)(?=(?:PASSAGE|Passage|ANSWER|Answer|$))', generated_text)
-        a_match = re.search(r'(?i)(?:ANSWER|Answer):\s*([\s\S]*?)(?=(?:PASSAGE|Passage|QUESTION|Question|$))', generated_text)
-        
-        if p_match:
-            passage = p_match.group(1).strip().strip('*').strip('"')
-        if q_match:
-            question = q_match.group(1).strip().strip('*').strip('"')
-        if a_match:
-            answer = a_match.group(1).strip().strip('*').strip('"')
-        
-        # Fallback to line splitting if regex fails or looks weird
-        if not passage or not question:
-            for line in generated_text.split('\n'):
-                if line.upper().startswith("PASSAGE:"):
-                    passage = line.split(":", 1)[1].strip()
-                elif line.upper().startswith("QUESTION:"):
-                    question = line.split(":", 1)[1].strip()
-                elif line.upper().startswith("ANSWER:"):
-                    answer = line.split(":", 1)[1].strip()
-        
-        # Validate parsed content
-        if not passage:
-            passage = generated_text.split('\n')[0]
-        if not question:
-            question = "What is the main idea of this passage?"
-        if not answer:
-            answer = "Provide your understanding based on the passage"
+            # Store all questions in a new field
+            multi_questions = questions_list
+        except Exception as parse_err:
+            logger.error(f"Failed to parse generation JSON: {parse_err}")
+            # Fallback parsing (very simple)
+            passage = json_str[:500] 
+            question = "Please analyze the passage above."
+            answer = "Understanding"
+            multi_questions = [{"id": 1, "question": question, "example_answer": answer}]
         
         challenge = {
             "title": f"{topic.title()} Reading",
@@ -472,6 +465,7 @@ Make it appropriate for {difficulty} level English learners."""
             "content": passage,
             "instructions": question,
             "example_answer": answer,
+            "multi_questions": multi_questions,
             "difficulty": difficulty,
             "duration": 5,
             "credits": 10,
@@ -527,7 +521,63 @@ async def evaluate_reading_answer(
         if not answer:
             raise HTTPException(status_code=400, detail="Answer is required")
         
-        # Create evaluation prompt
+        # Support both single answer (legacy) and multiple answers
+        answer = request_data.get("answer", "")
+        answers_list = request_data.get("answers", []) # Should be list of objects with question and answer
+        passage = request_data.get("passage", "")
+        question = request_data.get("question", "")
+        example_answer = request_data.get("example_answer", "")
+        
+        if not answer and not answers_list:
+            raise HTTPException(status_code=400, detail="Answer is required")
+        
+        if answers_list:
+            # Multi-question evaluation
+            answers_str = "\n".join([f"QUESTION {i+1}: {a.get('question')}\nSTUDENT'S ANSWER: {a.get('answer')}\nEXPECTED: {a.get('example_answer')}" for i, a in enumerate(answers_list)])
+            
+            prompt = f"""You are an English teacher evaluating a student's reading comprehension across multiple questions.
+            
+            PASSAGE: {passage}
+            
+            STUDENT'S RESPONSES:
+            {answers_str}
+            
+            Evaluate each answer individually, then provide an overall score (0-100) and combined feedback.
+            Consider:
+            1. Did the student understand the specific details asked in each question?
+            2. Is the overall comprehension of the passage demonstrated?
+            3. Are the answers clear and correctly formulated?
+            
+            Return your response as a valid JSON object ONLY:
+            {{
+                "score": integer (0-100),
+                "feedback": "Two sentences of professional, constructive feedback in English summarizing their performance",
+                "tamil_feedback": "A clear professional explanation in Tamil summarizing how well they understood the passage",
+                "detailed_analysis": "Briefly mention which questions were handled well or poorly"
+            }}"""
+            
+            # Use JSON mode for multi-eval
+            eval_response = await AIService.call_kimi(prompt, json_mode=True)
+            if not eval_response:
+                raise Exception("Kimi model response was empty")
+                
+            if "```" in eval_response:
+                import re
+                match = re.search(r'\{.*\}', eval_response, re.DOTALL)
+                if match:
+                    eval_response = match.group(0)
+            
+            result = json.loads(eval_response)
+            return {
+                "success": True,
+                "perfection": result.get("score", 70),
+                "accuracy": result.get("score", 70),
+                "feedback": result.get("feedback", "Good comprehension!"),
+                "tamil_feedback": result.get("tamil_feedback", ""),
+                "detailed_analysis": result.get("detailed_analysis", "")
+            }
+
+        # Original single question logic fallback
         prompt = f"""You are an English teacher evaluating a student's reading comprehension.
 
 PASSAGE: {passage}
@@ -547,26 +597,9 @@ Provide ONLY these two lines:
 SCORE: [0-100]
 FEEDBACK: [1-2 sentences of feedback]"""
         
-        # Direct Ollama call for evaluation
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.5,
-                        "top_p": 0.9
-                    }
-                }
-            )
-            
-            if response.status_code != 200:
-                raise Exception(f"Ollama API error: {response.status_code}")
-            
-            result = response.json()
-            eval_response = result.get("response", "").strip()
+        eval_response = await AIService.call_kimi(prompt)
+        if not eval_response:
+            raise Exception("Kimi model response was empty")
         
         # Robust Parsing
         score = 70

@@ -15,6 +15,7 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional, List, Dict, Any
 from bson import ObjectId
 from pathlib import Path
+import httpx
 
 from app.database import *
 from app.config import *
@@ -601,6 +602,52 @@ class AIService:
                 "explanation": "Expert Analysis System is currently under extreme load. Our engineers have been notified. Please try again in 5 minutes."
             })
         return "Critical: Expert Analysis Node Offline. Please retry shortly."
+
+    @staticmethod
+    async def call_kimi(prompt: str, system_prompt: str = None, json_mode: bool = False):
+        """Call Kimi (via Ollama/Cloud) directly for Communication Stage features"""
+        try:
+            full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
+            if json_mode:
+                if "Return ONLY valid JSON" not in full_prompt:
+                    full_prompt += "\n\nIMPORTANT: Your response must be a valid JSON object only. No preamble, no explanation."
+            
+            logger.info(f"🔄 Calling Kimi Model ({OLLAMA_MODEL}) for communication feature")
+            
+            async with httpx.AsyncClient(timeout=90.0) as client:
+                # Some deployments might use /api/generate (Ollama style) or /v1/chat/completions (OpenAI style)
+                # We'll stick to the Ollama format established in the codebase
+                response = await client.post(
+                    f"{OLLAMA_BASE_URL}/api/generate",
+                    json={
+                        "model": OLLAMA_MODEL,
+                        "prompt": full_prompt,
+                        "stream": False,
+                        "options": {
+                            "temperature": 0.7,
+                            "top_p": 0.9,
+                            "num_predict": 2048
+                        }
+                    }
+                )
+                
+                if response.status_code == 200:
+                    result = response.json()
+                    text = result.get("response", "").strip()
+                    
+                    if json_mode:
+                        # Find the first { and last } to extract JSON
+                        start_idx = text.find('{')
+                        end_idx = text.rfind('}')
+                        if start_idx != -1 and end_idx != -1:
+                            return text[start_idx:end_idx+1]
+                    return text
+                else:
+                    logger.error(f"❌ Kimi API error: {response.status_code} - {response.text}")
+                    return None
+        except Exception as e:
+            logger.error(f"❌ Kimi connection error: {e}")
+            return None
         
         
 async def call_gemini_with_retry(prompt: str, max_retries: int = 3) -> Any:

@@ -227,12 +227,12 @@
             max-width: 500px;
             height: 400px;
             border-radius: 30px;
-            padding: 30px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             position: relative;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
             backdrop-filter: blur(20px);
@@ -242,6 +242,8 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .preview-icon {
@@ -256,11 +258,102 @@
             font-size: 24px;
         }
 
-        .preview-lines div {
-            height: 10px;
-            border-radius: 5px;
-            background: rgba(0,0,0,0.05);
-            margin-bottom: 10px;
+        #chat-display {
+            flex: 1;
+            background: rgba(0,0,0,0.02);
+            border-radius: 15px;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        #chat-display::-webkit-scrollbar {
+            display: none;
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background: var(--white);
+            color: var(--text-main);
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .chat-input-container {
+            height: 55px;
+            background: rgba(0,0,0,0.04);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px 0 20px;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .chat-input-container:focus-within {
+            background: white;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.1);
+        }
+
+        .chat-input-container input {
+            flex: 1;
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: var(--text-main);
+            padding: 10px 0;
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            background: var(--primary-light);
+        }
+
+        .typing-indicator {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-style: italic;
+            display: none;
         }
 
         /* Features Section */
@@ -446,20 +539,21 @@
                 <div class="preview-header">
                     <div class="preview-icon"><i class="fas fa-robot"></i></div>
                     <div>
-                        <h3 style="color: var(--text-main); font-size: 18px;">AI Teaching Assistant</h3>
-                        <p style="color: var(--text-muted); font-size: 14px;">Online & Ready</p>
+                        <h3 style="color: var(--text-main); font-size: 18px; margin-bottom: 2px;">AI Teaching Assistant</h3>
+                        <p style="color: var(--secondary); font-size: 12px; font-weight: 600;"><i class="fas fa-circle" style="font-size: 8px; margin-right: 5px;"></i> Online & Ready</p>
                     </div>
                 </div>
-                <div style="flex: 1; background: rgba(0,0,0,0.02); border-radius: 15px; padding: 20px;">
-                    <div class="preview-lines">
-                        <div style="width: 80%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent);"></div>
-                        <div style="width: 60%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent);"></div>
-                        <div style="width: 90%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent); margin-top: 20px;"></div>
-                        <div style="width: 40%; background: linear-gradient(90deg, rgba(79,70,229,0.1), transparent);"></div>
+                <div id="chat-display">
+                    <div class="chat-message ai-message">
+                        Hello! I'm your EduSync assistant. How can I help you explore our platform today?
                     </div>
                 </div>
-                <div style="height: 50px; background: rgba(0,0,0,0.04); border-radius: 25px; display: flex; align-items: center; padding: 0 20px;">
-                    <p style="color: var(--text-muted); font-size: 14px;">Ask me anything...</p>
+                <div id="typing-status" class="typing-indicator">Assistant is thinking...</div>
+                <div class="chat-input-container">
+                    <input type="text" id="ai-chat-input" placeholder="Ask me about EduSync..." autocomplete="off">
+                    <button id="send-ai-chat" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -515,6 +609,76 @@
             } else {
                 header.style.padding = '15px 5%';
             }
+        });
+
+        // AI Chatbox Implementation
+        const chatDisplay = document.getElementById('chat-display');
+        const chatInput = document.getElementById('ai-chat-input');
+        const sendBtn = document.getElementById('send-ai-chat');
+        const typingStatus = document.getElementById('typing-status');
+        
+        let conversationHistory = [];
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message to UI
+            appendMessage('user', message);
+            chatInput.value = '';
+            
+            // Show typing indicator
+            typingStatus.style.display = 'block';
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+
+            try {
+                const response = await fetch('/api/ai/public-assistant', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversation_history: conversationHistory
+                    })
+                });
+
+                const data = await response.json();
+                
+                // Hide typing indicator
+                typingStatus.style.display = 'none';
+
+                if (data.success) {
+                    appendMessage('ai', data.response);
+                    conversationHistory.push({ role: 'user', content: message });
+                    conversationHistory.push({ role: 'assistant', content: data.response });
+                    // Keep history short
+                    if (conversationHistory.length > 6) {
+                        conversationHistory = conversationHistory.slice(-6);
+                    }
+                } else {
+                    appendMessage('ai', "Sorry, I'm having trouble connecting right now. Please try again later.");
+                }
+            } catch (error) {
+                console.error("Chat Error:", error);
+                typingStatus.style.display = 'none';
+                appendMessage('ai', "Error connecting to service. Is the server running?");
+            }
+            
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        function appendMessage(role, text) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `chat-message ${role}-message`;
+            msgDiv.textContent = text;
+            chatDisplay.appendChild(msgDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
         });
     </script>
 </body>

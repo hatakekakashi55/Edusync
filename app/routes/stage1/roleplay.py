@@ -209,8 +209,10 @@ Respond naturally as the character would — keep it to 2-3 sentences.
 Your response as the character (stay in character, 2-3 sentences only):"""
             
             # Use AI service
-            response = await AIService.call_ollama(full_prompt, session["system_prompt"])
-            ai_reply = response.strip() if response else ""
+            ai_reply = await AIService.call_kimi(full_prompt, session["system_prompt"])
+            
+            if not ai_reply:
+                ai_reply = "That's an interesting point. Could you elaborate more on that?"
             
             # Clean AI response
             ai_reply = re.sub(r'^(assistant|character|ai|response):\s*', '', ai_reply, flags=re.IGNORECASE)
@@ -323,17 +325,18 @@ async def end_roleplay(
                 "Be constructive, encouraging, and specific. Return ONLY valid JSON."
             )
             
-            response = await AIService.call_ollama(eval_prompt, system_prompt, json_mode=True)
+            response = await AIService.call_kimi(eval_prompt, system_prompt, json_mode=True)
             
             try:
-                if isinstance(response, str):
-                    json_match = re.search(r'\{.*\}', response, re.DOTALL)
-                    if json_match:
-                        evaluation = json.loads(json_match.group(0))
+                if response:
+                    if isinstance(response, str):
+                        json_match = re.search(r'\{.*\}', response, re.DOTALL)
+                        if json_match:
+                            evaluation = json.loads(json_match.group(0))
+                        else:
+                            raise ValueError("No JSON found")
                     else:
-                        raise ValueError("No JSON found")
-                else:
-                    evaluation = response
+                        evaluation = response
             except Exception as parse_err:
                 logger.warning(f"Failed to parse evaluation JSON: {parse_err}")
                 
@@ -666,17 +669,18 @@ async def analyze_tone(
     try:
         prompt = TONE_ANALYSIS_PROMPT.format(message=request.text)
         
-        response = await AIService.call_ollama(prompt, json_mode=True)
+        response = await AIService.call_kimi(prompt, json_mode=True)
         
         try:
-            if isinstance(response, str):
-                json_match = re.search(r'\{.*\}', response, re.DOTALL)
-                if json_match:
-                    result = json.loads(json_match.group(0))
+            if response:
+                if isinstance(response, str):
+                    json_match = re.search(r'\{.*\}', response, re.DOTALL)
+                    if json_match:
+                        result = json.loads(json_match.group(0))
+                    else:
+                        raise ValueError("No JSON")
                 else:
-                    raise ValueError("No JSON")
-            else:
-                result = response
+                    result = response
         except:
             result = {
                 "tone": "neutral",

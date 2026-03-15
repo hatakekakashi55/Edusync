@@ -32,6 +32,70 @@ logger = logging.getLogger("edusync")
 
 router = APIRouter(prefix="/api/ai", tags=["AI"])
 
+@router.post("/public-assistant", tags=["AI"])
+async def public_assistant(
+    message: str = Body(..., embed=True),
+    conversation_history: List[Dict[str, str]] = Body(default=[])
+):
+    """Public AI Chatbot for Landing Page - No authentication required"""
+    try:
+        active_message = message
+        if not active_message or not active_message.strip():
+            raise HTTPException(status_code=400, detail="Please type a message")
+        
+        model = get_gemini_model("default")
+        if not model:
+            raise HTTPException(status_code=503, detail="AI service unavailable")
+        
+        # Build conversation history context
+        history_text = ""
+        if conversation_history:
+            for msg in conversation_history[-3:]: # Only take last 3 for public assistant
+                role = msg.get("role", "user")
+                content = msg.get("content", "")
+                history_text += f"{role.capitalize()}: {content}\n"
+        
+        # STRICT SYSTEM PROMPT for EduSync
+        system_prompt = f"""You are the EduSync 4.0 Assistant. Your role is ONLY to answer questions about EduSync 4.0.
+        
+EDU SYNC 4.0 INFORMATION:
+EduSync is an AI-powered learning platform that revolutionizes campus education.
+Key Features:
+- AI-Powered Learning: Personalized learning paths guided by an intelligent AI tutor.
+- Real-time Coding: Execute code in 7+ different languages instantly. Practice algorithms and build projects right in your browser.
+- Collaborative Learning: Join study groups, engage in pair programming, and collaborate with peers seamlessly.
+- Gamified Experience: Stay motivated with engaging challenges, earn badges, and climb the leaderboard.
+- Academic ERP: Comprehensive tools for Faculty and HODs, including classrooms, assignments, materials, and attendance tracking.
+- Career Prep: Mock interviews, portfolio building, resume builder, and job application tracking.
+- Stage-Based Learning: Stage 1 (Communication), Stage 2 (Technical/Arcade), Stage 3 (Jobs/Placement).
+
+RULES:
+1. ONLY answer questions related to EduSync, its features, or education-related queries that EduSync can help with.
+2. If a user asks about ANYTHING ELSE (sports, politics, general knowledge, jokes, personal stuff), politely decline and explain that you are specialized for EduSync questions.
+3. Keep responses concise, professional, and helpful.
+4. Response MUST be in plain text or simple markdown.
+
+Previous conversation:
+{history_text}
+User Message: {active_message}
+"""
+        
+        response = await model.generate_content_async(system_prompt)
+        
+        if not response or not response.text:
+            raise HTTPException(status_code=500, detail="AI generated empty response")
+        
+        clean_response = clean_markdown_formatting(response.text)
+        
+        return {
+            "success": True,
+            "response": clean_response,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        }
+    except Exception as e:
+        logger.error(f"Public Assistant Error: {e}")
+        raise HTTPException(status_code=500, detail=f"Assistant failed: {str(e)}")
+
 @router.post("/chat", tags=["AI"])
 async def ai_chat(
     message: str = Body(None),

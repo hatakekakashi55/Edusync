@@ -3196,8 +3196,7 @@
                                 <div class="feature-title">Listen & Respond</div>
                             </div>
                             <p class="feature-description">Hear a question and choose the best answer.</p>
-                            <button class="btn-secondary"
-                                onclick="showToast('info', 'Coming Soon', 'This feature is under development!')">Explore</button>
+                            <button class="btn-secondary" onclick="startListeningMCQ()">Explore</button>
                         </div>
                     </div>
                 </div>
@@ -3272,7 +3271,7 @@
                     <h3 id="feedbackTitle"></h3>
                     <p id="feedbackMessage"></p>
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <button class="btn-primary" onclick="startListeningSource(listeningState.currentSource)"
+                            <button class="btn-primary" onclick="startNewListeningChallenge()"
                             style="flex: 1;">
                             <i class="fas fa-repeat"></i> Next Challenge
                         </button>
@@ -5212,7 +5211,7 @@
             console.log('🔊 playListeningSentence called');
             console.log('listeningState:', listeningState);
 
-            const sentence = listeningState.currentChallenge?.sentence;
+            const sentence = listeningState.currentChallenge?.sentence || listeningState.currentChallenge?.audio_text;
             console.log('Retrieved sentence:', sentence);
 
             if (!sentence || sentence.trim() === '') {
@@ -5228,6 +5227,222 @@
             } catch (error) {
                 console.error('❌ Error playing sentence:', error);
                 showToast('error', 'Playback Error', 'Could not play the sentence. Please try again.');
+            }
+        }
+
+        async function startListeningMCQ() {
+            try {
+                // Hide main listening screen
+                document.getElementById('listeningSourceScreen').style.display = 'none';
+                
+                // Show challenge screen with loading state
+                const challengeScreen = document.getElementById('listeningChallengeScreen');
+                challengeScreen.style.display = 'block';
+                
+                // Clear any previous feedback or hidden states
+                document.getElementById('listeningFeedback').style.display = 'none';
+                document.getElementById('listeningChallengeContent').style.display = 'block';
+                
+                const contentDiv = document.getElementById('listeningChallengeContent');
+                contentDiv.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div>
+                        <p style="color: var(--text-muted);">Generating your Listen & Respond challenge...</p>
+                    </div>
+                `;
+                
+                // Fetch MCQ from backend
+                const response = await fetch(`${API_BASE_URL}/communication/generate-listening-mcq`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    listeningState.currentChallenge = data;
+                    listeningState.mode = 'mcq';
+                    selectedMCQIndex = -1;
+                    
+                    // Setup UI
+                    document.getElementById('listeningCredits').textContent = `10 Credits`;
+                    document.getElementById('listeningDifficulty').textContent = (data.difficulty || 'medium').toUpperCase();
+                    
+                    // Setup timer
+                    listeningState.timeLeft = 120;
+                    updateListeningTimer();
+                    startListeningTimer();
+                    
+                    // Display MCQ options
+                    let optionsHTML = '';
+                    data.options.forEach((opt, idx) => {
+                        optionsHTML += `
+                            <div class="selection-card small" onclick="selectMCQOption(${idx})" id="mcq_option_${idx}" style="padding: 15px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--glass-border); background: var(--glass); transition: all 0.2s;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 12px;">${String.fromCharCode(65 + idx)}</div>
+                                    <span style="font-size: 14px; color: var(--text);">${opt}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    contentDiv.innerHTML = `
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <h3 style="font-size: 18px; color: var(--text); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                <i class="fas fa-question-circle" style="color: var(--primary);"></i> Listen & Respond
+                            </h3>
+                            <p style="font-size: 15px; color: var(--text); margin-bottom: 20px; font-weight: 500;">${data.question}</p>
+                            <button class="btn-primary" id="listeningPlayBtn" onclick="playMCQAudio()" style="padding: 12px 35px; font-size: 16px; border-radius: 30px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);">
+                                <i class="fas fa-play"></i> Play Recording
+                            </button>
+                        </div>
+                        
+                        <div id="mcqOptionsContainer" style="margin-top: 20px;">
+                            ${optionsHTML}
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <button class="btn-primary" id="mcqSubmitBtn" onclick="submitListeningMCQ()" style="width: 100%; display: none; padding: 14px; font-weight: 600;">
+                                <i class="fas fa-check"></i> Submit My Choice
+                            </button>
+                        </div>
+                    `;
+                    
+                    showToast('success', 'Ready!', 'Listen to the recording and pick the best answer.');
+                } else {
+                    showToast('error', 'Error', 'Failed to generate challenge');
+                    backToListeningMenu();
+                }
+            } catch (error) {
+                console.error('❌ Error starting MCQ:', error);
+                showToast('error', 'Error', 'Network error');
+                backToListeningMenu();
+            }
+        }
+
+        let selectedMCQIndex = -1;
+        function selectMCQOption(idx) {
+            selectedMCQIndex = idx;
+            // Clear previous selection
+            const options = document.querySelectorAll('[id^="mcq_option_"]');
+            options.forEach(opt => {
+                opt.style.borderColor = 'var(--glass-border)';
+                opt.style.background = 'var(--glass)';
+                opt.style.transform = 'scale(1)';
+            });
+            
+            // Highlight new selection
+            const selected = document.getElementById(`mcq_option_${idx}`);
+            selected.style.borderColor = 'var(--primary)';
+            selected.style.background = 'rgba(139, 92, 246, 0.1)';
+            selected.style.transform = 'scale(1.02)';
+            
+            // Show submit button
+            document.getElementById('mcqSubmitBtn').style.display = 'block';
+        }
+
+        async function submitListeningMCQ() {
+            if (selectedMCQIndex === -1) return;
+            
+            try {
+                showToast('info', 'Evaluating', 'Checking your answer...');
+                document.getElementById('mcqSubmitBtn').disabled = true;
+                
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-mcq`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    },
+                    body: JSON.stringify({
+                        selected_index: selectedMCQIndex,
+                        correct_index: listeningState.currentChallenge.correct_index,
+                        challenge_id: listeningState.currentChallenge.id,
+                        difficulty: listeningState.currentChallenge.difficulty
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    // Stop timer
+                    if (listeningTimerInterval) {
+                        clearInterval(listeningTimerInterval);
+                        listeningTimerInterval = null;
+                    }
+
+                    // Show feedback
+                    document.getElementById('listeningChallengeContent').style.display = 'none';
+                    const feedbackDiv = document.getElementById('listeningFeedback');
+                    const feedbackTitle = document.getElementById('feedbackTitle');
+                    const feedbackMessage = document.getElementById('feedbackMessage');
+                    
+                    if (result.is_correct) {
+                        feedbackTitle.innerHTML = `<i class="fas fa-check-circle" style="color: #10b981;"></i> Perfect Answer! +${result.credits_earned} Credits`;
+                        feedbackMessage.innerHTML = `
+                            <p style="margin-bottom: 20px; font-size: 15px;">${result.feedback}</p>
+                            <div style="background: rgba(16, 185, 129, 0.05); padding: 25px; border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.2); border-left: 5px solid #10b981;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #10b981; font-weight: 600;">
+                                    <i class="fas fa-volume-up"></i> Transcript
+                                </div>
+                                <p style="font-size: 13px; color: var(--text-muted); font-style: italic; font-family: 'Inter', sans-serif;">"${listeningState.currentChallenge.audio_text}"</p>
+                                <div style="height: 1px; background: var(--glass-border); margin: 15px 0;"></div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-info-circle"></i> Explanation
+                                </div>
+                                <p style="font-size: 13px; line-height: 1.6;">${listeningState.currentChallenge.explanation}</p>
+                                <p style="font-size: 13px; margin-top: 10px; color: var(--text); padding: 10px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; font-weight: 500;">
+                                    <i class="fas fa-language"></i> ${listeningState.currentChallenge.tamil_explanation}
+                                </p>
+                            </div>
+                        `;
+                    } else {
+                        feedbackTitle.innerHTML = `<i class="fas fa-times-circle" style="color: #ef4444;"></i> Incorrect Selection`;
+                        feedbackMessage.innerHTML = `
+                            <p style="margin-bottom: 20px; font-size: 15px;">Correct Answer: <strong style="color: #10b981;">${String.fromCharCode(65 + listeningState.currentChallenge.correct_index)}) ${listeningState.currentChallenge.options[listeningState.currentChallenge.correct_index]}</strong></p>
+                            <div style="background: rgba(239, 68, 68, 0.05); padding: 25px; border-radius: 15px; border: 1px solid rgba(239, 68, 68, 0.2); border-left: 5px solid #ef4444;">
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: #ef4444; font-weight: 600;">
+                                    <i class="fas fa-volume-up"></i> Transcript
+                                </div>
+                                <p style="font-size: 13px; color: var(--text-muted); font-style: italic; font-family: 'Inter', sans-serif;">"${listeningState.currentChallenge.audio_text}"</p>
+                                <div style="height: 1px; background: var(--glass-border); margin: 15px 0;"></div>
+                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: var(--primary); font-weight: 600;">
+                                    <i class="fas fa-info-circle"></i> Explanation
+                                </div>
+                                <p style="font-size: 13px; line-height: 1.6;">${listeningState.currentChallenge.explanation}</p>
+                                <p style="font-size: 13px; margin-top: 10px; color: var(--text); padding: 10px; background: rgba(139, 92, 246, 0.1); border-radius: 8px; font-weight: 500;">
+                                    <i class="fas fa-language"></i> ${listeningState.currentChallenge.tamil_explanation}
+                                </p>
+                            </div>
+                        `;
+                    }
+                    
+                    feedbackDiv.style.display = 'block';
+                    // Update credits in UI
+                    fetchUserCredits();
+                } else {
+                    showToast('error', 'Error', 'Failed to evaluate answer');
+                    document.getElementById('mcqSubmitBtn').disabled = false;
+                }
+            } catch (error) {
+                console.error('❌ Error evaluating MCQ:', error);
+                showToast('error', 'Error', 'Something went wrong');
+                document.getElementById('mcqSubmitBtn').disabled = false;
+            }
+        }
+
+        function playMCQAudio() {
+            if (listeningState.currentChallenge && (listeningState.currentChallenge.audio_text || listeningState.currentChallenge.sentence)) {
+                playListeningAudio(listeningState.currentChallenge.audio_text || listeningState.currentChallenge.sentence);
+            }
+        }
+
+        function startNewListeningChallenge() {
+            if (listeningState.mode === 'mcq') {
+                startListeningMCQ();
+            } else {
+                startListeningSource(listeningState.currentSource);
             }
         }
 
@@ -5385,60 +5600,58 @@
                     listeningTimerInterval = null;
                 }
 
-                // Calculate accuracy (simple word match percentage)
-                const userWords = userAnswer.toLowerCase().split(/\s+/);
-                const actualWords = actualSentence.toLowerCase().split(/\s+/);
+                // Send to backend for evaluation
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    },
+                    body: JSON.stringify({
+                        user_answer: userAnswer,
+                        actual_sentence: actualSentence,
+                        challenge_id: listeningState.currentChallenge?.id || 'gen',
+                        time_taken: 0
+                    })
+                });
 
-                let matchCount = 0;
-                const maxLength = Math.max(userWords.length, actualWords.length);
+                if (response.ok) {
+                    const result = await response.json();
+                    const accuracy = result.score || 0;
+                    const earnedCredits = result.credits_earned || 0;
 
-                for (let i = 0; i < Math.min(userWords.length, actualWords.length); i++) {
-                    if (userWords[i] === actualWords[i]) {
-                        matchCount++;
+                    // Show feedback - hide challenge section
+                    document.getElementById('listeningChallengeScreen').style.display = 'none';
+
+                    const feedbackDiv = document.getElementById('listeningFeedback');
+                    const feedbackTitle = document.getElementById('feedbackTitle');
+                    const feedbackMessage = document.getElementById('feedbackMessage');
+
+                    if (accuracy >= 80) {
+                        feedbackTitle.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success);"></i> Excellent!`;
+                    } else if (accuracy >= 60) {
+                        feedbackTitle.innerHTML = `<i class="fas fa-star" style="color: #f59e0b;"></i> Good Effort!`;
+                    } else {
+                        feedbackTitle.innerHTML = `<i class="fas fa-lightbulb" style="color: #3b82f6;"></i> Try Again!`;
                     }
-                }
 
-                const accuracy = (matchCount / maxLength) * 100;
-                const earnedCredits = Math.max(1, Math.round((accuracy / 100) * listeningState.currentChallenge.credits));
+                    feedbackMessage.innerHTML = `
+                        ${result.feedback || 'Your answer was evaluated.'} <br>
+                        <div style="margin-top: 10px; font-weight: bold; color: var(--primary);">
+                            Accuracy: ${accuracy}% | Credits Earned: +${earnedCredits}
+                        </div>
+                        <div style="margin-top: 5px; font-style: italic; color: var(--text-muted); font-size: 0.9em;">
+                            ${result.tamil_feedback || ''}
+                        </div>
+                        <br>
+                        <strong>Your Answer:</strong> <br> <small>"${userAnswer}"</small> <br>
+                        <strong>Correct Answer:</strong> <br> <small>"${actualSentence}"</small>
+                    `;
 
-                // Show feedback - hide challenge section
-                document.getElementById('listeningChallengeScreen').style.display = 'none';
-
-                const feedbackDiv = document.getElementById('listeningFeedback');
-                const feedbackTitle = document.getElementById('feedbackTitle');
-                const feedbackMessage = document.getElementById('feedbackMessage');
-
-                if (accuracy >= 80) {
-                    feedbackTitle.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success);"></i> Excellent!`;
-                    feedbackMessage.innerHTML = `You typed the sentence with ${accuracy.toFixed(0)}% accuracy! <br> <strong>+${earnedCredits} Credits Earned</strong> <br><br> <strong>Your Answer:</strong> <br> <small>"${userAnswer}"</small> <br><br> <strong>Correct Answer:</strong> <br> <small>"${actualSentence}"</small>`;
-                } else if (accuracy >= 60) {
-                    feedbackTitle.innerHTML = `<i class="fas fa-star" style="color: #f59e0b;"></i> Good Effort!`;
-                    feedbackMessage.innerHTML = `You got ${accuracy.toFixed(0)}% correct! <br> <strong>+${earnedCredits} Credits Earned</strong> <br><br> <strong>Your Answer:</strong> <br> <small>"${userAnswer}"</small> <br><br> <strong>Correct Answer:</strong> <br> <small>"${actualSentence}"</small>`;
+                    feedbackDiv.style.display = 'block';
+                    console.log('✅ Listening evaluation successful:', result);
                 } else {
-                    feedbackTitle.innerHTML = `<i class="fas fa-lightbulb" style="color: #3b82f6;"></i> Try Again!`;
-                    feedbackMessage.innerHTML = `You got ${accuracy.toFixed(0)}% correct. Keep practicing! <br> <strong>+${earnedCredits} Credits Earned</strong> <br><br> <strong>Your Answer:</strong> <br> <small>"${userAnswer}"</small> <br><br> <strong>Correct Answer:</strong> <br> <small>"${actualSentence}"</small>`;
-                }
-
-                feedbackDiv.style.display = 'block';
-
-                // Award credits
-                if (earnedCredits > 0) {
-                    const creditsResponse = await fetch(`${API_BASE_URL}/credits/award`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                        },
-                        body: JSON.stringify({
-                            credits: earnedCredits,
-                            source: 'listening_challenge',
-                            details: `Listening Challenge - ${listeningState.currentSource}`
-                        })
-                    });
-
-                    if (creditsResponse.ok) {
-                        console.log('✅ Credits awarded:', earnedCredits);
-                    }
+                    throw new Error('Server evaluation failed');
                 }
             } catch (error) {
                 console.error(error);
@@ -5573,8 +5786,8 @@
 
                 // Parse JSON content if it's reading type
                 try {
-                    const contentObj = JSON.parse(challenge.content);
-                    if (contentObj.type === 'reading') {
+                    const contentObj = typeof challenge.content === 'string' ? JSON.parse(challenge.content) : challenge.content;
+                    if (contentObj && contentObj.type === 'reading') {
                         passage = contentObj.passage || 'Content not available';
                         question = contentObj.question || 'Answer the question';
                     } else {
@@ -5586,21 +5799,43 @@
                     question = challenge.instructions || 'Answer the question';
                 }
 
+                let questionsHTML = '';
+                if (challenge.multi_questions && challenge.multi_questions.length > 0) {
+                    challenge.multi_questions.forEach((q, idx) => {
+                        questionsHTML += `
+                            <div style="margin-bottom: 25px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid var(--glass-border);">
+                                <h4 style="margin-bottom: 10px; color: var(--text); font-size: 15px;">
+                                    <span style="color: var(--primary); font-weight: bold;">Q${idx + 1}:</span> ${q.question}
+                                </h4>
+                                <textarea id="readingAnswer_${idx}" class="reading-answer-box" placeholder="Type your answer here..." style="width: 100%; height: 90px; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--input-bg); color: var(--text); font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
+                            </div>
+                        `;
+                    });
+                } else {
+                    questionsHTML = `
+                        <h4 style="margin-bottom: 12px; color: var(--text);">❓ Question:</h4>
+                        <p style="margin-bottom: 15px; color: var(--text-muted); font-style: italic;">${question}</p>
+                        <textarea id="readingAnswer" placeholder="Type your answer here..." style="width: 100%; height: 120px; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--input-bg); color: var(--text); font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
+                    `;
+                }
+
                 contentDiv.innerHTML = `
                     <div style="margin-bottom: 30px;">
-                        <h3 style="margin-bottom: 15px; color: var(--text);">📖 Reading Comprehension</h3>
-                        <div style="background: rgba(30, 41, 59, 0.5); padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary); min-height: 150px; line-height: 1.8; color: var(--text); font-size: 14px; margin-bottom: 25px; overflow-y: auto; max-height: 300px;">
+                        <h3 style="margin-bottom: 20px; color: var(--text); display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-book-open" style="color: var(--primary);"></i> Reading Comprehension
+                        </h3>
+                        
+                        <div style="background: rgba(30, 41, 59, 0.6); padding: 25px; border-radius: 15px; border: 1px solid var(--glass-border); border-left: 5px solid var(--primary); min-height: 180px; line-height: 1.8; color: var(--text); font-size: 15px; margin-bottom: 30px; overflow-y: auto; max-height: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                             ${passage}
                         </div>
                         
-                        <h4 style="margin-bottom: 12px; color: var(--text);">❓ Question:</h4>
-                        <p style="margin-bottom: 15px; color: var(--text-muted); font-style: italic;">${question}</p>
+                        <div id="readingQuestionsContainer">
+                            ${questionsHTML}
+                        </div>
                         
-                        <textarea id="readingAnswer" placeholder="Type your answer here..." style="width: 100%; height: 120px; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--input-bg); color: var(--text); font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
-                        
-                        <div style="margin-top: 25px; text-align: center;">
-                            <button class="btn-primary" id="readingSubmitBtn" onclick="submitReadingAnswer()" style="width: 100%; padding: 12px;">
-                                <i class="fas fa-check"></i> Submit Answer
+                        <div style="margin-top: 30px; text-align: center;">
+                            <button class="btn-primary" id="readingSubmitBtn" onclick="submitReadingAnswer()" style="width: 100%; padding: 14px; font-weight: 600; font-size: 16px;">
+                                <i class="fas fa-paper-plane"></i> Submit All Answers
                             </button>
                         </div>
                     </div>
@@ -5637,16 +5872,55 @@
         let readingTimerInterval = null;
 
         async function submitReadingAnswer() {
-            const answer = document.getElementById('readingAnswer')?.value || '';
-
-            if (!answer.trim()) {
-                showToast('warning', 'Empty Answer', 'Please write an answer before submitting');
-                return;
+            const challenge = readingState.currentChallenge;
+            let finalPayload = {};
+            
+            if (challenge.multi_questions && challenge.multi_questions.length > 0) {
+                const answersList = [];
+                let allAnswered = true;
+                
+                challenge.multi_questions.forEach((q, idx) => {
+                    const ans = document.getElementById(`readingAnswer_${idx}`)?.value || '';
+                    if (!ans.trim()) allAnswered = false;
+                    answersList.push({
+                        id: q.id,
+                        question: q.question,
+                        answer: ans,
+                        example_answer: q.example_answer
+                    });
+                });
+                
+                if (!allAnswered) {
+                    showToast('warning', 'Incomplete', 'Please answer all questions before submitting');
+                    return;
+                }
+                
+                finalPayload = {
+                    answers: answersList,
+                    passage: challenge.content || challenge.passage
+                };
+            } else {
+                const answer = document.getElementById('readingAnswer')?.value || '';
+                if (!answer.trim()) {
+                    showToast('warning', 'Empty Answer', 'Please write an answer before submitting');
+                    return;
+                }
+                
+                finalPayload = {
+                    answer: answer,
+                    passage: challenge.content || challenge.passage,
+                    question: challenge.instructions || 'What is the main idea of this passage?',
+                    example_answer: challenge.example_answer || ''
+                };
             }
 
             try {
-                showToast('info', 'Analyzing', '⏳ AI is analyzing your answer...');
-                document.getElementById('readingAnswer').disabled = true;
+                showToast('info', 'Analyzing', '⏳ AI is analyzing your answers...');
+                
+                // Disable all textareas and button
+                const textareas = document.querySelectorAll('.reading-answer-box, #readingAnswer');
+                textareas.forEach(ta => ta.disabled = true);
+                if (document.getElementById('readingSubmitBtn')) document.getElementById('readingSubmitBtn').disabled = true;
 
                 // Stop timer
                 if (readingTimerInterval) {
@@ -5661,12 +5935,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                     },
-                    body: JSON.stringify({
-                        answer: answer,
-                        passage: readingState.currentChallenge.content || readingState.currentChallenge.passage,
-                        question: readingState.currentChallenge.instructions || 'What is the main idea of this passage?',
-                        example_answer: readingState.currentChallenge.example_answer || ''
-                    })
+                    body: JSON.stringify(finalPayload)
                 });
 
                 if (response.ok) {
@@ -5699,11 +5968,29 @@
                             </div>
                             
                             <div style="margin-bottom: 20px;">
-                                <h4 style="color: var(--text); margin-bottom: 8px;"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Analysis:</h4>
+                                <h4 style="color: var(--text); margin-bottom: 8px;"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Teacher's Feedback:</h4>
                                 <p style="color: var(--text); font-size: 14px; line-height: 1.6; background: rgba(99, 102, 241, 0.05); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary);">
                                     ${result.feedback || 'Good comprehension! Keep reading to improve further.'}
                                 </p>
                             </div>
+
+                            ${result.tamil_feedback ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: var(--text); margin-bottom: 8px;"><i class="fas fa-language" style="color: #ed4fa1;"></i> Tamil Explanation:</h4>
+                                <p style="color: var(--text); font-size: 14px; line-height: 1.6; background: rgba(237, 79, 161, 0.05); padding: 15px; border-radius: 10px; border-left: 3px solid #ed4fa1;">
+                                    ${result.tamil_feedback}
+                                </p>
+                            </div>
+                            ` : ''}
+
+                            ${result.detailed_analysis ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: var(--text); margin-bottom: 8px;"><i class="fas fa-list-check" style="color: #10b981;"></i> Detailed Analysis:</h4>
+                                <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; background: rgba(16, 185, 129, 0.05); padding: 15px; border-radius: 10px;">
+                                    ${result.detailed_analysis}
+                                </p>
+                            </div>
+                            ` : ''}
 
                             <div style="margin-top: 10px;">
                                 <button class="btn-secondary" onclick="backToReadingMenu()" style="width: 100%;">
@@ -5715,20 +6002,7 @@
 
                     feedbackMessage.innerHTML = feedbackHTML;
                     feedbackDiv.style.display = 'block';
-
-                    // Award credits
-                    fetch(`${API_BASE_URL}/credits/award`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                        },
-                        body: JSON.stringify({
-                            credits: creditsEarned,
-                            source: 'reading_challenge',
-                            details: `Reading Challenge - ${readingState.currentSource}`
-                        })
-                    }).then(r => r.json()).then(data => console.log('✅ Credits awarded:', data));
+                    console.log('✅ Reading evaluation successful:', result);
                 } else {
                     const errorText = await response.text();
                     console.error('❌ Evaluation error:', response.status, errorText);
@@ -6363,20 +6637,7 @@
 
                     feedbackMessage.innerHTML = feedbackHTML;
                     feedbackDiv.style.display = 'block';
-
-                    // Award credits
-                    fetch(`${API_BASE_URL}/credits/award`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                        },
-                        body: JSON.stringify({
-                            credits: creditsEarned,
-                            source: 'speaking_challenge',
-                            details: `Speaking Challenge - ${speakingState.currentSource}`
-                        })
-                    }).then(r => r.json()).then(data => console.log('✅ Credits awarded:', data));
+                    console.log('✅ Speaking evaluation successful:', result);
                 } else {
                     const errorText = await response.text();
                     console.error('❌ Evaluation error:', response.status, errorText);

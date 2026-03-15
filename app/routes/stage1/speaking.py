@@ -33,6 +33,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.ai_service import AIService
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -126,8 +127,6 @@ async def evaluate_pronunciation_from_audio(
                 raise Exception("Could not transcribe audio")
             
             # Now evaluate the transcribed text against the sentence
-            model = get_gemini_model("pronunciation")
-            
             prompt = f"""Evaluate the student's pronunciation by comparing their speech transcription with the expected sentence.
 
 Expected Sentence: "{sentence}"
@@ -139,27 +138,17 @@ Provide a JSON response with:
 3. mistakes: Any words they mispronounced or skipped
 4. suggestions: Tips for improvement
 
-Return ONLY valid JSON:
+Your response must be a valid JSON object ONLY:
 {{
     "accuracy": integer (0-100),
     "feedback": "Feedback string",
     "mistakes": ["word1", "word2"],
     "suggestions": "Improvement tips"
 }}"""
-            
-            response = await model.generate_content_async(prompt)
-            raw_text = response.text.strip()
-            
-            # Extract JSON
-            json_text = raw_text
-            if "```json" in raw_text:
-                json_text = raw_text.split("```json")[1].split("```")[0].strip()
-            elif "```" in raw_text:
-                json_text = raw_text.split("```")[1].split("```")[0].strip()
-            elif "{" in raw_text:
-                match = re.search(r'\{.*\}', raw_text, re.DOTALL)
-                if match:
-                    json_text = match.group(0)
+                
+            json_text = await AIService.call_kimi(prompt, json_mode=True)
+            if not json_text:
+                raise Exception("Kimi model response was empty")
             
             try:
                 result = json.loads(json_text)
@@ -263,26 +252,9 @@ Format your response as:
 QUESTION: [The speaking question]
 EXAMPLE: [A good example answer - 1-2 sentences]"""
         
-        # Direct Ollama call
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.8,
-                        "top_p": 0.9
-                    }
-                }
-            )
-            
-            if response.status_code != 200:
-                raise Exception(f"Ollama API error: {response.status_code}")
-            
-            result = response.json()
-            text = result.get("response", "").strip()
+        text = await AIService.call_kimi(prompt)
+        if not text:
+            raise Exception("Kimi model response was empty")
         
         # Robust Parsing
         question = "Tell me about yourself"
@@ -428,29 +400,12 @@ Evaluate the student's response based on:
 Provide:
 SCORE: [0-100] - Average of the above three factors
 FEEDBACK: [1-2 sentences of encouragement and tips for improvement]
-
-Be fair but encouraging."""
+ 
+ Be fair but encouraging."""
         
-        # Direct Ollama call for evaluation
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.5,
-                        "top_p": 0.9
-                    }
-                }
-            )
-            
-            if response.status_code != 200:
-                raise Exception(f"Ollama API error: {response.status_code}")
-            
-            result = response.json()
-            eval_response = result.get("response", "").strip()
+        eval_response = await AIService.call_kimi(prompt)
+        if not eval_response:
+            raise Exception("Kimi model response was empty")
         
         # Robust Parsing
         score = 75
@@ -486,12 +441,43 @@ Be fair but encouraging."""
                 elif line.upper().startswith("FEEDBACK:"):
                     feedback = line.split(":", 1)[1].strip()
         
-        logger.info(f"✅ Speaking answer evaluated: score={score}")
+        # Award credits
+        credits_earned = 0
+        if score >= 60:
+            # Check if already completed
+            already_completed = await communication_submissions_collection.find_one({
+                "user_id": str(current_user["_id"]),
+                "skill": "speaking",
+                "score": {"$gte": 60}
+            })
+            
+            if not already_completed:
+                credits_earned = 20 # Standard speaking credits
+                await update_user_credits(
+                    str(current_user["_id"]),
+                    credits_earned,
+                    "speaking_challenge",
+                    f"Completed speaking challenge with {score}% score"
+                )
+        
+        # Save submission
+        submission_data = {
+            "user_id": str(current_user["_id"]),
+            "skill": "speaking",
+            "score": score,
+            "feedback": feedback,
+            "credits_earned": credits_earned,
+            "submitted_at": datetime.now(timezone.utc)
+        }
+        await communication_submissions_collection.insert_one(submission_data)
+        
+        logger.info(f"✅ Speaking answer evaluated: score={score}, credits={credits_earned}")
         return {
             "success": True,
             "perfection": score,
             "accuracy": score,
-            "feedback": feedback
+            "feedback": feedback,
+            "credits_earned": credits_earned
         }
     except HTTPException:
         raise

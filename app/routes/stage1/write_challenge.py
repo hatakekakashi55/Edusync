@@ -33,6 +33,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.ai_service import AIService
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -142,26 +143,9 @@ async def get_ai_write_challenge(current_user: dict = Depends(get_current_user))
         
         Make it interesting and relevant to students."""
         
-        # Direct Ollama call
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.8,
-                        "top_p": 0.9
-                    }
-                }
-            )
-            
-            if response.status_code != 200:
-                raise Exception(f"Ollama API error: {response.status_code}")
-            
-            result = response.json()
-            text = result.get("response", "").strip()
+        text = await AIService.call_kimi(prompt)
+        if not text:
+            raise Exception("Kimi model response was empty")
         
         # Robust Parsing
         topic = "Write about your day"
@@ -298,20 +282,15 @@ async def submit_write_challenge(
         
         while not ai_success and retry_count < max_retries:
             try:
-                model = get_gemini_model("grammar")
-                if not model:
-                    logger.warning(f"⚠️ AI model unavailable (attempt {retry_count + 1}/{max_retries})")
-                    raise Exception("AI model unavailable")
-                
-                prompt = f"""You are a professional, friendly, and supportive AI writing coach and teacher.
-                Evaluate the student's writing on the topic: "{challenge.get('topic')}"
+                system_prompt = "You are a professional, friendly, and supportive AI writing coach and teacher."
+                prompt = f"""Evaluate the student's writing on the topic: "{challenge.get('topic')}"
                 
                 Student's English:
                 "{written_text}"
                 
                 Provide constructive feedback and identify specific improvements.
                 
-                Output valid JSON only:
+                Your response must be a valid JSON object ONLY:
                 {{
                     "score": integer (0-100),
                     "grammar_score": integer (0-100),
@@ -325,11 +304,10 @@ async def submit_write_challenge(
                     "praise": "Exactly what they did well in their effort"
                 }}"""
                 
-                response = model.generate_content(prompt)
-                if not response or not response.text:
+                json_str = await AIService.call_kimi(prompt, system_prompt, json_mode=True)
+                if not json_str:
                     raise Exception("Empty AI response")
-                    
-                json_str = response.text
+                
                 logger.debug(f"🤖 Raw AI Eval Response: {json_str[:500]}...")
                 
                 # Robust JSON extraction
@@ -354,7 +332,7 @@ async def submit_write_challenge(
                 praise = result.get("praise", "Keep writing!")
                 
                 ai_success = True
-                raw_ai_response = response.text
+                raw_ai_response = json_str
                 logger.info(f"✅ AI evaluation successful on attempt {retry_count + 1}")
                 
             except json.JSONDecodeError as e:
@@ -481,26 +459,9 @@ Format your response as:
 TOPIC: [Short writing topic - 2-3 words]
 DESCRIPTION: [Full prompt description - 2-3 sentences explaining what to write]"""
         
-        # Direct Ollama call
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.post(
-                f"{OLLAMA_BASE_URL}/api/generate",
-                json={
-                    "model": OLLAMA_MODEL,
-                    "prompt": prompt,
-                    "stream": False,
-                    "options": {
-                        "temperature": 0.8,
-                        "top_p": 0.9
-                    }
-                }
-            )
-            
-            if response.status_code != 200:
-                raise Exception(f"Ollama API error: {response.status_code}")
-            
-            result = response.json()
-            text = result.get("response", "").strip()
+        text = await AIService.call_kimi(prompt)
+        if not text:
+            raise Exception("Kimi model response was empty")
         
         # Robust Parsing
         topic_text = "Daily Life"
