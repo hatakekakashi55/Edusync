@@ -124,6 +124,13 @@ communication_tasks_collection = db.communication_tasks
 roleplay_sessions_collection = db.roleplay_sessions
 speech_analyses_collection = db.speech_analyses
 
+# Subscription & Licensing collections
+licenses_collection = db.licenses
+edu_credits_collection = db.edu_credits
+credit_refill_requests_collection = db.credit_refill_requests
+subscription_analytics_collection = db.subscription_analytics
+renewal_quotes_collection = db.renewal_quotes
+
 
 # =============== DATABASE INITIALIZATION FUNCTIONS ===============
 async def create_indexes():
@@ -211,6 +218,16 @@ async def create_indexes():
         await roleplay_sessions_collection.create_index("session_id", unique=True)
         await roleplay_sessions_collection.create_index([("user_id", 1), ("started_at", -1)])
         await speech_analyses_collection.create_index([("user_id", 1), ("created_at", -1)])
+        
+        # Subscription & Licensing indexes
+        await licenses_collection.create_index("license_key_hash", unique=True)
+        await licenses_collection.create_index("college_id")
+        await licenses_collection.create_index("status")
+        await licenses_collection.create_index("expiry_date")
+        await edu_credits_collection.create_index("user_id", unique=True)
+        await credit_refill_requests_collection.create_index([("user_id", 1), ("status", 1)])
+        await credit_refill_requests_collection.create_index([("department", 1), ("created_at", -1)])
+        await renewal_quotes_collection.create_index("college_id")
         
         logger.info("✅ Database indexes created successfully")
         

@@ -314,7 +314,8 @@ async def login(login_data: UserLogin, background_tasks: BackgroundTasks):
                 "weekly_streak": weekly_streak,
                 "profile_picture": user.get("profile_picture"),
                 "theme": user.get("theme", "light"),
-                "is_verified": user.get("is_verified", False)
+                "is_verified": user.get("is_verified", False),
+                "role": user.get("role", "user")
             }
         }
         

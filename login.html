@@ -318,7 +318,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: #ffffff;
+            background: var(--dark);
         }
 
         .form-header, .form-container {
@@ -391,8 +391,8 @@
         .form-input {
             width: 100%;
             padding: 16px 20px 16px 50px;
-            background: #ffffff;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            background: var(--darker);
+            border: 1px solid var(--glass-border);
             border-radius: 10px;
             color: var(--text);
             font-size: 15px;
@@ -771,11 +771,6 @@
             background: rgba(139, 92, 246, 0.3) !important;
         }
     </style>
-<script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-        }
-    </script>
 </head>
 
 <body>
@@ -1287,7 +1282,14 @@
                     localStorage.setItem('access_token', data.access_token);
                     localStorage.setItem('refresh_token', data.refresh_token);
                     localStorage.setItem('user_data', JSON.stringify(data.user));
-                    if (data.user && data.user.theme) {
+                    // Preserve any local theme preference if it already exists in any key
+                    const hasLocalTheme = localStorage.getItem('admin_theme') || 
+                                          localStorage.getItem('theme') || 
+                                          localStorage.getItem('student_theme') || 
+                                          localStorage.getItem('faculty_theme') || 
+                                          localStorage.getItem('hod_theme');
+
+                    if (data.user && data.user.theme && !hasLocalTheme) {
                         localStorage.setItem('theme', data.user.theme);
                     }
 

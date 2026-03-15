@@ -1057,7 +1057,7 @@
     
     <script>
         (function() {
-            const theme = localStorage.getItem('theme') || 'light';
+            const theme = localStorage.getItem('admin_theme') || localStorage.getItem('theme') || 'light';
             if (theme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
             } else {
@@ -1086,25 +1086,7 @@
                     <div style="font-size: 12px; color: var(--text-muted);">Super Administrator</div>
                 </div>
             </div>
-                        <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider-round">
-                        <div class="sun-moon">
-                            <i class="fas fa-sun sun-icon"></i>
-                            <i class="fas fa-moon moon-icon"></i>
-                        </div>
-                        <div class="clouds-stars">
-                            <div class="cloud cloud1"><i class="fas fa-cloud"></i></div>
-                            <div class="cloud cloud2"><i class="fas fa-cloud"></i></div>
-                            <div class="star star1"></div>
-                            <div class="star star2"></div>
-                            <div class="star star3"></div>
-                        </div>
-                    </div>
-                </label>
-            </div>
-            <button class="logout-btn" id="logoutBtn">
+            <button class="logout-btn" id="logoutBtn" style="margin-left: 15px;">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
@@ -1137,6 +1119,12 @@
                     <a class="menu-link" onclick="showSection('credits')">
                         <i class="fas fa-coins menu-icon"></i>
                         <span>Credit System</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" onclick="showSection('subscription')">
+                        <i class="fas fa-key menu-icon"></i>
+                        <span>Subscription</span>
                     </a>
                 </li>
                 <li class="menu-item">
@@ -1714,7 +1702,6 @@
                     Career preparation management coming soon...
                 </p>
             </div>
-    </div>
 
     <!-- Credit System Section -->
     <div id="creditsSection" class="admin-section" style="display: none;">
@@ -2201,6 +2188,26 @@
                         <option value="true">Enabled</option>
                     </select>
                 </div>
+
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; background: var(--glass); padding: 15px; border-radius: 12px; border: 1px solid var(--glass-border); margin-top: 20px;">
+                    <label class="form-label" style="margin: 0;">Appearance Theme (Light / Dark)</label>
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox">
+                            <div class="slider-round">
+                                <div class="sun-moon">
+                                    <i class="fas fa-sun sun-icon"></i>
+                                    <i class="fas fa-moon moon-icon"></i>
+                                </div>
+                                <div class="cloud cloud1"><i class="fas fa-cloud"></i></div>
+                                <div class="cloud cloud2"><i class="fas fa-cloud"></i></div>
+                                <div class="star star1"></div>
+                                <div class="star star2"></div>
+                                <div class="star star3"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -2255,7 +2262,223 @@
             </div>
         </div>
     </div>
-    </main>
+
+            <!-- Subscription & License Section -->
+            <div id="subscriptionSection" class="admin-section" style="display: none;">
+                <h2 class="section-title">
+                    <i class="fas fa-key"></i>
+                    Subscription & License Management
+                </h2>
+
+                <!-- License Health Banner -->
+                <div id="licenseHealthBanner" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(16, 185, 129, 0.1)); border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px; margin-bottom: 30px; position: relative; overflow: hidden;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+                        <div style="flex: 1; min-width: 280px;">
+                            <h3 style="margin: 0 0 8px 0; font-size: 22px;">🏫 <span id="licenseCollegeName">Not Activated</span></h3>
+                            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+                                <span id="licenseTierBadge" style="padding: 4px 14px; background: rgba(99, 102, 241, 0.2); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--primary);">No License</span>
+                                <span id="licenseStatusBadge" style="padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;">Inactive</span>
+                            </div>
+                            <div style="margin-top: 10px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                    <span style="font-size: 13px; color: var(--text-muted);">License Health</span>
+                                    <span id="licenseHealthPercent" style="font-size: 13px; font-weight: 600;">0%</span>
+                                </div>
+                                <div style="height: 10px; background: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden;">
+                                    <div id="licenseHealthBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); border-radius: 10px; transition: width 1s ease;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; min-width: 300px;">
+                            <div style="text-align: center; padding: 12px; background: var(--glass); border-radius: 12px; border: 1px solid var(--glass-border);">
+                                <div id="licenseDaysRemaining" style="font-size: 28px; font-weight: 700; color: var(--primary);">—</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Days Left</div>
+                            </div>
+                            <div style="text-align: center; padding: 12px; background: var(--glass); border-radius: 12px; border: 1px solid var(--glass-border);">
+                                <div id="licenseUserCount" style="font-size: 28px; font-weight: 700; color: var(--secondary);">0</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Users</div>
+                            </div>
+                            <div style="text-align: center; padding: 12px; background: var(--glass); border-radius: 12px; border: 1px solid var(--glass-border);">
+                                <div id="licenseMaxUsers" style="font-size: 28px; font-weight: 700; color: var(--accent);">0</div>
+                                <div style="font-size: 11px; color: var(--text-muted);">Max Users</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Alert Banner -->
+                    <div id="licenseAlert" style="display: none; margin-top: 15px; padding: 12px 18px; border-radius: 10px; font-size: 14px; font-weight: 500;"></div>
+                </div>
+
+                <!-- Super Admin License Overview -->
+                <div id="superAdminLicenseTable" style="display: none; margin-bottom: 30px;">
+                    <div class="admin-table-container">
+                        <div class="table-header">
+                            <div class="table-title">🌍 Global Licensing Overview</div>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>College / Institution</th>
+                                    <th>Tier</th>
+                                    <th>Status</th>
+                                    <th>Users</th>
+                                    <th>Health</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="globalLicensesBody">
+                                <!-- Loaded via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Action Cards -->
+                <div class="section-cards" style="margin-bottom: 30px;">
+                    <!-- Activate License Card -->
+                    <div class="section-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h3 class="card-title">Activate License</h3>
+                        <p class="card-description">Enter your institutional license key to unlock the full platform.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openSubscriptionModal('activate')">
+                                <i class="fas fa-lock-open"></i> Activate Key
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Generate License Card -->
+                    <div class="section-card" id="generateLicenseCard">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3 class="card-title">Generate License</h3>
+                        <p class="card-description">Create a new institutional license for a college after payment.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openSubscriptionModal('generate')">
+                                <i class="fas fa-magic"></i> Generate Key
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Onboard Card -->
+                    <div class="section-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <i class="fas fa-users-cog"></i>
+                        </div>
+                        <h3 class="card-title">Bulk Student Onboard</h3>
+                        <p class="card-description">Upload CSV to create student accounts in bulk.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openSubscriptionModal('onboard')">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- EduCredits Refill Card -->
+                    <div class="section-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3 class="card-title">EduCredits Refill</h3>
+                        <p class="card-description">Bulk assign monthly EduCredits to students by department.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openSubscriptionModal('refill')">
+                                <i class="fas fa-sync-alt"></i> Refill Credits
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EduCredits Cost Table -->
+                <div class="admin-table-container" style="margin-bottom: 30px;">
+                    <div class="table-header">
+                        <div class="table-title">💰 EduCredit Consumption Rates</div>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Credit Cost</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>🎭 AI Roleplay Session</td><td><span style="color: var(--accent); font-weight: 700;">50</span></td><td>AI Feature</td></tr>
+                            <tr><td>🎤 Mock Interview</td><td><span style="color: var(--accent); font-weight: 700;">50</span></td><td>AI Feature</td></tr>
+                            <tr><td>💻 Code Compilation (Docker)</td><td><span style="color: var(--secondary); font-weight: 700;">5</span></td><td>Sandbox</td></tr>
+                            <tr><td>📝 Daily Quiz</td><td><span style="color: var(--primary); font-weight: 700;">10</span></td><td>Assessment</td></tr>
+                            <tr><td>🤖 AI Tutor Session</td><td><span style="color: var(--accent); font-weight: 700;">25</span></td><td>AI Feature</td></tr>
+                            <tr><td>🗣️ Speech Analysis</td><td><span style="color: var(--accent); font-weight: 700;">30</span></td><td>AI Feature</td></tr>
+                            <tr><td>🔍 Code Review</td><td><span style="color: var(--primary); font-weight: 700;">15</span></td><td>AI Feature</td></tr>
+                            <tr><td>🚀 Project Assist</td><td><span style="color: var(--accent); font-weight: 700;">40</span></td><td>AI Feature</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Renewal & Analytics Row -->
+                <div class="section-cards">
+                    <div class="section-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3 class="card-title">Auto-Renewal Quote</h3>
+                        <p class="card-description">Generate budget proposal for next year's license renewal.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="openSubscriptionModal('renewal')">
+                                <i class="fas fa-calculator"></i> Generate Quote
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3 class="card-title">Usage Analytics</h3>
+                        <p class="card-description">Detailed engagement, skill growth, and GPU utilization data.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="loadUsageAnalytics()">
+                                <i class="fas fa-chart-line"></i> View Analytics
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-icon" style="background: linear-gradient(135deg, #14b8a6, #0d9488);">
+                            <i class="fas fa-inbox"></i>
+                        </div>
+                        <h3 class="card-title">Refill Requests</h3>
+                        <p class="card-description">Review and approve student credit refill requests.</p>
+                        <div class="card-actions">
+                            <button class="btn btn-primary" onclick="loadRefillRequests()">
+                                <i class="fas fa-check-circle"></i> View Requests
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analytics Display Area -->
+                <div id="analyticsDisplayArea" style="display: none; margin-top: 30px;"></div>
+
+                <!-- Refill Requests Display Area -->
+                <div id="refillRequestsArea" style="display: none; margin-top: 30px;"></div>
+            </div>
+        </main>
+    </div> <!-- This closes main-container correctly -->
+
+    <!-- Subscription Modal -->
+    <div class="modal" id="subscriptionModal">
+        <div class="modal-content" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="subscriptionModalTitle">Subscription</h3>
+                <button class="modal-close" onclick="closeSubscriptionModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="subscriptionModalBody">
+                <!-- Dynamic content injected by JS -->
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -2934,7 +3157,7 @@ PostgreSQL..."></textarea>
                 if (userData.user_type !== 'admin' && userData.user_type !== 'hod') {
                     // Not admin, redirect to login
                     console.log('User is not admin/hod, redirecting to login...');
-                    localStorage.clear();
+                    clearAuthData();
                     window.location.href = 'login.html';
                     return;
                 }
@@ -2942,12 +3165,20 @@ PostgreSQL..."></textarea>
                 console.log('User is admin/hod, setting currentUser and loading admin panel...');
                 // Set global currentUser
                 currentUser = userData;
+
+                // Restrict UI based on role
+                if (currentUser.role !== 'super_admin') {
+                    const generateLicenseCard = document.getElementById('generateLicenseCard');
+                    if (generateLicenseCard) {
+                        generateLicenseCard.style.display = 'none';
+                    }
+                }
                 
                 // User is authenticated admin, load data
                 loadAdminData();
             } catch (error) {
                 console.error('Auth check error:', error);
-                localStorage.clear();
+                clearAuthData();
                 window.location.href = 'login.html';
             }
         }
@@ -2989,10 +3220,29 @@ PostgreSQL..."></textarea>
         // Logout function
         function logout() {
             // Clear all authentication data
-            localStorage.clear();
+            clearAuthData();
             
             // Redirect to login page
             window.location.href = 'login.html';
+        }
+
+        // Surgical clear function to preserve ALL theme keys across modules
+        function clearAuthData() {
+            const themes = {
+                admin: localStorage.getItem('admin_theme'),
+                generic: localStorage.getItem('theme'),
+                student: localStorage.getItem('student_theme'),
+                faculty: localStorage.getItem('faculty_theme'),
+                hod: localStorage.getItem('hod_theme')
+            };
+            
+            localStorage.clear();
+            
+            if (themes.admin) localStorage.setItem('admin_theme', themes.admin);
+            if (themes.generic) localStorage.setItem('theme', themes.generic);
+            if (themes.student) localStorage.setItem('student_theme', themes.student);
+            if (themes.faculty) localStorage.setItem('faculty_theme', themes.faculty);
+            if (themes.hod) localStorage.setItem('hod_theme', themes.hod);
         }
 
         // Dashboard Stats
@@ -3022,6 +3272,7 @@ PostgreSQL..."></textarea>
             else if (sectionId === 'credits') loadCreditsData();
             else if (sectionId === 'stages') loadStagesData();
             else if (sectionId === 'problem-statements') loadProblemStatementsAdmin();
+            else if (sectionId === 'subscription') loadSubscriptionData();
         }
 
         // Load Dashboard Statistics
@@ -4521,11 +4772,8 @@ PostgreSQL..."></textarea>
         // Logout handler
         document.getElementById('logoutBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('admin_user');
-                document.getElementById('loginForm').reset();
-                document.getElementById('loginEmail').focus();
-                showLoginContainer(true);
+                clearAuthData();
+                window.location.href = 'login.html';
             }
         });
 
@@ -7010,11 +7258,730 @@ PostgreSQL..."></textarea>
     
 
 
+    <!-- Subscription & License System Script -->
+    <script>
+        // ===================== SUBSCRIPTION SYSTEM =====================
+
+        async function loadSubscriptionData() {
+            try {
+                const token = localStorage.getItem('access_token');
+                
+                // If the user is a super admin, show the global licenses overview
+                if (currentUser && currentUser.role === 'super_admin') {
+                    document.getElementById('licenseHealthBanner').style.display = 'none';
+                    document.getElementById('superAdminLicenseTable').style.display = 'block';
+                    loadAllLicenses();
+                    return;
+                }
+
+                // Normal college admin view
+                document.getElementById('licenseHealthBanner').style.display = 'block';
+                document.getElementById('superAdminLicenseTable').style.display = 'none';
+
+                const response = await fetch(`${API_BASE_URL}/license/status`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateLicenseHealthBanner(data);
+                } else {
+                    updateLicenseHealthBanner({ success: false, has_license: false });
+                }
+            } catch (error) {
+                console.error('Failed to load subscription data:', error);
+                updateLicenseHealthBanner({ success: false, has_license: false });
+            }
+        }
+
+        async function loadAllLicenses() {
+            try {
+                const token = localStorage.getItem('access_token');
+                const tbody = document.getElementById('globalLicensesBody');
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Loading global licenses...</td></tr>';
+                
+                const response = await fetch(`${API_BASE_URL}/license/all`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.licenses.length > 0) {
+                        tbody.innerHTML = data.licenses.map(lic => {
+                            const statusColor = lic.status === 'active' ? '#10b981' : (lic.status === 'expired' ? '#ef4444' : '#f59e0b');
+                            return `
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600;">${lic.college_name}</div>
+                                        <div style="font-size: 11px; color: var(--text-muted);">${lic.college_id}</div>
+                                    </td>
+                                    <td><span style="padding: 4px 10px; background: rgba(99, 102, 241, 0.1); color: var(--primary); border-radius: 20px; font-size: 12px; font-weight: 500;">${lic.tier.toUpperCase()}</span></td>
+                                    <td><span style="color: ${statusColor}; font-weight: 600;"><i class="fas fa-circle" style="font-size: 8px; margin-right: 5px;"></i>${lic.status.charAt(0).toUpperCase() + lic.status.slice(1)}</span></td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <div style="flex: 1; height: 6px; background: rgba(0,0,0,0.1); border-radius: 10px;">
+                                                <div style="height: 100%; width: ${lic.user_utilization}%; background: var(--primary); border-radius: 10px;"></div>
+                                            </div>
+                                            <span style="font-size: 12px;">${lic.current_user_count}/${lic.total_allowed_users}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="font-size: 13px; font-weight: 600;">${lic.health_percentage}%</div>
+                                        <div style="font-size: 11px; color: var(--text-muted);">${lic.days_remaining} days left</div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-secondary" onclick="openSubscriptionModal('renewal', '${lic.license_key_preview}')" style="padding: 5px 10px; font-size: 12px;">
+                                            Manage
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('');
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">No institutional licenses found</td></tr>';
+                    }
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Failed to load licenses data</td></tr>';
+                }
+            } catch (error) {
+                console.error('Failed to load global licenses:', error);
+                document.getElementById('globalLicensesBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Network error while loading data</td></tr>';
+            }
+        }
+
+        function updateLicenseHealthBanner(data) {
+            const collegeName = document.getElementById('licenseCollegeName');
+            const tierBadge = document.getElementById('licenseTierBadge');
+            const statusBadge = document.getElementById('licenseStatusBadge');
+            const healthPercent = document.getElementById('licenseHealthPercent');
+            const healthBar = document.getElementById('licenseHealthBar');
+            const daysRemaining = document.getElementById('licenseDaysRemaining');
+            const userCount = document.getElementById('licenseUserCount');
+            const maxUsers = document.getElementById('licenseMaxUsers');
+            const alertDiv = document.getElementById('licenseAlert');
+
+            if (!data.success || !data.has_license) {
+                collegeName.textContent = 'No Active License';
+                tierBadge.textContent = 'No License';
+                statusBadge.textContent = 'Inactive';
+                statusBadge.style.background = 'rgba(148, 163, 184, 0.2)';
+                statusBadge.style.color = 'var(--text-muted)';
+                healthPercent.textContent = '0%';
+                healthBar.style.width = '0%';
+                daysRemaining.textContent = '—';
+                alertDiv.style.display = 'block';
+                alertDiv.style.background = 'rgba(239, 68, 68, 0.1)';
+                alertDiv.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+                alertDiv.style.color = '#fca5a5';
+                alertDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> No active license. Activate a license key to unlock the platform.';
+                return;
+            }
+
+            collegeName.textContent = data.college_name || 'Unknown';
+            tierBadge.textContent = (data.tier || 'none').toUpperCase();
+            
+            const statusColors = {
+                active: { bg: 'rgba(16, 185, 129, 0.2)', color: '#10b981', text: '✅ Active' },
+                expired: { bg: 'rgba(239, 68, 68, 0.2)', color: '#ef4444', text: '❌ Expired' },
+                suspended: { bg: 'rgba(245, 158, 11, 0.2)', color: '#f59e0b', text: '⚠️ Suspended' },
+            };
+            const sc = statusColors[data.status] || statusColors.active;
+            statusBadge.textContent = sc.text;
+            statusBadge.style.background = sc.bg;
+            statusBadge.style.color = sc.color;
+
+            const hp = data.health_percentage || 0;
+            healthPercent.textContent = `${hp}%`;
+            healthBar.style.width = `${hp}%`;
+
+            daysRemaining.textContent = data.days_remaining ?? '—';
+            userCount.textContent = data.current_user_count || 0;
+            maxUsers.textContent = data.total_allowed_users || 0;
+
+            // Alert
+            if (data.alert_message) {
+                alertDiv.style.display = 'block';
+                const alertColors = {
+                    critical: { bg: 'rgba(239, 68, 68, 0.15)', border: 'rgba(239, 68, 68, 0.4)', color: '#fca5a5', icon: 'fa-skull-crossbones' },
+                    danger: { bg: 'rgba(239, 68, 68, 0.1)', border: 'rgba(239, 68, 68, 0.3)', color: '#fca5a5', icon: 'fa-exclamation-circle' },
+                    warning: { bg: 'rgba(245, 158, 11, 0.1)', border: 'rgba(245, 158, 11, 0.3)', color: '#fbbf24', icon: 'fa-exclamation-triangle' },
+                    info: { bg: 'rgba(59, 130, 246, 0.1)', border: 'rgba(59, 130, 246, 0.3)', color: '#93c5fd', icon: 'fa-info-circle' },
+                };
+                const ac = alertColors[data.alert_level] || alertColors.info;
+                alertDiv.style.background = ac.bg;
+                alertDiv.style.border = `1px solid ${ac.border}`;
+                alertDiv.style.color = ac.color;
+                alertDiv.innerHTML = `<i class="fas ${ac.icon}"></i> ${data.alert_message}`;
+            } else {
+                alertDiv.style.display = 'none';
+            }
+        }
+
+        // ===================== SUBSCRIPTION MODAL =====================
+
+        function openSubscriptionModal(type) {
+            const modal = document.getElementById('subscriptionModal');
+            const title = document.getElementById('subscriptionModalTitle');
+            const body = document.getElementById('subscriptionModalBody');
+
+            const forms = {
+                activate: {
+                    title: '🔑 Activate License Key',
+                    html: `
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Enter the institutional license key received via email after payment.</p>
+                        <div class="form-group">
+                            <label class="form-label">License Key *</label>
+                            <input type="text" class="form-input" id="activateLicenseKey" placeholder="ES-PRO-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" style="font-family: monospace; letter-spacing: 1px;">
+                        </div>
+                        <div class="modal-footer" style="padding: 15px 0 0 0; border: none;">
+                            <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="submitActivateLicense()"><i class="fas fa-lock-open"></i> Activate</button>
+                        </div>
+                    `
+                },
+                generate: {
+                    title: '✨ Generate New License',
+                    html: `
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Create a new institutional license after payment confirmation.</p>
+                        <div class="form-group">
+                            <label class="form-label">College ID / Code *</label>
+                            <input type="text" class="form-input" id="genCollegeId" placeholder="e.g., SRMIST">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">College Name *</label>
+                            <input type="text" class="form-input" id="genCollegeName" placeholder="e.g., SRM Institute of Science and Technology">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Admin Email *</label>
+                            <input type="email" class="form-input" id="genAdminEmail" placeholder="admin@college.edu">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label class="form-label">Tier</label>
+                                <select class="form-select" id="genTier">
+                                    <option value="starter">Starter (100 users)</option>
+                                    <option value="professional" selected>Professional (500 users)</option>
+                                    <option value="enterprise">Enterprise (Unlimited)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Max Users</label>
+                                <input type="number" class="form-input" id="genMaxUsers" value="500" min="10" max="10000">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Validity (Days)</label>
+                            <input type="number" class="form-input" id="genValidity" value="365" min="30" max="1825">
+                        </div>
+                        <div class="modal-footer" style="padding: 15px 0 0 0; border: none;">
+                            <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="submitGenerateLicense()"><i class="fas fa-magic"></i> Generate</button>
+                        </div>
+                    `
+                },
+                onboard: {
+                    title: '📋 Bulk Student Onboarding',
+                    html: `
+                        <p style="color: var(--text-muted); margin-bottom: 15px;">Upload a CSV file with student data. Required columns: <code style="background: var(--glass); padding: 2px 6px; border-radius: 4px;">email, full_name, roll_number, department, year</code></p>
+                        <div class="form-group">
+                            <label class="form-label">College Code *</label>
+                            <input type="text" class="form-input" id="onboardCollegeCode" placeholder="e.g., SRMIST">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">CSV File *</label>
+                            <input type="file" class="form-input" id="onboardCSVFile" accept=".csv" style="padding: 10px;">
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 10px; padding: 12px; margin-bottom: 15px;">
+                            <p style="margin: 0; font-size: 13px; color: var(--text-muted);">
+                                <i class="fas fa-info-circle" style="color: #3b82f6;"></i> 
+                                <strong>CSV Format:</strong> email, full_name, roll_number, department, year<br>
+                                <strong>Default Password:</strong> First 4 chars of name + roll number (e.g., naru507)
+                            </p>
+                        </div>
+                        <div class="modal-footer" style="padding: 15px 0 0 0; border: none;">
+                            <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="submitBulkOnboard()"><i class="fas fa-cloud-upload-alt"></i> Upload & Create</button>
+                        </div>
+                    `
+                },
+                refill: {
+                    title: '💰 Bulk EduCredits Refill',
+                    html: `
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Assign EduCredits to students by department or year.</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label class="form-label">Department (optional)</label>
+                                <input type="text" class="form-input" id="refillDepartment" placeholder="e.g., Computer Science">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Year (optional)</label>
+                                <select class="form-select" id="refillYear">
+                                    <option value="">All Years</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Credits Per Student</label>
+                            <input type="number" class="form-input" id="refillCredits" value="500" min="50" max="5000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Reason</label>
+                            <input type="text" class="form-input" id="refillReason" value="Monthly refill" placeholder="Reason for refill">
+                        </div>
+                        <div class="modal-footer" style="padding: 15px 0 0 0; border: none;">
+                            <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="submitBulkRefill()"><i class="fas fa-coins"></i> Refill Credits</button>
+                        </div>
+                    `
+                },
+                renewal: {
+                    title: '📄 Generate Renewal Quote',
+                    html: `
+                        <p style="color: var(--text-muted); margin-bottom: 20px;">Create an automated budget proposal for license renewal.</p>
+                        <div class="form-group">
+                            <label class="form-label">License Key (for lookup)</label>
+                            <input type="text" class="form-input" id="renewalLicenseKey" placeholder="Leave empty to use current license" style="font-family: monospace;">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div class="form-group">
+                                <label class="form-label">Proposed Tier</label>
+                                <select class="form-select" id="renewalTier">
+                                    <option value="">Keep Current</option>
+                                    <option value="starter">Starter</option>
+                                    <option value="professional">Professional</option>
+                                    <option value="enterprise">Enterprise</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Proposed Users</label>
+                                <input type="number" class="form-input" id="renewalUsers" placeholder="Keep current">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="display: flex; align-items: center; gap: 8px;">
+                                <input type="checkbox" id="renewalGPU"> Include GPU Cluster (4x RTX 5090 maintenance)
+                            </label>
+                        </div>
+                        <div class="modal-footer" style="padding: 15px 0 0 0; border: none;">
+                            <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Cancel</button>
+                            <button class="btn btn-primary" onclick="submitRenewalQuote()"><i class="fas fa-calculator"></i> Generate Quote</button>
+                        </div>
+                    `
+                },
+            };
+
+            const form = forms[type];
+            if (!form) return;
+
+            title.textContent = form.title;
+            body.innerHTML = form.html;
+            modal.classList.add('active');
+        }
+
+        function closeSubscriptionModal() {
+            document.getElementById('subscriptionModal').classList.remove('active');
+        }
+
+        // ===================== API SUBMISSIONS =====================
+
+        async function submitActivateLicense() {
+            const key = document.getElementById('activateLicenseKey').value.trim();
+            if (!key) { showToast('Please enter a license key', 'error'); return; }
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/license/activate`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ license_key: key })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast(`✅ License activated for ${data.college_name}!`, 'success');
+                    closeSubscriptionModal();
+                    loadSubscriptionData();
+                } else {
+                    showToast(data.detail || data.error || 'Activation failed', 'error');
+                }
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function submitGenerateLicense() {
+            const collegeId = document.getElementById('genCollegeId').value.trim();
+            const collegeName = document.getElementById('genCollegeName').value.trim();
+            const adminEmail = document.getElementById('genAdminEmail').value.trim();
+            const tier = document.getElementById('genTier').value;
+            const maxUsers = parseInt(document.getElementById('genMaxUsers').value) || 500;
+            const validity = parseInt(document.getElementById('genValidity').value) || 365;
+
+            if (!collegeId || !collegeName || !adminEmail) {
+                showToast('Fill all required fields', 'error'); return;
+            }
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/license/generate`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        college_id: collegeId, college_name: collegeName, admin_email: adminEmail,
+                        tier, total_allowed_users: maxUsers, validity_days: validity
+                    })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    // Show the license key prominently
+                    document.getElementById('subscriptionModalBody').innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">🎉</div>
+                            <h3 style="margin: 0 0 10px 0;">License Generated!</h3>
+                            <p style="color: var(--text-muted);">Send this key to <strong>${adminEmail}</strong></p>
+                            <div style="background: rgba(16, 185, 129, 0.1); border: 2px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 20px; margin: 20px 0; font-family: monospace; font-size: 14px; word-break: break-all; letter-spacing: 1px; color: #10b981;">
+                                ${data.license_key}
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 13px;"><i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i> This key is shown only once. Copy it now!</p>
+                            <button class="btn btn-primary" onclick="navigator.clipboard.writeText('${data.license_key}').then(() => showToast('Copied!', 'success'))" style="margin-top: 10px;">
+                                <i class="fas fa-copy"></i> Copy Key
+                            </button>
+                        </div>
+                    `;
+                    loadSubscriptionData();
+                } else {
+                    showToast(data.detail || data.error || 'Generation failed', 'error');
+                }
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function submitBulkOnboard() {
+            const collegeCode = document.getElementById('onboardCollegeCode').value.trim();
+            const fileInput = document.getElementById('onboardCSVFile');
+
+            if (!collegeCode || !fileInput.files.length) {
+                showToast('Fill college code and select a CSV file', 'error'); return;
+            }
+
+            const formData = new FormData();
+            formData.append('college_code', collegeCode);
+            formData.append('csv_file', fileInput.files[0]);
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/license/bulk-onboard`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    body: formData
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    document.getElementById('subscriptionModalBody').innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 48px; margin-bottom: 15px;">📋</div>
+                            <h3>Onboarding Complete!</h3>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0;">
+                                <div style="padding: 15px; background: rgba(16, 185, 129, 0.1); border-radius: 12px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: #10b981;">${data.created}</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">Created</div>
+                                </div>
+                                <div style="padding: 15px; background: rgba(245, 158, 11, 0.1); border-radius: 12px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: #f59e0b;">${data.skipped}</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">Skipped</div>
+                                </div>
+                                <div style="padding: 15px; background: rgba(239, 68, 68, 0.1); border-radius: 12px;">
+                                    <div style="font-size: 28px; font-weight: 700; color: #ef4444;">${data.failed}</div>
+                                    <div style="font-size: 12px; color: var(--text-muted);">Failed</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Close</button>
+                        </div>
+                    `;
+                    loadSubscriptionData();
+                } else {
+                    showToast(data.detail || data.error || 'Upload failed', 'error');
+                }
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function submitBulkRefill() {
+            const department = document.getElementById('refillDepartment').value.trim() || null;
+            const year = document.getElementById('refillYear').value ? parseInt(document.getElementById('refillYear').value) : null;
+            const credits = parseInt(document.getElementById('refillCredits').value) || 500;
+            const reason = document.getElementById('refillReason').value.trim() || 'Monthly refill';
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const body = { credits_amount: credits, reason };
+                if (department) body.department = department;
+                if (year) body.year = year;
+
+                const response = await fetch(`${API_BASE_URL}/credits/refill`, {
+                    method: 'PUT',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast(`✅ Refilled ${data.credits_per_student} credits for ${data.students_refilled} students!`, 'success');
+                    closeSubscriptionModal();
+                } else {
+                    showToast(data.detail || data.error || 'Refill failed', 'error');
+                }
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function submitRenewalQuote() {
+            const licenseKey = document.getElementById('renewalLicenseKey').value.trim() || '';
+            const tier = document.getElementById('renewalTier').value || null;
+            const users = document.getElementById('renewalUsers').value ? parseInt(document.getElementById('renewalUsers').value) : null;
+            const gpu = document.getElementById('renewalGPU').checked;
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const body = { license_key: licenseKey || 'current', include_gpu_cluster: gpu };
+                if (tier) body.proposed_tier = tier;
+                if (users) body.proposed_users = users;
+
+                const response = await fetch(`${API_BASE_URL}/license/renewal-quote`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    const q = data.quote;
+                    document.getElementById('subscriptionModalBody').innerHTML = `
+                        <div style="padding: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h4 style="margin: 0;">Quote: ${q.quote_id}</h4>
+                                <span style="padding: 4px 12px; background: rgba(99, 102, 241, 0.2); border-radius: 20px; font-size: 12px; color: var(--primary);">${q.proposed_tier?.toUpperCase()}</span>
+                            </div>
+                            <div style="background: var(--glass); border: 1px solid var(--glass-border); border-radius: 15px; padding: 20px; margin-bottom: 15px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px;">
+                                    <div>Base Price:</div><div style="text-align: right; font-weight: 600;">₹${(q.pricing?.base_price || 0).toLocaleString()}</div>
+                                    <div>User Addon:</div><div style="text-align: right;">₹${(q.pricing?.user_addon || 0).toLocaleString()}</div>
+                                    <div>GPU Cluster:</div><div style="text-align: right;">₹${(q.pricing?.gpu_cluster_addon || 0).toLocaleString()}</div>
+                                    <div style="border-top: 1px solid var(--glass-border); padding-top: 10px; font-weight: 700; font-size: 16px;">Total Annual:</div>
+                                    <div style="border-top: 1px solid var(--glass-border); padding-top: 10px; text-align: right; font-weight: 700; font-size: 16px; color: var(--primary);">₹${(q.pricing?.total_annual || 0).toLocaleString()}</div>
+                                    <div>Monthly Equiv:</div><div style="text-align: right; color: var(--text-muted);">₹${(q.pricing?.monthly_equivalent || 0).toLocaleString()}/mo</div>
+                                </div>
+                            </div>
+                            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 10px; padding: 15px; font-size: 13px;">
+                                <strong>ROI Metrics:</strong> ${q.roi_metrics?.total_ai_sessions || 0} AI sessions, ${q.roi_metrics?.total_compilations || 0} compilations, ₹${q.roi_metrics?.cost_per_session || 0}/session
+                            </div>
+                            <div class="modal-footer" style="padding: 15px 0 0 0; border: none;">
+                                <button class="btn btn-secondary" onclick="closeSubscriptionModal()">Close</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    showToast(data.detail || data.error || 'Quote generation failed', 'error');
+                }
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        // ===================== USAGE ANALYTICS =====================
+
+        async function loadUsageAnalytics() {
+            const area = document.getElementById('analyticsDisplayArea');
+            area.style.display = 'block';
+            area.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i> Loading analytics...</div>';
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/license/analytics?period=month`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    const eng = data.engagement || {};
+                    const skill = data.skill_growth || {};
+                    const res = data.resource_utilization || {};
+                    const gpu = res.gpu_cluster || {};
+
+                    area.innerHTML = `
+                        <div class="admin-table-container">
+                            <h3 style="margin: 0 0 20px 0;"><i class="fas fa-chart-line" style="color: var(--primary);"></i> Usage Analytics (Last 30 Days)</h3>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                                <div style="padding: 20px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(99, 102, 241, 0.05)); border-radius: 15px; border: 1px solid var(--glass-border); text-align: center;">
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--primary);">${eng.total_ai_sessions || 0}</div>
+                                    <div style="font-size: 13px; color: var(--text-muted);">AI Sessions</div>
+                                </div>
+                                <div style="padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); border-radius: 15px; border: 1px solid var(--glass-border); text-align: center;">
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--secondary);">${skill.total_students || 0}</div>
+                                    <div style="font-size: 13px; color: var(--text-muted);">Active Students</div>
+                                </div>
+                                <div style="padding: 20px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border-radius: 15px; border: 1px solid var(--glass-border); text-align: center;">
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--accent);">${Math.round(skill.avg_credits || 0)}</div>
+                                    <div style="font-size: 13px; color: var(--text-muted);">Avg Credits</div>
+                                </div>
+                                <div style="padding: 20px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05)); border-radius: 15px; border: 1px solid var(--glass-border); text-align: center;">
+                                    <div style="font-size: 32px; font-weight: 700; color: var(--stage-1);">${Math.round(skill.avg_challenges_completed || 0)}</div>
+                                    <div style="font-size: 13px; color: var(--text-muted);">Avg Challenges</div>
+                                </div>
+                            </div>
+
+                            <!-- GPU Utilization -->
+                            <h4 style="margin: 25px 0 15px 0;"><i class="fas fa-microchip" style="color: #8b5cf6;"></i> Resource Utilization — ${gpu.name || 'GPU Cluster'}</h4>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px;">
+                                        <span>Current Load</span><span style="font-weight: 600;">${gpu.current_usage || 0}%</span>
+                                    </div>
+                                    <div style="height: 8px; background: rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                                        <div style="height: 100%; width: ${gpu.current_usage || 0}%; background: linear-gradient(90deg, #6366f1, #8b5cf6); border-radius: 8px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px;">
+                                        <span>Peak Load</span><span style="font-weight: 600;">${gpu.peak_usage || 0}%</span>
+                                    </div>
+                                    <div style="height: 8px; background: rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                                        <div style="height: 100%; width: ${gpu.peak_usage || 0}%; background: linear-gradient(90deg, #f59e0b, #ef4444); border-radius: 8px;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px;">
+                                        <span>Avg Load</span><span style="font-weight: 600;">${gpu.avg_usage || 0}%</span>
+                                    </div>
+                                    <div style="height: 8px; background: rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden;">
+                                        <div style="height: 100%; width: ${gpu.avg_usage || 0}%; background: linear-gradient(90deg, #10b981, #14b8a6); border-radius: 8px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Daily Trend -->
+                            <h4 style="margin: 25px 0 15px 0;"><i class="fas fa-chart-bar" style="color: #3b82f6;"></i> Daily Activity Trend</h4>
+                            <div style="display: flex; align-items: flex-end; gap: 8px; height: 120px; padding: 10px 0;">
+                                ${(eng.daily_trend || []).map(d => {
+                                    const maxSessions = Math.max(...(eng.daily_trend || []).map(x => x.sessions || 1), 1);
+                                    const height = Math.max(8, (d.sessions / maxSessions) * 100);
+                                    return `<div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                                        <span style="font-size: 11px; color: var(--text-muted);">${d.sessions}</span>
+                                        <div style="width: 100%; height: ${height}px; background: linear-gradient(180deg, var(--primary), rgba(99, 102, 241, 0.4)); border-radius: 6px 6px 0 0;"></div>
+                                        <span style="font-size: 10px; color: var(--text-muted);">${d.day}</span>
+                                    </div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    area.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">Failed to load analytics</div>';
+                }
+            } catch (e) {
+                area.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">Network error loading analytics</div>';
+            }
+        }
+
+        // ===================== REFILL REQUESTS =====================
+
+        async function loadRefillRequests() {
+            const area = document.getElementById('refillRequestsArea');
+            area.style.display = 'block';
+            area.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner"></i> Loading requests...</div>';
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/credits/refill-requests?status_filter=pending`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    if (!data.requests || data.requests.length === 0) {
+                        area.innerHTML = `
+                            <div class="admin-table-container">
+                                <div class="table-header"><div class="table-title">📬 Credit Refill Requests</div></div>
+                                <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                    <i class="fas fa-check-circle" style="font-size: 32px; color: var(--secondary); margin-bottom: 10px; display: block;"></i>
+                                    No pending refill requests!
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    area.innerHTML = `
+                        <div class="admin-table-container">
+                            <div class="table-header"><div class="table-title">📬 Credit Refill Requests (${data.requests.length})</div></div>
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Department</th>
+                                        <th>Credits Requested</th>
+                                        <th>Reason</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${data.requests.map(r => `
+                                        <tr>
+                                            <td>
+                                                <div style="font-weight: 500;">${r.user_name || 'Unknown'}</div>
+                                                <div style="font-size: 12px; color: var(--text-muted);">${r.user_email || ''}</div>
+                                            </td>
+                                            <td>${r.department || 'N/A'}</td>
+                                            <td><span style="font-weight: 700; color: var(--accent);">${r.requested_credits}</span></td>
+                                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${r.reason || 'N/A'}</td>
+                                            <td>${formatDate(r.created_at)}</td>
+                                            <td>
+                                                <button class="btn btn-small btn-primary" onclick="approveRefillRequest('${r._id}')">
+                                                    <i class="fas fa-check"></i> Approve
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+            } catch (e) {
+                area.innerHTML = '<div style="text-align: center; padding: 30px; color: var(--text-muted);">Failed to load requests</div>';
+            }
+        }
+
+        async function approveRefillRequest(requestId) {
+            try {
+                const token = localStorage.getItem('access_token');
+                const response = await fetch(`${API_BASE_URL}/credits/approve-refill/${requestId}`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast(data.message || 'Request approved!', 'success');
+                    loadRefillRequests();
+                } else {
+                    showToast(data.detail || 'Approval failed', 'error');
+                }
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+    </script>
+
     <!-- Fancy Theme Toggle Script -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const themeCheckbox = document.getElementById('checkbox');
-            const currentTheme = localStorage.getItem('theme') || 'light';
+            const currentTheme = localStorage.getItem('admin_theme') || localStorage.getItem('theme') || 'light';
             if (currentTheme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 if(themeCheckbox) themeCheckbox.checked = true;
@@ -7026,9 +7993,11 @@ PostgreSQL..."></textarea>
                 themeCheckbox.addEventListener('change', function() {
                     if (this.checked) {
                         document.documentElement.setAttribute('data-theme', 'dark');
-                        localStorage.setItem('theme', 'dark');
+                        localStorage.setItem('admin_theme', 'dark');
+                        localStorage.setItem('theme', 'dark'); // Sync to generic for safety
                     } else {
                         document.documentElement.removeAttribute('data-theme');
+                        localStorage.setItem('admin_theme', 'light');
                         localStorage.setItem('theme', 'light');
                     }
                 });

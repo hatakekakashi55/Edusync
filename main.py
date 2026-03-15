@@ -113,6 +113,9 @@ from app.routes.admin.stage1 import router as admin_stage1_router
 from app.routes.admin.stats import router as admin_stats_router
 from app.routes.admin.communication import router as admin_comm_router
 
+# Licensing & Subscription
+from app.routes.licensing import router as licensing_router
+
 # Career
 from app.routes.career.progress import router as career_progress_router
 from app.routes.career.interviews import router as career_interviews_router
@@ -206,6 +209,9 @@ app.include_router(admin_challenges_router)
 app.include_router(admin_stage1_router)
 app.include_router(admin_stats_router)
 app.include_router(admin_comm_router)
+
+# Licensing & Subscription
+app.include_router(licensing_router)
 
 # Career
 app.include_router(career_progress_router)
