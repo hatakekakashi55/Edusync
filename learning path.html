@@ -15,6 +15,12 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        *::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
         }
 
                 :root {
@@ -53,18 +59,26 @@
             overflow-x: hidden;
         }
 
-        /* Top Navigation */
-        .top-nav {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Top Navigation - Glassmorphism Pill */
+        .nav-header {
             position: sticky;
             top: 0;
             z-index: 1000;
+            padding: 12px 20px;
+            background: transparent;
+        }
+
+        .top-nav {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            padding: 12px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 50px;
         }
 
         .logo {
@@ -75,6 +89,7 @@
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -165,6 +180,7 @@
             margin-bottom: 10px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -623,6 +639,7 @@
             margin-bottom: 15px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -702,7 +719,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(2, 6, 23, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
@@ -712,13 +729,21 @@
             display: none;
         }
 
+        [data-theme="dark"] .loading-overlay {
+            background: rgba(2, 6, 23, 0.8);
+        }
+
         .loading-spinner {
             width: 60px;
             height: 60px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s linear infinite;
+        }
+
+        [data-theme="dark"] .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes spin {
@@ -768,86 +793,7 @@
         }
     
         
-        /* Fancy Theme Switcher Styles - Smaller Version */
-        .theme-switch-wrapper {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-        }
-
-        .theme-switch {
-            display: inline-block;
-            height: 28px;
-            position: relative;
-            width: 56px;
-        }
-
-        .theme-switch input {
-            display: none;
-        }
-
-        .slider-round {
-            background-color: #87ceeb;
-            bottom: 0;
-            cursor: pointer;
-            left: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            transition: .4s;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .sun-moon {
-            background-color: #f7d94c;
-            bottom: 4px;
-            height: 20px;
-            left: 4px;
-            position: absolute;
-            transition: .4s;
-            width: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
-        }
-
-        .sun-icon {
-            color: #d4a017;
-            font-size: 10px;
-        }
-
-        .moon-icon {
-            color: #f1f5f9;
-            font-size: 10px;
-            display: none;
-        }
-
-        .cloud {
-            position: absolute;
-            color: #fff;
-            opacity: 0.8;
-            transition: .4s;
-        }
-
-        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
-        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
-
-        .star {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            opacity: 0;
-            transition: .4s;
-        }
-
-        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
-        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
-        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+        
 
         input:checked + .slider-round {
             background-color: #1e293b;
@@ -895,15 +841,144 @@
         }
 
     </style>
-<script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
+
+
+    <style>
+        /* Fancy Theme Switcher Styles */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
         }
+
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider-round {
+            background-color: #87ceeb;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+
+        .sun-icon { color: #d4a017; font-size: 10px; }
+        .moon-icon { color: #f1f5f9; font-size: 10px; display: none; }
+        .cloud { position: absolute; color: #fff; opacity: 0.8; transition: .4s; }
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+        .star { position: absolute; background-color: #fff; border-radius: 50%; opacity: 0; transition: .4s; }
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round { background-color: #1e293b; }
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px); background-color: #f1f5f9; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        input:checked + .slider-round .sun-icon { display: none; }
+        input:checked + .slider-round .moon-icon { display: block; color: #94a3b8; }
+        input:checked + .slider-round .cloud { opacity: 0; transform: translateY(15px); }
+        input:checked + .slider-round .star { opacity: 1; }
+
+        /* Smooth Theme Transition for everything */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, [style*="transition"] {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+    </style>
+
+    <script>
+        function applyStudentTheme(theme) {
+            if (!theme) return;
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            
+            // Update all theme checkboxes on the page
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (theme === 'dark');
+            });
+            
+            // Dispatch a custom event (if any scripts want to listen)
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
+        }
+
+        (function() {
+            let currentTheme = localStorage.getItem('student_theme');
+            if (currentTheme) {
+                applyStudentTheme(currentTheme);
+            } else {
+                const oldTheme = localStorage.getItem('theme');
+                if (oldTheme) {
+                    localStorage.setItem('student_theme', oldTheme);
+                    applyStudentTheme(oldTheme);
+                } else {
+                    applyStudentTheme('light');
+                }
+            }
+        })();
+
+        // Listen for storage changes across tabs
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'student_theme') {
+                applyStudentTheme(e.newValue || 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (localStorage.getItem('student_theme') === 'dark');
+                cb.addEventListener('change', function(e) {
+                    const newTheme = e.target.checked ? 'dark' : 'light';
+                    localStorage.setItem('student_theme', newTheme);
+                    applyStudentTheme(newTheme);
+                });
+            });
+        });
     </script>
 </head>
 
 <body>
     <!-- Top Navigation -->
+    <header class="nav-header">
     <nav class="top-nav">
         <div class="logo">
             <i class="fas fa-graduation-cap logo-icon"></i>
@@ -926,7 +1001,8 @@
         </div>
 
         <div class="user-menu">
-            <div class="user-info">
+            
+<div class="user-info">
                 <div class="user-avatar" id="userAvatar">JD</div>
                 <div>
                     <div id="userName">John Doe</div>
@@ -938,6 +1014,7 @@
             </button>
         </div>
     </nav>
+    </header>
 
     <!-- Main Content -->
     <main class="main-content">
@@ -2088,33 +2165,26 @@
         });
     </script>
 
-    
-
-
-    <!-- Fancy Theme Toggle Script -->
+    <!-- Student Theme Sync Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeCheckbox = document.getElementById('checkbox');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            if (currentTheme === 'dark') {
+        (function() {
+            const savedTheme = localStorage.getItem('student_theme') || 'light';
+            if (savedTheme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
-                if(themeCheckbox) themeCheckbox.checked = true;
             } else {
                 document.documentElement.removeAttribute('data-theme');
-                if(themeCheckbox) themeCheckbox.checked = false;
             }
-            if(themeCheckbox) {
-                themeCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
+            // Listen for theme changes from other tabs
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'student_theme') {
+                    if (e.newValue === 'dark') {
                         document.documentElement.setAttribute('data-theme', 'dark');
-                        localStorage.setItem('theme', 'dark');
                     } else {
                         document.documentElement.removeAttribute('data-theme');
-                        localStorage.setItem('theme', 'light');
                     }
-                });
-            }
-        });
+                }
+            });
+        })();
     </script>
 
 </body>

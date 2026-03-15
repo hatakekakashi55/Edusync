@@ -1,0 +1,18 @@
+{
+    "python.defaultInterpreterPath": "C:\\Users\\wayne\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "python.languageServer": "Pylance",
+    "python.analysis.extraPaths": [
+        "C:\\Users\\wayne\\Documents\\edusync-babu",
+        "C:\\Users\\wayne\\Documents\\edusync-babu\\app",
+        "C:\\Users\\wayne\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages"
+    ],
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.indexing": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.diagnosticMode": "workspace",
+    "python.analysis.useLibraryCodeForTypes": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.exclude": [
+        "**/.env"
+    ]
+}

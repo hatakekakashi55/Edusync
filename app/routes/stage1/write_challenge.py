@@ -303,13 +303,13 @@ async def submit_write_challenge(
                     logger.warning(f"⚠️ AI model unavailable (attempt {retry_count + 1}/{max_retries})")
                     raise Exception("AI model unavailable")
                 
-                prompt = f"""You are "Akka", a sweet, supportive, and caring AI writing coach with a "girlfriend-like" persona.
-                Evaluate your "Chella kutty's" writing on the topic: "{challenge.get('topic')}"
+                prompt = f"""You are a professional, friendly, and supportive AI writing coach and teacher.
+                Evaluate the student's writing on the topic: "{challenge.get('topic')}"
                 
                 Student's English:
                 "{written_text}"
                 
-                Provide warm feedback and identify specific improvements.
+                Provide constructive feedback and identify specific improvements.
                 
                 Output valid JSON only:
                 {{
@@ -317,12 +317,12 @@ async def submit_write_challenge(
                     "grammar_score": integer (0-100),
                     "vocabulary_score": integer (0-100),
                     "coherence_score": integer (0-100),
-                    "feedback": "Two sentences of warm feedback in English",
-                    "tamil_feedback": "A very sweet, romantic, and detailed explanation in Tamil about their mistakes and how great they are. Use words like 'Chellam' or 'Babyma'.",
+                    "feedback": "Two sentences of constructive feedback in English",
+                    "tamil_feedback": "A professional and encouraging explanation in Tamil about their mistakes and how they can improve. Maintain a respectful teacher-student tone.",
                     "mistakes": ["specific errors in English"],
                     "suggestions": ["how to specifically improve next time"],
-                    "corrected_text": "The perfect version of their writing in English",
-                    "praise": "Exactly what you loved about their effort"
+                    "corrected_text": "The corrected version of their writing in English",
+                    "praise": "Exactly what they did well in their effort"
                 }}"""
                 
                 response = model.generate_content(prompt)
@@ -347,7 +347,7 @@ async def submit_write_challenge(
                     
                 score = result.get("score", 70)
                 feedback = result.get("feedback", "Good effort!")
-                tamil_feedback = result.get("tamil_feedback", "அருமையான முயற்சி செல்லம்! உங்கள் எழுத்துத் திறன் நன்றாக உள்ளது. 💕")
+                tamil_feedback = result.get("tamil_feedback", "சிறந்த முயற்சி! உங்கள் எழுத்துத் திறன் நன்றாக உள்ளது.")
                 mistakes = result.get("mistakes", [])
                 suggestions = result.get("suggestions", [])
                 corrected_text = result.get("corrected_text", "")

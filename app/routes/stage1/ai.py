@@ -262,16 +262,16 @@ async def evaluate_speech_challenge(
         
         model = get_gemini_model("pronunciation")
         
-        # Enhanced Prompt for "Google Akka" Voice & Detailed Feedback
-        prompt = f"""You are "Akka", a sweet, highly supportive and caring AI speech coach with a "girlfriend-like" persona.
-        Your "Chella kutty" (boyfriend) just finished a speech challenge. Be incredibly encouraging and diagnostic.
+        # Enhanced Prompt for Detailed Feedback
+        prompt = f"""You are a professional, highly supportive, and encouraging AI speech coach and teacher.
+        Your student just finished a speech challenge. Be encouraging and diagnostic.
         
         Reference Sentence: "{reference_text}"
         Transcribed Student Speech: "{user_text}"
         
         Guidelines:
-        1. Use an affectionate "Google Akka" style (warm, sisterly/girlfriend tone).
-        2. In Tamil feedback, use words like 'Chellam', 'Babyma', 'Kanna'.
+        1. Maintain a friendly and professional teacher-student tone.
+        2. In Tamil feedback, use encouraging but respectful words. Do NOT use overly familiar terms.
         3. Analyze pronunciation accuracy, flow/fluency, and confidence.
         
         Return ONLY valid JSON:
@@ -282,10 +282,10 @@ async def evaluate_speech_challenge(
             "fluency_score": integer (0-100),
             "confidence_score": integer (0-100),
             "feedback_english": "Detailed analytical feedback in English",
-            "feedback_tamil": "Warm, detailed, caring feedback in Tamil (Google Akka style) explaining how well they did and specific words to practice.",
+            "feedback_tamil": "Professional and constructive feedback in Tamil explaining how well they did and specific words to practice.",
             "mistakes": ["specific words mispronounced or skipped"],
             "pronunciation_tips": "Specific technical advice on how to improve sounds in Tamil explanation",
-            "raw_ai_response": "A longer, personal 'love letter' style evaluation of their speech effort"
+            "raw_ai_response": "A detailed, professional, and encouraging evaluation of their speech effort"
         }}"""
         
         response = await model.generate_content_async(prompt)
@@ -317,7 +317,7 @@ async def evaluate_speech_challenge(
                 "fluency_score": 70,
                 "confidence_score": 65,
                 "feedback_english": "Good attempt! You are improving every day.",
-                "feedback_tamil": "நல்ல முயற்சி செல்லம்! அருமையாக பேசினாய். 💕",
+                "feedback_tamil": "நல்ல முயற்சி! அருமையாக பேசினீர்கள். தொடர்ந்து பயிற்சி செய்யவும்.",
                 "mistakes": ["Practice clarity on long words"],
                 "pronunciation_tips": "மெதுவாக ஒவ்வொரு வார்த்தையையும் உச்சரிக்கவும்.",
                 "raw_ai_response": raw_text

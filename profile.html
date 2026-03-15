@@ -14,6 +14,12 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        *::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
         }
 
                 :root {
@@ -48,22 +54,32 @@
         body {
             background: linear-gradient(135deg, var(--darker), var(--dark));
             color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Top Navigation */
+        /* Top Navigation - Glassmorphism Pill */
+        .nav-header {
+            position: relative;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: transparent;
+            flex-shrink: 0;
+        }
+
         .top-nav {
             background: var(--glass);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 30px;
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            padding: 12px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            border-radius: 50px;
         }
 
         .logo {
@@ -74,6 +90,7 @@
             font-weight: 700;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
@@ -131,52 +148,78 @@
         /* Main Container */
         .main-container {
             display: flex;
-            min-height: calc(100vh - 70px);
+            flex: 1;
+            overflow: hidden;
         }
 
-        /* Sidebar */
+        /* Sidebar Styles - Modern Layout */
         .sidebar {
-            width: 250px;
-            background: var(--glass);
+            width: 280px;
+            background: transparent;
             border-right: 1px solid var(--glass-border);
-            padding: 20px 0;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            overflow-y: auto;
+            flex-shrink: 0;
         }
 
         .sidebar-menu {
             list-style: none;
-            padding: 0 15px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .menu-item {
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
 
         .menu-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
+            gap: 15px;
+            padding: 16px 20px;
             color: var(--text-muted);
             text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
+            font-size: 15px;
+            border: 1px solid transparent;
         }
 
         .menu-link:hover {
             background: var(--glass);
             color: var(--text);
+            transform: translateX(5px);
+            border-color: var(--glass-border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
 
         .menu-link.active {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(99, 102, 241, 0.12);
             color: var(--primary);
-            border-left: 4px solid var(--primary);
+            font-weight: 600;
+            box-shadow: -6px 0 0 0 var(--primary);
+            border-left: 1px solid transparent;
         }
 
         .menu-icon {
-            font-size: 18px;
-            width: 24px;
+            font-size: 20px;
+            width: 26px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-link.active .menu-icon {
+            color: var(--primary);
+        }
+
+        .menu-link:hover .menu-icon {
+            transform: scale(1.1);
         }
 
         /* Main Content */
@@ -289,47 +332,7 @@
             color: var(--text-muted);
         }
 
-        /* Tabs Navigation */
-        .profile-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--glass-border);
-            padding-bottom: 10px;
-        }
 
-        .tab-btn {
-            padding: 12px 24px;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            border-radius: 10px;
-            font-weight: 500;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .tab-btn:hover {
-            color: var(--text);
-            background: var(--glass);
-        }
-
-        .tab-btn.active {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -11px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 2px;
-        }
 
         /* Tab Content */
         .tab-content {
@@ -758,7 +761,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(2, 6, 23, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
@@ -768,13 +771,21 @@
             display: none;
         }
 
+        [data-theme="dark"] .loading-overlay {
+            background: rgba(2, 6, 23, 0.8);
+        }
+
         .loading-spinner {
             width: 60px;
             height: 60px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s linear infinite;
+        }
+
+        [data-theme="dark"] .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes spin {
@@ -1041,7 +1052,30 @@
         }
     
         
-        /* Fancy Theme Switcher Styles - Smaller Version */
+
+
+
+    
+        
+        /* Smooth Theme Transition */
+        *, *::before, *::after {
+            transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
+        }
+        
+        /* Exclude animations that shouldn't be transitioned */
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+    </style>
+
+
+    <style>
+        /* Fancy Theme Switcher Styles */
         .theme-switch-wrapper {
             display: flex;
             align-items: center;
@@ -1089,94 +1123,93 @@
             box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
         }
 
-        .sun-icon {
-            color: #d4a017;
-            font-size: 10px;
-        }
-
-        .moon-icon {
-            color: #f1f5f9;
-            font-size: 10px;
-            display: none;
-        }
-
-        .cloud {
-            position: absolute;
-            color: #fff;
-            opacity: 0.8;
-            transition: .4s;
-        }
-
+        .sun-icon { color: #d4a017; font-size: 10px; }
+        .moon-icon { color: #f1f5f9; font-size: 10px; display: none; }
+        .cloud { position: absolute; color: #fff; opacity: 0.8; transition: .4s; }
         .cloud1 { top: 4px; right: 8px; font-size: 7px; }
         .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
-
-        .star {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            opacity: 0;
-            transition: .4s;
-        }
-
+        .star { position: absolute; background-color: #fff; border-radius: 50%; opacity: 0; transition: .4s; }
         .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
         .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
         .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
 
-        input:checked + .slider-round {
-            background-color: #1e293b;
-        }
-
+        input:checked + .slider-round { background-color: #1e293b; }
         input:checked + .slider-round .sun-moon {
-            transform: translateX(28px);
-            background-color: #f1f5f9;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transform: translateX(28px); background-color: #f1f5f9; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
+        input:checked + .slider-round .sun-icon { display: none; }
+        input:checked + .slider-round .moon-icon { display: block; color: #94a3b8; }
+        input:checked + .slider-round .cloud { opacity: 0; transform: translateY(15px); }
+        input:checked + .slider-round .star { opacity: 1; }
 
-        input:checked + .slider-round .sun-icon {
-            display: none;
-        }
-
-        input:checked + .slider-round .moon-icon {
-            display: block;
-            color: #94a3b8;
-        }
-
-        input:checked + .slider-round .cloud {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-
-        input:checked + .slider-round .star {
-            opacity: 1;
-        }
-
-
-    
-        
-        /* Smooth Theme Transition */
+        /* Smooth Theme Transition for everything */
         *, *::before, *::after {
             transition: background 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease !important;
         }
         
-        /* Exclude animations that shouldn't be transitioned */
-        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
+        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, [style*="transition"] {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
-
-        .sun-moon, .slider-round, .sun-icon, .moon-icon, .cloud, .star, .pulse, .ai-assistant-btn {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-
     </style>
-<script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
+
+    <script>
+        function applyStudentTheme(theme) {
+            if (!theme) return;
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            
+            // Update all theme checkboxes on the page
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (theme === 'dark');
+            });
+            
+            // Dispatch a custom event (if any scripts want to listen)
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
         }
+
+        (function() {
+            let currentTheme = localStorage.getItem('student_theme');
+            if (currentTheme) {
+                applyStudentTheme(currentTheme);
+            } else {
+                const oldTheme = localStorage.getItem('theme');
+                if (oldTheme) {
+                    localStorage.setItem('student_theme', oldTheme);
+                    applyStudentTheme(oldTheme);
+                } else {
+                    applyStudentTheme('light');
+                }
+            }
+        })();
+
+        // Listen for storage changes across tabs
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'student_theme') {
+                applyStudentTheme(e.newValue || 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (localStorage.getItem('student_theme') === 'dark');
+                cb.addEventListener('change', function(e) {
+                    const newTheme = e.target.checked ? 'dark' : 'light';
+                    localStorage.setItem('student_theme', newTheme);
+                    applyStudentTheme(newTheme);
+                });
+            });
+        });
     </script>
 </head>
 
 <body>
     <!-- Top Navigation -->
+    <header class="nav-header">
     <nav class="top-nav">
         <a href="student_dashboard.html" class="logo">
             <i class="fas fa-graduation-cap logo-icon"></i>
@@ -1192,6 +1225,7 @@
             </button>
         </div>
     </nav>
+    </header>
 
     <!-- Main Container -->
     <div class="main-container">
@@ -1289,33 +1323,7 @@
                 </div>
             </div>
 
-            <!-- Tabs Navigation -->
-            <div class="profile-tabs">
-                <button class="tab-btn active" data-tab="personal-info">
-                    <i class="fas fa-user"></i> Personal Info
-                </button>
-                <button class="tab-btn" data-tab="education">
-                    <i class="fas fa-graduation-cap"></i> Education
-                </button>
-                <button class="tab-btn" data-tab="skills">
-                    <i class="fas fa-tools"></i> Skills & Interests
-                </button>
-                <button class="tab-btn" data-tab="achievements">
-                    <i class="fas fa-trophy"></i> Achievements
-                </button>
-                <button class="tab-btn" data-tab="badges">
-                    <i class="fas fa-award"></i> Badges
-                </button>
-                <button class="tab-btn" data-tab="activity">
-                    <i class="fas fa-history"></i> Activity
-                </button>
-                <button class="tab-btn" data-tab="security">
-                    <i class="fas fa-shield-alt"></i> Security
-                </button>
-                <button class="tab-btn" data-tab="settings">
-                    <i class="fas fa-cog"></i> Settings
-                </button>
-            </div>
+
 
             <!-- Tab Contents -->
             <!-- Personal Info Tab -->
@@ -1894,36 +1902,55 @@
                         <i class="fas fa-palette"></i>
                         Theme & Appearance
                     </h3>
-                    <form id="themeSettingsForm">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label class="form-label">Theme</label>
-                                <select class="form-control form-select" id="theme">
-                                    <option value="dark">Dark Theme</option>
-                                    <option value="light">Light Theme</option>
-                                    <option value="auto">Auto (System)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Font Size</label>
-                                <select class="form-control form-select" id="fontSize">
-                                    <option value="small">Small</option>
-                                    <option value="medium" selected>Medium</option>
-                                    <option value="large">Large</option>
-                                    <option value="xlarge">Extra Large</option>
-                                </select>
-                            </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 15px; margin-bottom: 20px;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 16px; margin-bottom: 5px;">Dark Mode</div>
+                            <div style="color: var(--text-muted); font-size: 14px;">Switch between light and dark appearance</div>
                         </div>
-                        <div style="display: flex; gap: 10px; margin-top: 20px;">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Save Theme
-                            </button>
-                            <button type="button" class="btn btn-secondary" onclick="resetTheme()">
-                                <i class="fas fa-undo"></i> Reset to Default
-                            </button>
+                        <div class="theme-switch-wrapper" style="margin-right: 0;">
+                            <label class="theme-switch" for="profile-theme-checkbox">
+                                <input type="checkbox" id="profile-theme-checkbox" class="theme-checkbox" />
+                                <div class="slider-round">
+                                    <div class="sun-moon">
+                                        <i class="fas fa-sun sun-icon"></i>
+                                        <i class="fas fa-moon moon-icon"></i>
+                                    </div>
+                                    <i class="fas fa-cloud cloud cloud1"></i>
+                                    <i class="fas fa-cloud cloud cloud2"></i>
+                                    <i class="fas fa-star star star1"></i>
+                                    <i class="fas fa-star star star2"></i>
+                                    <i class="fas fa-star star star3"></i>
+                                </div>
+                            </label>
                         </div>
-                    </form>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 15px; margin-bottom: 20px;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 16px; margin-bottom: 5px;">System Preference</div>
+                            <div style="color: var(--text-muted); font-size: 14px;">Use your device's system theme automatically</div>
+                        </div>
+                        <button class="btn btn-secondary" id="useSystemThemeBtn" onclick="useSystemTheme()" style="white-space: nowrap;">
+                            <i class="fas fa-desktop"></i> Use System Theme
+                        </button>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Font Size</label>
+                            <select class="form-control form-select" id="fontSize">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                                <option value="xlarge">Extra Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn btn-primary" onclick="saveFontSize()">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </div>
                 </div>
+
 
                 <div class="form-section">
                     <h3 class="section-title">
@@ -2103,11 +2130,13 @@
             document.getElementById('year').value = userData.year || '';
             document.getElementById('stage').value = userData.stage || 'freshie';
 
-            // Skills and interests
-            skills = userData.skills || [];
-            interests = userData.interests || [];
-            goals = userData.career_goals || [];
-            weakAreas = userData.weak_areas || [];
+            // Theme and appearance
+            const savedTheme = userData.theme || localStorage.getItem('student_theme') || 'light';
+            const profileToggle = document.getElementById('profile-theme-checkbox');
+            if (profileToggle) {
+                profileToggle.checked = (savedTheme === 'dark');
+            }
+            applyStudentTheme(savedTheme);
         }
 
         // Load skills into UI
@@ -2367,11 +2396,6 @@
             await updateLanguageSettings();
         });
 
-        document.getElementById('themeSettingsForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await updateThemeSettings();
-        });
-
         // Update personal info
         async function updatePersonalInfo() {
             showLoading();
@@ -2518,38 +2542,6 @@
             }
         }
 
-        // Update theme settings
-        async function updateThemeSettings() {
-            showLoading();
-
-            try {
-                const formData = {
-                    theme: document.getElementById('theme').value
-                };
-
-                const token = localStorage.getItem('access_token');
-                const response = await fetch(`${API_BASE_URL}/users/profile`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    await fetchUserProfile();
-                    showToast('Success', 'Theme settings updated successfully', 'success');
-                } else {
-                    throw new Error('Failed to update theme settings');
-                }
-            } catch (error) {
-                console.error('Update error:', error);
-                showToast('Error', 'Failed to update theme settings', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
 
         // Tag management functions
         function addSkill() {
@@ -2806,18 +2798,14 @@
                 document.querySelectorAll('.menu-link').forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                // Update active tab button and content
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-tab') === tabId) {
-                        btn.classList.add('active');
-                    }
-                });
-
+                // Update active tab content
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.remove('active');
                 });
-                document.getElementById(`${tabId}-tab`).classList.add('active');
+                const targetTab = document.getElementById(`${tabId}-tab`);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
             });
         });
 
@@ -2939,33 +2927,103 @@
         document.addEventListener('DOMContentLoaded', initProfile);
     </script>
 
-    
-
-
-    <!-- Fancy Theme Toggle Script -->
+    <!-- Student Theme Sync Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeCheckbox = document.getElementById('checkbox');
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            if (currentTheme === 'dark') {
+        // Global function to apply theme
+        function applyStudentTheme(theme) {
+            if (!theme) return;
+            if (theme === 'dark') {
                 document.documentElement.setAttribute('data-theme', 'dark');
-                if(themeCheckbox) themeCheckbox.checked = true;
             } else {
                 document.documentElement.removeAttribute('data-theme');
-                if(themeCheckbox) themeCheckbox.checked = false;
             }
-            if(themeCheckbox) {
-                themeCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        document.documentElement.setAttribute('data-theme', 'dark');
-                        localStorage.setItem('theme', 'dark');
-                    } else {
-                        document.documentElement.removeAttribute('data-theme');
-                        localStorage.setItem('theme', 'light');
+            
+            // Sync any theme checkboxes on the page
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (theme === 'dark');
+            });
+            
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
+        }
+
+        // Apply theme on page load
+        (function() {
+            const savedTheme = localStorage.getItem('student_theme') || 'light';
+            applyStudentTheme(savedTheme);
+        })();
+
+        // Setup profile theme toggle when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileToggle = document.getElementById('profile-theme-checkbox');
+            if (profileToggle) {
+                // Set initial state from localStorage
+                const currentTheme = localStorage.getItem('student_theme') || 'light';
+                profileToggle.checked = (currentTheme === 'dark');
+
+                // Handle toggle change - immediately apply and save
+                profileToggle.addEventListener('change', async function(e) {
+                    const newTheme = e.target.checked ? 'dark' : 'light';
+                    localStorage.setItem('student_theme', newTheme);
+                    applyStudentTheme(newTheme);
+
+                    // Optional: Sync with backend if available in profile context
+                    try {
+                        const token = localStorage.getItem('access_token');
+                        if (token) {
+                            await fetch(`${API_BASE_URL}/users/profile`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ theme: newTheme })
+                            });
+                        }
+                    } catch (err) {
+                        console.error('Failed to sync theme with backend:', err);
                     }
                 });
             }
+
+            // Listen for theme changes from other tabs
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'student_theme') {
+                    applyStudentTheme(e.newValue || 'light');
+                }
+            });
         });
+
+        // Use system theme preference
+        function useSystemTheme() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const newTheme = prefersDark ? 'dark' : 'light';
+            localStorage.setItem('student_theme', newTheme);
+            applyStudentTheme(newTheme);
+
+            // Sync with backend
+            const token = localStorage.getItem('access_token');
+            if (token) {
+                fetch(`${API_BASE_URL}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ theme: newTheme })
+                }).catch(err => console.error('Failed to sync theme with backend:', err));
+            }
+
+            // Show feedback
+            showToast('Success', 'Theme set to ' + (prefersDark ? 'Dark' : 'Light') + ' based on system preference!', 'success');
+        }
+
+        // Save font size preference
+        function saveFontSize() {
+            const fontSize = document.getElementById('fontSize').value;
+            localStorage.setItem('student_fontSize', fontSize);
+            showToast('Success', 'Font size saved: ' + fontSize, 'success');
+        }
     </script>
 
 </body>

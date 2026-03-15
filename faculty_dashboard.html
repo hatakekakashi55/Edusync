@@ -15,6 +15,12 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        *::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
         }
 
         :root {
@@ -23,6 +29,18 @@
             --secondary: #10b981;
             --accent: #f59e0b;
             --danger: #ef4444;
+            --dark: #f8fafc;
+            --darker: #f1f5f9;
+            --light: #1e293b;
+            --glass: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.15);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --ai-green: #10b981;
+            --ai-purple: #8b5cf6;
+        }
+
+        [data-theme="dark"] {
             --dark: #0f172a;
             --darker: #020617;
             --light: #f1f5f9;
@@ -30,29 +48,37 @@
             --glass-border: rgba(255, 255, 255, 0.18);
             --text: #e2e8f0;
             --text-muted: #94a3b8;
-            --ai-green: #10b981;
-            --ai-purple: #8b5cf6;
         }
 
         body {
             background: linear-gradient(135deg, var(--darker), var(--dark));
             color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Top Navigation */
+        /* Top Navigation - Glassmorphism Pill */
+        .nav-header {
+            position: relative;
+            z-index: 1000;
+            padding: 12px 20px;
+            background: transparent;
+            flex-shrink: 0;
+        }
+
         .top-nav {
-            background: rgba(15, 23, 42, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 15px 30px;
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            padding: 12px 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            border-radius: 50px;
         }
 
         .logo {
@@ -569,52 +595,78 @@
         /* Main Container */
         .main-container {
             display: flex;
-            min-height: calc(100vh - 70px);
+            flex: 1;
+            overflow: hidden;
         }
 
-        /* Sidebar */
+        /* Sidebar Styles - Modern Layout */
         .sidebar {
-            width: 250px;
-            background: rgba(15, 23, 42, 0.6);
+            width: 280px;
+            background: transparent;
             border-right: 1px solid var(--glass-border);
-            padding: 20px 0;
+            padding: 30px 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            overflow-y: auto;
+            flex-shrink: 0;
         }
 
         .sidebar-menu {
             list-style: none;
-            padding: 0 15px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .menu-item {
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
 
         .menu-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
+            gap: 15px;
+            padding: 16px 20px;
             color: var(--text-muted);
             text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s;
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
+            font-size: 15px;
+            border: 1px solid transparent;
         }
 
         .menu-link:hover {
             background: rgba(255, 255, 255, 0.05);
             color: var(--text);
+            transform: translateX(5px);
+            border-color: var(--glass-border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
 
         .menu-link.active {
-            background: rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.12);
             color: var(--accent);
-            border-left: 4px solid var(--accent);
+            font-weight: 600;
+            box-shadow: -6px 0 0 0 var(--accent);
+            border-left: 1px solid transparent;
         }
 
         .menu-icon {
-            font-size: 18px;
-            width: 24px;
+            font-size: 20px;
+            width: 26px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-link.active .menu-icon {
+            color: var(--accent);
+        }
+
+        .menu-link:hover .menu-icon {
+            transform: scale(1.1);
         }
 
         /* Main Content */
@@ -1338,10 +1390,54 @@
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
         }
     </style>
+    <script>
+        function applyFacultyTheme(theme) {
+            if (!theme) return;
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (theme === 'dark');
+            });
+            window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: theme } }));
+        }
+
+        (function() {
+            let currentTheme = localStorage.getItem('faculty_theme');
+            if (currentTheme) {
+                applyFacultyTheme(currentTheme);
+            } else {
+                applyFacultyTheme('light');
+            }
+        })();
+
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'faculty_theme') {
+                applyFacultyTheme(e.newValue || 'light');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeCheckboxes = document.querySelectorAll('.theme-checkbox');
+            themeCheckboxes.forEach(cb => {
+                cb.checked = (localStorage.getItem('faculty_theme') === 'dark');
+                cb.addEventListener('change', function(e) {
+                    const newTheme = e.target.checked ? 'dark' : 'light';
+                    localStorage.setItem('faculty_theme', newTheme);
+                    applyFacultyTheme(newTheme);
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
     <!-- Top Navigation -->
+    <header class="nav-header">
     <nav class="top-nav">
         <div class="logo">
             <i class="fas fa-chalkboard-teacher logo-icon"></i>
@@ -1366,6 +1462,7 @@
             </button>
         </div>
     </nav>
+    </header>
 
     <!-- Faculty AI Voice Assistant Modal (HOD-style) -->
     <div class="voice-assistant-container" id="voiceAssistantModal">
@@ -3400,6 +3497,45 @@ Or by appointment</textarea>
                                 <label class="form-label">Bio/Description</label>
                                 <textarea class="form-control"
                                     rows="5">Professor of Computer Science with 15 years of teaching experience. Specializes in Algorithms, Data Structures, and Artificial Intelligence. Passionate about innovative teaching methods and student success. Research interests include machine learning applications in education and algorithm optimization.</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Theme & Appearance -->
+                        <div class="content-card" style="margin-top: 20px;">
+                            <div class="card-title" style="margin-bottom: 25px;">
+                                <i class="fas fa-palette"></i> Theme & Appearance
+                            </div>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 15px; margin-bottom: 20px;">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px; margin-bottom: 5px;">Dark Mode</div>
+                                    <div style="color: var(--text-muted); font-size: 14px;">Switch between light and dark appearance</div>
+                                </div>
+                                <div class="theme-switch-wrapper" style="margin-right: 0;">
+                                    <label class="theme-switch" for="faculty-theme-checkbox">
+                                        <input type="checkbox" id="faculty-theme-checkbox" class="theme-checkbox" />
+                                        <div class="slider-round">
+                                            <div class="sun-moon">
+                                                <i class="fas fa-sun sun-icon"></i>
+                                                <i class="fas fa-moon moon-icon"></i>
+                                            </div>
+                                            <i class="fas fa-cloud cloud cloud1"></i>
+                                            <i class="fas fa-cloud cloud cloud2"></i>
+                                            <i class="fas fa-star star star1"></i>
+                                            <i class="fas fa-star star star2"></i>
+                                            <i class="fas fa-star star star3"></i>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 15px;">
+                                <div>
+                                    <div style="font-weight: 600; font-size: 16px; margin-bottom: 5px;">System Preference</div>
+                                    <div style="color: var(--text-muted); font-size: 14px;">Use your device's system theme automatically</div>
+                                </div>
+                                <button class="btn-secondary" onclick="useFacultySystemTheme()" style="white-space: nowrap;">
+                                    <i class="fas fa-desktop"></i> Use System Theme
+                                </button>
                             </div>
                         </div>
 
@@ -15673,6 +15809,114 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                 menu.style.display = 'none';
             });
         });
+    </script>
+
+    <!-- Faculty Theme Toggle CSS + JS -->
+    <style>
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 56px;
+            cursor: pointer;
+        }
+        .theme-switch input { display: none; }
+        .slider-round {
+            background-color: #87CEEB;
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            transition: .4s;
+            border-radius: 28px;
+            overflow: hidden;
+        }
+        .sun-moon {
+            background-color: #f7d94c;
+            bottom: 4px;
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(247, 217, 76, 0.8);
+        }
+        .sun-icon { color: #d4a017; font-size: 10px; }
+        .moon-icon { color: #f1f5f9; font-size: 10px; display: none; }
+        .cloud { position: absolute; color: #fff; opacity: 0.8; transition: .4s; }
+        .cloud1 { top: 4px; right: 8px; font-size: 7px; }
+        .cloud2 { bottom: 4px; right: 15px; font-size: 5px; }
+        .star { position: absolute; background-color: #fff; border-radius: 50%; opacity: 0; transition: .4s; }
+        .star1 { top: 6px; left: 12px; width: 1.5px; height: 1.5px; }
+        .star2 { top: 10px; left: 20px; width: 2px; height: 2px; }
+        .star3 { bottom: 8px; left: 16px; width: 1.5px; height: 1.5px; }
+
+        input:checked + .slider-round { background-color: #1e293b; }
+        input:checked + .slider-round .sun-moon {
+            transform: translateX(28px); background-color: #f1f5f9; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        input:checked + .slider-round .sun-icon { display: none; }
+        input:checked + .slider-round .moon-icon { display: block; color: #94a3b8; }
+        input:checked + .slider-round .cloud { opacity: 0; transform: translateY(15px); }
+        input:checked + .slider-round .star { opacity: 1; }
+    </style>
+
+    <script>
+        // Faculty theme management
+        function applyFacultyTheme(theme) {
+            if (!theme) return;
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            const cbs = document.querySelectorAll('.theme-checkbox');
+            cbs.forEach(cb => { cb.checked = (theme === 'dark'); });
+        }
+
+        // Apply on load immediately
+        (function() {
+            const saved = localStorage.getItem('faculty_theme') || 'light';
+            applyFacultyTheme(saved);
+        })();
+
+        // Setup toggle when DOM ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('faculty-theme-checkbox');
+            if (toggle) {
+                const current = localStorage.getItem('faculty_theme') || 'light';
+                toggle.checked = (current === 'dark');
+
+                toggle.addEventListener('change', function(e) {
+                    const newTheme = e.target.checked ? 'dark' : 'light';
+                    localStorage.setItem('faculty_theme', newTheme);
+                    applyFacultyTheme(newTheme);
+                });
+            }
+
+            // Cross-tab sync
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'faculty_theme') {
+                    applyFacultyTheme(e.newValue || 'light');
+                }
+            });
+        });
+
+        function useFacultySystemTheme() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const newTheme = prefersDark ? 'dark' : 'light';
+            localStorage.setItem('faculty_theme', newTheme);
+            applyFacultyTheme(newTheme);
+            alert('Theme set to ' + (prefersDark ? 'Dark' : 'Light') + ' based on system preference!');
+        }
     </script>
 </body>
 

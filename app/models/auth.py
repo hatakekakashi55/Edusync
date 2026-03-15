@@ -43,3 +43,4 @@ class UserUpdate(BaseModel):
     interests: Optional[List[str]] = None
     weak_areas: Optional[List[str]] = None
     career_goals: Optional[List[str]] = None
+    theme: Optional[str] = None
