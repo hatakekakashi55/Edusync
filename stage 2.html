@@ -829,15 +829,15 @@
         /* Toast Notifications */
         .toast-container {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
             z-index: 1000;
         }
 
         .toast {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 10px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
             padding: 15px 20px;
             margin-bottom: 10px;
             backdrop-filter: blur(10px);
@@ -846,6 +846,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            color: #0f172a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .toast.success {

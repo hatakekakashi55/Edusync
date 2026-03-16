@@ -29,9 +29,11 @@
             --text-main: #0F172A;
             --text-muted: #64748B;
             --white: #FFFFFF;
-            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.8);
             --glass-border: rgba(255, 255, 255, 0.5);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            --unstop-blue: #1c4980;
+            --unstop-bg: #f5f7f9;
         }
 
         body {
@@ -39,9 +41,29 @@
             color: var(--text-main);
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+                radial-gradient(circle at 15% 50%, rgba(79, 70, 229, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
             background-attachment: fixed;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float { animation: float 3s ease-in-out infinite; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Glassmorphism Classes */
@@ -95,28 +117,281 @@
         .nav-links a {
             text-decoration: none;
             color: var(--text-main);
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 15px;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-links a:hover {
             color: var(--primary);
         }
 
+        .nav-links a i {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
         .login-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: var(--unstop-blue);
             color: white !important;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 700;
             text-decoration: none;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(28, 73, 128, 0.2);
+            transition: all 0.3s;
         }
 
         .login-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 8px 25px rgba(28, 73, 128, 0.3);
+            filter: brightness(1.1);
+        }
+
+        /* Hero Updates */
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(to bottom, #eff6ff, #ffffff);
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        /* Stats Section */
+        .stats-strip {
+            padding: 30px 5%;
+            background: white;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--unstop-blue);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grid Section */
+        .grid-section {
+            padding: 80px 5%;
+            background: var(--unstop-bg);
+        }
+
+        .opportunity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .opp-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .opp-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .opp-banner {
+            height: 140px;
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+            position: relative;
+        }
+
+        .opp-content {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .opp-logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 12px;
+            position: absolute;
+            bottom: -30px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-size: 24px;
+            color: var(--unstop-blue);
+        }
+
+        .opp-type {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #e0f2fe;
+            color: #0369a1;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .opp-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--unstop-blue);
+        }
+
+        .opp-organizer {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .opp-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .opp-prize {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .opp-deadline {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #ef4444;
+            font-weight: 500;
+        }
+
+        /* Prepare Section */
+        .prepare-section {
+            padding: 100px 5%;
+            background: white;
+        }
+
+        .prepare-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .prepare-card {
+            background: #f8fafc;
+            padding: 40px;
+            border-radius: 24px;
+            text-align: left;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .prepare-card:hover {
+            background: white;
+            border-color: var(--primary-light);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .prepare-icon {
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        .prepare-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--unstop-blue);
+        }
+
+        /* Assessment Section */
+        .assessment-banner {
+            margin: 80px 5%;
+            padding: 60px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 32px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assessment-content {
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .assessment-banner h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 8px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            background: rgba(255,255,255,0.05);
         }
 
         /* Hero Section */
@@ -516,9 +791,10 @@
                 EduSync
             </a>
             <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#prepare"><i class="fas fa-book-open"></i> Learn</a></li>
+                <li><a href="#compete"><i class="fas fa-trophy"></i> Compete</a></li>
+                <li><a href="#jobs"><i class="fas fa-briefcase"></i> Jobs</a></li>
+                <li><a href="#leaderboard"><i class="fas fa-chart-line"></i> Leaderboard</a></li>
                 <li><a href="/login" class="login-btn">Log In</a></li>
             </ul>
         </nav>
@@ -526,12 +802,12 @@
 
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-badge"><i class="fas fa-star" style="color: var(--accent);"></i> Welcome to EduSync 4.0</div>
-            <h1>The Future of <span>Learning</span> is Here.</h1>
-            <p>Revolutionizing campus learning with AI-powered education, real-time collaboration, coding playgrounds, and personalized learning paths designed just for you.</p>
+            <div class="hero-badge"><i class="fas fa-bolt" style="color: var(--accent);"></i> Boost Your Career</div>
+            <h1>Learn <span>English.</span><br>Win Competitions.<br>Get <span>Hired.</span></h1>
+            <p>Master communication skills through AI roleplay, compete in global challenges, and unlock premium job opportunities with your verified skills.</p>
             <div class="hero-buttons">
-                <a href="/login" class="btn-primary">Get Started <i class="fas fa-arrow-right"></i></a>
-                <a href="#features" class="btn-secondary">Explore Features <i class="fas fa-compass"></i></a>
+                <a href="/login" class="btn-primary">Start Preparation <i class="fas fa-rocket"></i></a>
+                <a href="#compete" class="btn-secondary">View Opportunities <i class="fas fa-briefcase"></i></a>
             </div>
         </div>
         <div class="hero-image">
@@ -559,40 +835,220 @@
         </div>
     </section>
 
-    <section id="features" class="features">
-        <div class="section-header">
-            <h2>Everything you need to excel</h2>
-            <p>EduSync provides a comprehensive suite of tools designed to enhance student potential and streamline the learning experience.</p>
+    <div class="stats-strip">
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">100+</span>
+                <span class="stat-label">Active Contests</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">5,000+</span>
+                <span class="stat-label">Active Students</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">50+</span>
+                <span class="stat-label">Corporate Partners</span>
+            </div>
         </div>
-        <div class="features-grid">
-            <div class="feature-card fc-1">
-                <div class="feature-icon-wrapper"><i class="fas fa-brain"></i></div>
-                <h3>AI-Powered Learning</h3>
-                <p>Experience personalized learning paths guided by an intelligent AI tutor that adapts to your unique learning style.</p>
+    </div>
+
+    <section id="prepare" class="prepare-section reveal">
+        <div class="section-header">
+            <div class="hero-badge">The Prepare Section</div>
+            <h2>Our Core AI Features</h2>
+            <p>Build your communication confidence with our specialized AI-powered labs designed for modern professionals.</p>
+        </div>
+        <div class="prepare-grid">
+            <div class="prepare-card reveal">
+                <div class="prepare-icon"><i class="fas fa-comments-dollar"></i></div>
+                <h3>AI Roleplay Room</h3>
+                <p>Practice dummy interviews with custom AI personas. Get real-time feedback on your answers and body language.</p>
             </div>
-            <div class="feature-card fc-2">
-                <div class="feature-icon-wrapper"><i class="fas fa-code"></i></div>
-                <h3>Real-time Coding</h3>
-                <p>Execute code in 7+ different languages instantly. Practice algorithms and build projects right in your browser.</p>
+            <div class="prepare-card reveal">
+                <div class="prepare-icon"><i class="fas fa-microphone-alt"></i></div>
+                <h3>Speech Lab</h3>
+                <p>Analyze your speaking pace, detect filler words, and improve your tone to deliver powerful presentations.</p>
             </div>
-            <div class="feature-card fc-3">
-                <div class="feature-icon-wrapper"><i class="fas fa-users"></i></div>
-                <h3>Collaborative Learning</h3>
-                <p>Join study groups, engage in pair programming, and collaborate with peers seamlessly across the campus.</p>
+            <div class="prepare-card reveal">
+                <div class="prepare-icon"><i class="fas fa-ghost"></i></div>
+                <h3>Shadowing Module</h3>
+                <p>Improve your fluency and pronunciation by shadowing native speakers with AI-guided corrections.</p>
             </div>
-            <div class="feature-card fc-4">
-                <div class="feature-icon-wrapper"><i class="fas fa-trophy"></i></div>
-                <h3>Gamified Experience</h3>
-                <p>Stay motivated with engaging challenges, earn badges, and climb the leaderboard as you master new skills.</p>
+        </div>
+    </section>
+
+    <section id="compete" class="grid-section reveal">
+        <div class="section-header">
+            <div class="hero-badge">The Compete & Earn Section</div>
+            <h2>Global Opportunities</h2>
+            <p>Put your skills to the test and get noticed by recruiters through our curated challenges and hackathons.</p>
+        </div>
+        
+        <div class="opportunity-grid">
+            <!-- Card 1 -->
+            <div class="opp-card reveal">
+                <div class="opp-banner">
+                    <div class="opp-logo"><i class="fas fa-bullhorn"></i></div>
+                </div>
+                <div class="opp-content">
+                    <span class="opp-type">Communication Hackathon</span>
+                    <h3 class="opp-title">Best Pitcher Contest 2026</h3>
+                    <p class="opp-organizer">EduSync Global</p>
+                    <div class="opp-meta">
+                        <div class="opp-prize"><i class="fas fa-award"></i> ₹50,000</div>
+                        <div class="opp-deadline"><i class="fas fa-clock"></i> 2 Days Left</div>
+                    </div>
+                </div>
             </div>
+
+            <!-- Card 2 -->
+            <div class="opp-card reveal">
+                <div class="opp-banner" style="background: linear-gradient(45deg, #10B981, #34D399);">
+                    <div class="opp-logo" style="color: #10B981;"><i class="fas fa-feather-alt"></i></div>
+                </div>
+                <div class="opp-content">
+                    <span class="opp-type">Storytelling</span>
+                    <h3 class="opp-title">Best Storyteller Challenge</h3>
+                    <p class="opp-organizer">Creative Lab Inc.</p>
+                    <div class="opp-meta">
+                        <div class="opp-prize"><i class="fas fa-award"></i> ₹25,000</div>
+                        <div class="opp-deadline"><i class="fas fa-clock"></i> 5 Days Left</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="opp-card reveal">
+                <div class="opp-banner" style="background: linear-gradient(45deg, #F59E0B, #FBBF24);">
+                    <div class="opp-logo" style="color: #F59E0B;"><i class="fas fa-brain"></i></div>
+                </div>
+                <div class="opp-content">
+                    <span class="opp-type">AI Quiz</span>
+                    <h3 class="opp-title">Grammar & Etiquette Pro</h3>
+                    <p class="opp-organizer">Corporate Partners</p>
+                    <div class="opp-meta">
+                        <div class="opp-prize"><i class="fas fa-award"></i> Internship Pass</div>
+                        <div class="opp-deadline"><i class="fas fa-clock"></i> 1 Week Left</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="opp-card reveal">
+                <div class="opp-banner" style="background: linear-gradient(45deg, #EC4899, #F472B6);">
+                    <div class="opp-logo" style="color: #EC4899;"><i class="fas fa-handshake"></i></div>
+                </div>
+                <div class="opp-content">
+                    <span class="opp-type">Micro-Internship</span>
+                    <h3 class="opp-title">Startup Sales Pitcher</h3>
+                    <p class="opp-organizer">NextScale Ventures</p>
+                    <div class="opp-meta">
+                        <div class="opp-prize"><i class="fas fa-award"></i> ₹10,000/Task</div>
+                        <div class="opp-deadline"><i class="fas fa-clock"></i> Open Now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="jobs" class="grid-section reveal" style="background: white;">
+        <div class="section-header">
+            <div class="hero-badge">The Jobs Section</div>
+            <h2>Premium Opportunities</h2>
+            <p>Directly apply to startups and corporate partners who value effective communication.</p>
+        </div>
+        
+        <div class="opportunity-grid">
+            <!-- Job 1 -->
+            <div class="opp-card reveal">
+                <div class="opp-banner" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-briefcase" style="font-size: 40px; color: var(--unstop-blue);"></i>
+                </div>
+                <div class="opp-content">
+                    <span class="opp-type">Full Time</span>
+                    <h3 class="opp-title">Sales Executive</h3>
+                    <p class="opp-organizer">TechFlow Solutions</p>
+                    <div class="opp-meta">
+                        <div class="opp-prize">₹6 - 12 LPA</div>
+                        <div class="opp-deadline">Remote</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job 2 -->
+            <div class="opp-card reveal">
+                <div class="opp-banner" style="background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-headset" style="font-size: 40px; color: var(--unstop-blue);"></i>
+                </div>
+                <div class="opp-content">
+                    <span class="opp-type">Internship</span>
+                    <h3 class="opp-title">Customer Success Lead</h3>
+                    <p class="opp-organizer">GrowthHackers</p>
+                    <div class="opp-meta">
+                        <div class="opp-prize">₹20,000 / month</div>
+                        <div class="opp-deadline">Bangalore</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="leaderboard" class="prepare-section reveal" style="background: var(--unstop-bg);">
+        <div class="section-header">
+            <div class="hero-badge">Global Leaderboard</div>
+            <h2>Top Communicators</h2>
+            <p>See how you rank against peers from across the globe based on your ELQ (English Learning Quotient) score.</p>
+        </div>
+        
+        <div class="glass-card-preview" style="max-width: 800px; margin: 0 auto; height: auto;">
+            <div style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; font-weight: 700;">
+                    <span>Rank</span>
+                    <span>Student</span>
+                    <span>ELQ Score</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f9f9f9;">
+                    <span><i class="fas fa-medal" style="color: gold;"></i> 1</span>
+                    <span style="font-weight: 600;">Adarsh Kumar</span>
+                    <span style="color: var(--primary); font-weight: 700;">985</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f9f9f9;">
+                    <span><i class="fas fa-medal" style="color: silver;"></i> 2</span>
+                    <span style="font-weight: 600;">Priya Singh</span>
+                    <span style="color: var(--primary); font-weight: 700;">972</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 15px;">
+                    <span><i class="fas fa-medal" style="color: #cd7f32;"></i> 3</span>
+                    <span style="font-weight: 600;">Rahul Verma</span>
+                    <span style="color: var(--primary); font-weight: 700;">968</span>
+                </div>
+            </div>
+            <div style="text-align: center; padding: 20px; background: rgba(0,0,0,0.02);">
+                <a href="/login" style="color: var(--primary); font-weight: 600; text-decoration: none;">View Full Leaderboard <i class="fas fa-external-link-alt"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="assessment-banner reveal">
+        <div class="assessment-content">
+            <h2>Assess Your Skills</h2>
+            <p>Check your communication score to unlock Premium Opportunities and direct callbacks from our corporate partners.</p>
+            <a href="/login" class="btn-primary" style="margin-top: 20px; background: white; color: var(--unstop-blue); box-shadow: none;">Check Your Score <i class="fas fa-check-circle"></i></a>
+        </div>
+        <div class="score-circle">
+            <div style="font-size: 40px; font-weight: 800;">780</div>
+            <div style="font-size: 14px; opacity: 0.8;">ELQ SCORE</div>
         </div>
     </section>
 
     <section class="cta-section">
         <div class="cta-container">
-            <h2>Ready to transform your learning journey?</h2>
-            <p>Join thousands of students already experiencing the future of education with EduSync 4.0.</p>
-            <a href="/login" class="cta-btn">Sign In to Dashboard</a>
+            <h2>Start your Communication Journey Today</h2>
+            <p>Don't just learn English. Master it, Compete with it, and get Hired with it.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
+                <a href="/login" class="cta-btn">Join Now <i class="fas fa-user-plus"></i></a>
+                <a href="#compete" class="cta-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3);">Explore Jobs <i class="fas fa-briefcase"></i></a>
+            </div>
         </div>
     </section>
 
@@ -677,9 +1133,20 @@
         }
 
         sendBtn.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
+        // Reveal animations on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        function reveal() {
+            for (let i = 0; i < reveals.length; i++) {
+                let windowHeight = window.innerHeight;
+                let elementTop = reveals[i].getBoundingClientRect().top;
+                let elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+        window.addEventListener('scroll', reveal);
+        reveal(); // Initial check
     </script>
 </body>
 </html>
