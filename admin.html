@@ -1485,7 +1485,7 @@
                         <h3 style="margin: 0 0 20px 0; color: #8b5cf6;"><i class="fas fa-plus-circle"></i> Add New Communication Challenge</h3>
                         <p style="margin: 0 0 20px 0; color: var(--text-muted);">Select a module to add a new challenge</p>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
                             <button class="btn btn-primary" onclick="openCreateCommunicationTaskModal('listening')" style="background: #3b82f6; padding: 15px; border-radius: 10px;">
                                 <i class="fas fa-headphones"></i><br>
                                 <span style="font-weight: 600;">Listening</span>
@@ -1544,62 +1544,7 @@
                         </table>
                     </div>
 
-                    <!-- Add Quiz Questions Section -->
-                    <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1)); border: 2px dashed #6366f1; border-radius: 15px; padding: 30px; margin-bottom: 30px; margin-top: 40px;">
-                        <h3 style="margin: 0 0 20px 0; color: #6366f1;"><i class="fas fa-question-circle"></i> Add New Quiz Question</h3>
-                        <p style="margin: 0 0 20px 0; color: var(--text-muted);">Upload questions for vocabulary builder quizzes</p>
-                        
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
-                            <button class="btn btn-primary" onclick="openCreateQuizQuestionModal('meaning')" style="background: #6366f1; padding: 15px; border-radius: 10px;">
-                                <i class="fas fa-lightbulb"></i><br>
-                                <span style="font-weight: 600;">Meaning Quiz</span>
-                            </button>
-                            <button class="btn btn-primary" onclick="openCreateQuizQuestionModal('fill')" style="background: #a855f7; padding: 15px; border-radius: 10px;">
-                                <i class="fas fa-fill-drip"></i><br>
-                                <span style="font-weight: 600;">Fill-in-Blanks</span>
-                            </button>
-                            <button class="btn btn-primary" onclick="openBulkUploadModal()" style="background: #ec4899; padding: 15px; border-radius: 10px;">
-                                <i class="fas fa-cloud-upload-alt"></i><br>
-                                <span style="font-weight: 600;">Upload All</span>
-                            </button>
-                        </div>
-                    </div>
 
-                    <!-- Quizzes List -->
-                    <div style="margin-bottom: 40px;">
-                        <div class="table-header">
-                            <div class="table-title">❓ Quiz Challenges</div>
-                        </div>
-
-                        <div style="margin-bottom: 20px;">
-                            <select class="form-input" id="stage1QuizTypeFilter" onchange="loadStage1Quizzes()" style="max-width: 200px;">
-                                <option value="">All Quiz Types</option>
-                                <option value="meaning">💡 Meaning Quiz</option>
-                                <option value="fill">📝 Fill-in-Blanks</option>
-                            </select>
-                        </div>
-
-                        <table class="admin-table" id="stage1QuizzesTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Quiz Type</th>
-                                    <th>Word</th>
-                                    <th>Content Preview</th>
-                                    <th>Points</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="stage1QuizzesTableBody">
-                                <tr>
-                                    <td colspan="7" class="loading-spinner">
-                                        <i class="fas fa-spinner"></i> Loading quizzes...
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
 
@@ -5198,7 +5143,6 @@ PostgreSQL..."></textarea>
                     // Load data for specific stage
                     if (stage === 'stage1') {
                         loadStage1CommunicationTasks();
-                        loadStage1Quizzes();
                     } else if (stage === 'stage2') {
                         loadStage2Challenges();
                     } else if (stage === 'stage3') {
@@ -6252,7 +6196,7 @@ PostgreSQL..."></textarea>
             
             modal.innerHTML = `
                 <div class="modal-content" style="max-width: 750px; max-height: 90vh; overflow-y: auto; width: 100%;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; position: sticky; top: 0; background: var(--darker); padding: 20px; margin: -20px -20px 25px -20px; border-bottom: 2px solid var(--glass-border); border-radius: 20px 20px 0 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 25px; position: sticky; top: 0; background: var(--darker); padding: 20px; margin: -20px -20px 25px -20px; border-bottom: 2px solid var(--glass-border); border-radius: 20px 20px 0 0; z-index: 10;">
                         <div>
                             <h2 style="margin: 0; font-size: 28px; font-weight: 700;">
                                 ${preselectedSkill ? skillEmoji[preselectedSkill] + ' ' : ''}Create Challenge
@@ -6319,12 +6263,20 @@ PostgreSQL..."></textarea>
                         ${contentHTML}
 
                         <!-- BUTTONS SECTION -->
-                        <div style="display: flex; gap: 10px; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
-                            <button type="submit" class="btn btn-primary" style="flex: 1; padding: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; cursor: pointer; font-weight: 600;">
-                                <i class="fas fa-plus"></i> Create
+                        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 10px; margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+                            <button type="submit" class="btn btn-primary" style="padding: 12px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; cursor: pointer; font-weight: 600;">
+                                <i class="fas fa-plus"></i> Create Challenge
                             </button>
-                            <button type="button" class="btn btn-secondary" style="flex: 1; padding: 12px; background: var(--glass); border: 1px solid var(--glass-border); cursor: pointer; font-weight: 600;" onclick="document.getElementById('stage1TaskModal').remove()">
-                                <i class="fas fa-times"></i> Cancel
+                            <button type="button" class="btn btn-secondary" style="background: #6366f1; border: none; cursor: pointer; font-weight: 600;" onclick="openBulkCommunicationUploadModal()">
+                                <i class="fas fa-cloud-upload-alt"></i> Bulk
+                            </button>
+                            <button type="button" class="btn btn-secondary" style="background: #8b5cf6; border: none; cursor: pointer; font-weight: 600;" onclick="downloadCommunicationTemplate()">
+                                <i class="fas fa-file-csv"></i> CSV
+                            </button>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <button type="button" class="btn btn-secondary" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); cursor: pointer; font-size: 13px;" onclick="document.getElementById('stage1TaskModal').remove()">
+                                <i class="fas fa-times"></i> Cancel & Close
                             </button>
                         </div>
                     </form>
@@ -6590,99 +6542,6 @@ PostgreSQL..."></textarea>
             }
         }
 
-        // Load Stage 1 Quizzes
-        async function loadStage1Quizzes() {
-            const quizTypeFilter = document.getElementById('stage1QuizTypeFilter')?.value || '';
-            const token = localStorage.getItem('access_token');
-            const tbody = document.getElementById('stage1QuizzesTableBody');
-            
-            if (!tbody) {
-                console.warn('Quizzes table body not found');
-                return;
-            }
-            
-            try {
-                const url = quizTypeFilter 
-                    ? `http://localhost:8000/api/quiz-questions?quiz_type=${quizTypeFilter}`
-                    : 'http://localhost:8000/api/quiz-questions';
-                
-                const response = await fetch(url, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (response.status === 404) {
-                    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 20px; color: var(--text-muted);">No quizzes added yet. Click quiz buttons above to add one.</td></tr>`;
-                    return;
-                }
-                
-                if (!response.ok) throw new Error(`Server error: ${response.status}`);
-                
-                const data = await response.json();
-                if (!data.success && !data.quizzes) throw new Error(data.detail || 'Failed to load quizzes');
-                
-                const quizzes = (data.quizzes || []).filter(quiz => quiz.is_active);
-                displayStage1Quizzes(quizzes);
-            } catch (error) {
-                console.error('Error loading quizzes:', error);
-                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; padding: 20px; color: var(--text-muted);">No quizzes added yet. Click quiz buttons above to add one.</td></tr>`;
-            }
-        }
-
-        // Display Stage 1 Quizzes in table
-        function displayStage1Quizzes(quizzes) {
-            const tbody = document.getElementById('stage1QuizzesTableBody');
-            if (!tbody) return;
-
-            tbody.innerHTML = quizzes.map((quiz, index) => {
-                let contentPreview = '';
-                if (quiz.quiz_type === 'meaning') {
-                    contentPreview = `Meaning: ${escapeHtml(quiz.meaning || '').substring(0, 40)}...`;
-                } else if (quiz.quiz_type === 'fill') {
-                    contentPreview = `Sentence: ${escapeHtml(quiz.sentence || '').substring(0, 40)}...`;
-                }
-                
-                return `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td><span class="status-badge">${quiz.quiz_type === 'meaning' ? '💡 Meaning' : '📝 Fill-in-Blanks'}</span></td>
-                        <td><b>${escapeHtml(quiz.word)}</b></td>
-                        <td>${contentPreview}</td>
-                        <td><i class="fas fa-star"></i> ${quiz.points}</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="btn btn-small btn-danger" onclick="deleteQuiz('${quiz._id}')"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-
-            if (quizzes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No quizzes found. Click "Meaning Quiz" or "Fill-in-Blanks" button above to create one.</td></tr>';
-            }
-        }
-
-        // Delete Quiz
-        async function deleteQuiz(quizId) {
-            if (!confirm('⚠️ Are you sure you want to delete this quiz?')) return;
-            
-            const token = localStorage.getItem('access_token');
-            try {
-                const response = await fetch(`http://localhost:8000/api/admin/communication/tasks/${quizId}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (!response.ok) throw new Error('Failed to delete quiz');
-                
-                alert('✅ Quiz deleted successfully');
-                loadStage1Quizzes();
-            } catch (error) {
-                console.error('Error deleting quiz:', error);
-                alert('❌ Failed to delete quiz: ' + error.message);
-            }
-        }
 
         // Delete ALL Communication Tasks
         async function deleteAllCommunicationTasks() {
@@ -6729,9 +6588,173 @@ PostgreSQL..."></textarea>
             }
         }
 
+        // Open Bulk Communication Upload Modal
+        function openBulkCommunicationUploadModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.id = 'bulkCommunicationUploadModal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: var(--dark); padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
+                        <h2 style="margin: 0;">📤 Bulk Upload Communication Challenges</h2>
+                        <button onclick="document.getElementById('bulkCommunicationUploadModal').remove()" style="background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer;">×</button>
+                    </div>
+
+                    <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 10px 0; color: var(--text);">📋 Format Instructions:</h4>
+                        <p style="margin: 0; font-size: 13px; color: var(--text-muted); font-family: monospace;">skill, title, difficulty, duration_min, credits, content</p>
+                        <p style="margin: 10px 0 0 0; font-size: 13px; color: var(--text-muted);">
+                            <strong>Skill:</strong> listening | reading | writing | speaking<br>
+                            <strong>Difficulty:</strong> beginner | intermediate | advanced<br>
+                            <strong>Content for Reading:</strong> Use | to separate passage and question (e.g., "Passage Text|Question Text")
+                        </p>
+                    </div>
+
+                    <div>
+                        <label style="display: block; margin-bottom: 10px; color: var(--text); font-weight: 500;">Select CSV File *</label>
+                        <input type="file" id="bulkCommunicationFile" accept=".csv" class="form-input" style="padding: 10px; border: 2px dashed var(--glass-border);">
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+                        <button class="btn btn-primary" onclick="uploadBulkCommunicationChallenges()" style="flex: 1;">
+                            <i class="fas fa-check"></i> Upload Challenges
+                        </button>
+                        <button class="btn btn-secondary" onclick="document.getElementById('bulkCommunicationUploadModal').remove()" style="flex: 1;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            modal.onclick = function(e) {
+                if (e.target === modal) modal.remove();
+            };
+        }
+
+        // Download Communication Template CSV
+        function downloadCommunicationTemplate() {
+            let csvContent = "skill,title,difficulty,duration_min,credits,content\\n";
+            csvContent += "listening,Coffee Shop Conversation,intermediate,5,10,A customer ordering coffee at a busy shop\\n";
+            csvContent += "reading,History of AI,advanced,10,15,Artificial Intelligence has a long history.|What was the first AI program?\\n";
+            csvContent += "writing,Self Introduction,beginner,15,10,Write a brief paragraph introducing yourself (50-100 words)\\n";
+            csvContent += "speaking,Describe Your Goals,intermediate,3,10,Talk about your career goals for the next 5 years (2-3 minutes)\\n";
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "communication_challenges_template.csv";
+            link.click();
+        }
+
+        // Upload Bulk Communication Challenges
+        async function uploadBulkCommunicationChallenges() {
+            const token = localStorage.getItem('access_token');
+            const fileInput = document.getElementById('bulkCommunicationFile');
+            const file = fileInput?.files[0];
+
+            if (!file) {
+                alert('❌ Please select a CSV file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const csv = e.target.result;
+                const lines = csv.split(/\\r\\n|\\r|\\n/).filter(line => line.trim());
+                
+                let success = 0;
+                let errors = 0;
+                let errorDetails = [];
+
+                console.log("Bulk upload CSV lines:", lines);
+
+                // Skip header
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i];
+                    console.log(`Processing line ${i+1}:`, line);
+                    
+                    // Simple CSV split (not handling quoted values with commas correctly, but standard for this use case)
+                    const parts = line.split(',').map(p => p.trim());
+                    if (parts.length < 6) {
+                        errors++;
+                        errorDetails.push(`Line ${i+1}: Insufficient columns`);
+                        continue;
+                    }
+
+                    try {
+                        const [skill, title, difficulty, duration, credits, rawContent] = parts;
+                        
+                        let description = '';
+                        let content = '';
+
+                        if (skill === 'listening') {
+                            description = 'Listen to the audio and answer the questions';
+                            content = JSON.stringify({ type: 'listening', audio_description: rawContent });
+                        } else if (skill === 'reading') {
+                            const contentParts = rawContent.split('|');
+                            const passage = contentParts[0] || '';
+                            const question = contentParts[1] || '';
+                            description = 'Read the passage and answer the question';
+                            content = JSON.stringify({ type: 'reading', passage, question });
+                        } else if (skill === 'writing') {
+                            description = 'Complete the writing task';
+                            content = JSON.stringify({ type: 'writing', prompt: rawContent });
+                        } else if (skill === 'speaking') {
+                            description = 'Answer the speaking question';
+                            content = JSON.stringify({ type: 'speaking', question: rawContent });
+                        } else {
+                            throw new Error(`Invalid skill type: ${skill}`);
+                        }
+
+                        const taskData = {
+                            skill,
+                            title,
+                            description,
+                            difficulty: difficulty.toLowerCase(),
+                            duration: parseInt(duration) || 5,
+                            credits: parseInt(credits) || 10,
+                            content,
+                            instructions: null,
+                            example_answer: null,
+                            is_active: true
+                        };
+
+                        const response = await fetch(`${API_BASE_URL}/admin/communication/tasks`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(taskData)
+                        });
+
+                        if (response.ok) {
+                            success++;
+                            console.log(`Line ${i+1} uploaded successfully`);
+                        } else {
+                            errors++;
+                            const err = await response.json();
+                            errorDetails.push(`Line ${i+1}: ${err.detail || 'Unknown error'}`);
+                        }
+                    } catch (err) {
+                        errors++;
+                        errorDetails.push(`Line ${i+1}: ${err.message}`);
+                    }
+                }
+
+                alert(`✅ Bulk Upload Finished!\\n\\nSuccessfully added: ${success}\\nFailed: ${errors}${errors > 0 ? '\\nCheck console for errors.' : ''}`);
+                if (errors > 0) console.error('Bulk upload errors:', errorDetails);
+                
+                document.getElementById('bulkCommunicationUploadModal')?.remove();
+                loadStage1CommunicationTasks();
+            };
+            reader.readAsText(file);
+        }
+
         // Update Stage 1 skill guidance
         function updateStage1SkillGuidance() {
-            const skill = document.getElementById('stage1_taskSkill').value;
+            const skill = document.getElementById('stage1_taskSkill')?.value;
             const guidanceMap = {
                 'listening': 'Provide audio comprehension exercises or describe audio content.',
                 'reading': 'Provide text passages for students to read and comprehend.',
@@ -6741,524 +6764,11 @@ PostgreSQL..."></textarea>
             
             const guidance = guidanceMap[skill] || '';
             const contentInput = document.getElementById('stage1_taskContent');
-            if (guidance && !contentInput.value) {
+            if (contentInput && guidance && !contentInput.value) {
                 contentInput.placeholder = guidance;
             }
         }
 
-        // ===================== QUIZ QUESTION MANAGEMENT =====================
-        
-        // Open Create Quiz Question Modal
-        function openCreateQuizQuestionModal(preselectedType = '') {
-            const modal = document.createElement('div');
-            modal.className = 'modal active';
-            modal.id = 'quizQuestionModal';
-            
-            let formContent = '';
-            
-            if (preselectedType === 'meaning') {
-                formContent = `
-                    <!-- Meaning Quiz Form -->
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Word *</label>
-                        <input type="text" class="form-input" id="quiz_word" placeholder="e.g., Negotiate" required>
-                    </div>
-                    
-                    <div style="grid-column: 1 / -1;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Definition/Meaning *</label>
-                        <textarea class="form-input" id="quiz_meaning" placeholder="Enter the meaning of the word" style="resize: vertical; min-height: 60px;" required></textarea>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Option A *</label>
-                        <input type="text" class="form-input" id="quiz_optionA" placeholder="First option" required>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Option B *</label>
-                        <input type="text" class="form-input" id="quiz_optionB" placeholder="Second option" required>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Option C *</label>
-                        <input type="text" class="form-input" id="quiz_optionC" placeholder="Third option" required>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Option D *</label>
-                        <input type="text" class="form-input" id="quiz_optionD" placeholder="Fourth option" required>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Correct Answer *</label>
-                        <select class="form-input" id="quiz_correctAnswer" required>
-                            <option value="">-- Select Correct Option --</option>
-                            <option value="0">Option A</option>
-                            <option value="1">Option B</option>
-                            <option value="2">Option C</option>
-                            <option value="3">Option D</option>
-                        </select>
-                    </div>
-                `;
-            } else {
-                // Fill-in-the-blank form
-                formContent = `
-                    <!-- Fill-in-the-Blank Form -->
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Word *</label>
-                        <input type="text" class="form-input" id="quiz_word" placeholder="e.g., Negotiate" required>
-                    </div>
-                    
-                    <div style="grid-column: 1 / -1;">
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Sentence with Blank *</label>
-                        <textarea class="form-input" id="quiz_sentence" placeholder="Enter sentence with ______ as blank (e.g., We need to ______ carefully...)" style="resize: vertical; min-height: 60px;" required></textarea>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Example Hint *</label>
-                        <input type="text" class="form-input" id="quiz_hint" placeholder="Optional hint for the student" required>
-                    </div>
-                    
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Difficulty Level *</label>
-                        <select class="form-input" id="quiz_difficulty" required>
-                            <option value="beginner">🟢 Beginner</option>
-                            <option value="intermediate" selected>🟡 Intermediate</option>
-                            <option value="advanced">🔴 Advanced</option>
-                        </select>
-                    </div>
-                `;
-            }
-            
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: var(--dark); padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
-                        <h2 style="margin: 0;">Add New Quiz Question - ${
-                            preselectedType === 'meaning' ? '💡 Meaning Quiz' :
-                            preselectedType === 'fill' ? '📝 Fill-in-the-Blank' : 'Select Type'
-                        }</h2>
-                        <button onclick="document.getElementById('quizQuestionModal').remove()" style="background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer;">×</button>
-                    </div>
-
-                    <form id="quizQuestionForm" onsubmit="createQuizQuestion(event, '${preselectedType}')" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <input type="hidden" id="quiz_type" value="${preselectedType}">
-                        
-                        ${formContent}
-
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: 500;">Points *</label>
-                            <input type="number" class="form-input" id="quiz_points" min="1" max="50" value="10" required>
-                        </div>
-
-                        <!-- Buttons -->
-                        <div style="grid-column: 1 / -1; display: flex; gap: 10px; margin-top: 20px;">
-                            <button type="submit" class="btn btn-primary" style="flex: 1;">
-                                <i class="fas fa-plus"></i> Create Question
-                            </button>
-                            <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="document.getElementById('quizQuestionModal').remove()">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-        }
-
-        // Create Quiz Question
-        async function createQuizQuestion(e, quizType) {
-            e.preventDefault();
-            const token = localStorage.getItem('access_token');
-            
-            if (!token) {
-                alert('❌ Not authenticated! Please log in again.');
-                return;
-            }
-
-            let questionData = {
-                quiz_type: quizType,
-                word: document.getElementById('quiz_word')?.value || '',
-                points: parseInt(document.getElementById('quiz_points')?.value || 10)
-            };
-
-            // Validate word
-            if (!questionData.word.trim()) {
-                alert('❌ Please enter a word');
-                return;
-            }
-
-            if (quizType === 'meaning') {
-                const correctValue = document.getElementById('quiz_correctAnswer')?.value;
-                if (correctValue === '' || correctValue === null) {
-                    alert('❌ Please select the correct answer');
-                    return;
-                }
-                
-                questionData = {
-                    ...questionData,
-                    meaning: document.getElementById('quiz_meaning')?.value || '',
-                    options: [
-                        document.getElementById('quiz_optionA')?.value || '',
-                        document.getElementById('quiz_optionB')?.value || '',
-                        document.getElementById('quiz_optionC')?.value || '',
-                        document.getElementById('quiz_optionD')?.value || ''
-                    ],
-                    correct: parseInt(correctValue)
-                };
-                
-                // Validate meaning fields
-                if (!questionData.meaning.trim()) {
-                    alert('❌ Please enter the meaning/definition');
-                    return;
-                }
-                if (questionData.options.some(opt => !opt.trim())) {
-                    alert('❌ All 4 options are required');
-                    return;
-                }
-            } else if (quizType === 'fill') {
-                questionData = {
-                    ...questionData,
-                    sentence: document.getElementById('quiz_sentence')?.value || '',
-                    hint: document.getElementById('quiz_hint')?.value || '',
-                    difficulty: document.getElementById('quiz_difficulty')?.value || 'intermediate'
-                };
-                
-                // Validate fill fields
-                if (!questionData.sentence.trim()) {
-                    alert('❌ Please enter the sentence with blank');
-                    return;
-                }
-                if (!questionData.hint.trim()) {
-                    alert('❌ Please enter a hint');
-                    return;
-                }
-            }
-
-            console.log('Sending questionData:', questionData);
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/quiz-questions`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(questionData)
-                });
-
-                const data = await response.json();
-                console.log('Response status:', response.status);
-                console.log('Response data:', data);
-                
-                if (!response.ok) {
-                    console.error('API Error Response:', data);
-                    throw new Error(data.detail || data.message || 'Failed to create question');
-                }
-
-                alert('✅ Quiz question created successfully!');
-                document.getElementById('quizQuestionModal')?.remove();
-                // Reload quiz questions list
-                loadStage1Quizzes();
-            } catch (error) {
-                console.error('Error creating quiz question:', error);
-                alert('❌ Failed to create quiz question: ' + error.message);
-            }
-        }
-
-        // Load Quiz Questions (placeholder - will be implemented when API is created)
-        async function loadQuizQuestions() {
-            const token = localStorage.getItem('access_token');
-            try {
-                const response = await fetch(`${API_BASE_URL}/quiz-questions`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Quiz questions loaded:', data);
-                    // Table rendering logic would go here
-                }
-            } catch (error) {
-                console.error('Error loading quiz questions:', error);
-            }
-        }
-
-        // Bulk Upload Modal
-        function openBulkUploadModal() {
-            const modal = document.createElement('div');
-            modal.className = 'modal active';
-            modal.id = 'bulkUploadModal';
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 0; background: var(--dark); padding-bottom: 15px; border-bottom: 1px solid var(--glass-border);">
-                        <h2 style="margin: 0;">📤 Bulk Upload Quizzes</h2>
-                        <button onclick="document.getElementById('bulkUploadModal').remove()" style="background: none; border: none; color: var(--text); font-size: 24px; cursor: pointer;">×</button>
-                    </div>
-
-                    <!-- Tab Navigation -->
-                    <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
-                        <button class="bulk-tab-btn active" data-tab="meaning" onclick="switchBulkTab('meaning')" style="padding: 10px 15px; background: transparent; border: none; color: var(--primary); cursor: pointer; font-weight: 600; border-bottom: 2px solid var(--primary);">
-                            💡 Meaning Quiz
-                        </button>
-                        <button class="bulk-tab-btn" data-tab="fill" onclick="switchBulkTab('fill')" style="padding: 10px 15px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-weight: 600;">
-                            📝 Fill-in-Blanks
-                        </button>
-                    </div>
-
-                    <!-- Meaning Quiz Tab -->
-                    <div id="bulk-tab-meaning" class="bulk-tab-content" style="display: block;">
-                        <div style="background: rgba(99, 102, 241, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <h4 style="margin: 0 0 10px 0; color: var(--text);">📋 Format:</h4>
-                            <p style="margin: 0; font-size: 13px; color: var(--text-muted); font-family: monospace;">word, option1, option2, option3, option4, correct_index (0-3), points</p>
-                            <p style="margin: 10px 0 0 0; font-size: 13px; color: var(--text-muted);">Example: <code>Negotiate, discuss, argue, listen, ignore, 0, 10</code></p>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 10px; color: var(--text); font-weight: 500;">Upload CSV File *</label>
-                            <input type="file" id="bulkMeaningFile" accept=".csv" class="form-input" style="padding: 10px; border: 2px dashed var(--glass-border);">
-                        </div>
-                        <button class="btn btn-primary" onclick="downloadTemplate('meaning')" style="width: 100%; margin-top: 15px; background: var(--secondary);">
-                            <i class="fas fa-download"></i> Download Template
-                        </button>
-                    </div>
-
-                    <!-- Fill-in-Blanks Tab -->
-                    <div id="bulk-tab-fill" class="bulk-tab-content" style="display: none;">
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <h4 style="margin: 0 0 10px 0; color: var(--text);">📋 Format:</h4>
-                            <p style="margin: 0; font-size: 13px; color: var(--text-muted); font-family: monospace;">word, sentence, hint, difficulty, points</p>
-                            <p style="margin: 10px 0 0 0; font-size: 13px; color: var(--text-muted);">Example: <code>Negotiate, We need to ______ carefully, discuss carefully, intermediate, 10</code></p>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 10px; color: var(--text); font-weight: 500;">Upload CSV File *</label>
-                            <input type="file" id="bulkFillFile" accept=".csv" class="form-input" style="padding: 10px; border: 2px dashed var(--glass-border);">
-                        </div>
-                        <button class="btn btn-primary" onclick="downloadTemplate('fill')" style="width: 100%; margin-top: 15px; background: var(--secondary);">
-                            <i class="fas fa-download"></i> Download Template
-                        </button>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div style="display: flex; gap: 10px; margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
-                        <button class="btn btn-primary" onclick="uploadBulkQuizzes()" style="flex: 1;">
-                            <i class="fas fa-check"></i> Upload Quizzes
-                        </button>
-                        <button class="btn btn-secondary" onclick="document.getElementById('bulkUploadModal').remove()" style="flex: 1;">
-                            Cancel
-                        </button>
-                    </div>
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.remove();
-                }
-            });
-        }
-
-        function switchBulkTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.bulk-tab-content').forEach(tab => {
-                tab.style.display = 'none';
-            });
-            document.querySelectorAll('.bulk-tab-btn').forEach(btn => {
-                btn.style.color = 'var(--text-muted)';
-                btn.style.borderBottom = 'none';
-            });
-
-            // Show selected tab
-            document.getElementById('bulk-tab-' + tabName).style.display = 'block';
-            document.querySelector(`[data-tab="${tabName}"]`).style.color = 'var(--primary)';
-            document.querySelector(`[data-tab="${tabName}"]`).style.borderBottom = '2px solid var(--primary)';
-        }
-
-        function downloadTemplate(type) {
-            let csvContent = '';
-            let filename = '';
-
-            if (type === 'meaning') {
-                csvContent = 'word,option1,option2,option3,option4,correct_index,points\\n';
-                csvContent += 'Negotiate,Discuss,Argue,Listen,Ignore,0,10\\n';
-                csvContent += 'Articulate,Speak clearly,Write quickly,Listen carefully,Think deeply,0,10\\n';
-                csvContent += 'Collaborate,Work together,Compete,Observe,Argue,1,10\\n';
-                filename = 'meaning_quiz_template.csv';
-            } else if (type === 'fill') {
-                csvContent = 'word,sentence,hint,difficulty,points\\n';
-                csvContent += 'Negotiate,We need to ______ carefully,discuss carefully,intermediate,10\\n';
-                csvContent += 'Articulate,She can ______ her ideas,speak clearly,beginner,10\\n';
-                csvContent += 'Resilient,The community was highly ______,recovering quickly,advanced,15\\n';
-                filename = 'fill_blank_template.csv';
-            }
-
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-        }
-
-        async function uploadBulkQuizzes() {
-            const token = localStorage.getItem('access_token');
-            const meaningFile = document.getElementById('bulkMeaningFile')?.files[0];
-            const fillFile = document.getElementById('bulkFillFile')?.files[0];
-
-            if (!meaningFile && !fillFile) {
-                alert('❌ Please select at least one file to upload');
-                return;
-            }
-
-            try {
-                let uploadedCount = 0;
-                let errorCount = 0;
-                let errorDetails = [];
-
-                if (meaningFile) {
-                    const result = await processCsvFile(meaningFile, 'meaning', token);
-                    uploadedCount += result.success;
-                    errorCount += result.errors;
-                    errorDetails = errorDetails.concat(result.errorDetails);
-                }
-
-                if (fillFile) {
-                    const result = await processCsvFile(fillFile, 'fill', token);
-                    uploadedCount += result.success;
-                    errorCount += result.errors;
-                    errorDetails = errorDetails.concat(result.errorDetails);
-                }
-
-                let message = `✅ Uploaded ${uploadedCount} quizzes successfully!`;
-                if (errorCount > 0) {
-                    message += `\n\n❌ ${errorCount} errors:`;
-                    errorDetails.slice(0, 5).forEach(err => {
-                        message += `\n• ${err}`;
-                    });
-                    if (errorDetails.length > 5) {
-                        message += `\n• ... and ${errorDetails.length - 5} more errors`;
-                    }
-                }
-
-                alert(message);
-                document.getElementById('bulkUploadModal').remove();
-                loadStage1Quizzes();
-            } catch (error) {
-                console.error('Error uploading bulk quizzes:', error);
-                alert('❌ Error uploading quizzes: ' + error.message);
-            }
-        }
-
-        async function processCsvFile(file, quizType, token) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = async (e) => {
-                    try {
-                        const csv = e.target.result;
-                        // Handle different line endings
-                        const lines = csv.split(/\r\n|\r|\n/).filter(line => line.trim());
-                        
-                        console.log(`Processing ${quizType} file:`, file.name);
-                        console.log(`Total lines: ${lines.length}`);
-
-                        let success = 0;
-                        let errors = 0;
-                        let errorDetails = [];
-
-                        // Skip header line (line 0)
-                        for (let i = 1; i < lines.length; i++) {
-                            const line = lines[i];
-                            if (!line.trim()) continue;
-
-                            try {
-                                console.log(`Line ${i + 1}:`, line);
-                                const quiz = parseQuizLine(line, quizType);
-                                console.log(`Parsed quiz:`, quiz);
-
-                                const response = await fetch('http://localhost:8000/api/admin/quiz-questions', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Authorization': `Bearer ${token}`,
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify(quiz)
-                                });
-
-                                const responseData = await response.json();
-                                console.log(`Response status: ${response.status}`, responseData);
-
-                                if (response.ok) {
-                                    success++;
-                                    console.log(`✅ Line ${i + 1} uploaded successfully`);
-                                } else {
-                                    errors++;
-                                    const errorMsg = responseData.detail || responseData.message || response.statusText;
-                                    errorDetails.push(`Line ${i + 1}: ${errorMsg}`);
-                                    console.error(`❌ Line ${i + 1} failed:`, errorMsg);
-                                }
-                            } catch (err) {
-                                errors++;
-                                errorDetails.push(`Line ${i + 1}: ${err.message}`);
-                                console.error(`❌ Error processing line ${i + 1}:`, err);
-                            }
-                        }
-
-                        console.log(`Upload complete: ${success} success, ${errors} errors`);
-                        resolve({ success, errors, errorDetails });
-                    } catch (err) {
-                        console.error('File reading error:', err);
-                        resolve({ success: 0, errors: 1, errorDetails: ['File reading error: ' + err.message] });
-                    }
-                };
-                reader.readAsText(file);
-            });
-        }
-
-        function parseQuizLine(line, quizType) {
-            const parts = line.split(',').map(p => p.trim()).filter(p => p);
-
-            console.log(`Parsing ${quizType} - Parts count: ${parts.length}`, parts);
-
-            if (quizType === 'meaning') {
-                if (parts.length < 7) {
-                    throw new Error(`Expected 7 fields, got ${parts.length}. Format: word, option1, option2, option3, option4, correct_index, points`);
-                }
-                
-                const correctIndex = parseInt(parts[5]);
-                if (isNaN(correctIndex) || correctIndex < 0 || correctIndex > 3) {
-                    throw new Error(`Correct index must be 0-3, got ${parts[5]}`);
-                }
-
-                return {
-                    quiz_type: 'meaning',
-                    word: parts[0],
-                    meaning: `Meaning of ${parts[0]}`,
-                    options: [parts[1], parts[2], parts[3], parts[4]],
-                    correct: correctIndex,
-                    points: parseInt(parts[6]) || 10,
-                    is_active: true
-                };
-            } else if (quizType === 'fill') {
-                if (parts.length < 5) {
-                    throw new Error(`Expected 5 fields, got ${parts.length}. Format: word, sentence, hint, difficulty, points`);
-                }
-
-                const validDifficulties = ['beginner', 'intermediate', 'advanced'];
-                const difficulty = parts[3].toLowerCase();
-                if (!validDifficulties.includes(difficulty)) {
-                    throw new Error(`Difficulty must be beginner|intermediate|advanced, got ${parts[3]}`);
-                }
-
-                return {
-                    quiz_type: 'fill',
-                    word: parts[0],
-                    sentence: parts[1],
-                    hint: parts[2],
-                    difficulty: difficulty,
-                    points: parseInt(parts[4]) || 10,
-                    is_active: true
-                };
-            }
-        }
     </script>
 
     
