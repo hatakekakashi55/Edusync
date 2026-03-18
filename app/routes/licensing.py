@@ -69,7 +69,7 @@ async def activate_license(
 
         result = await SubscriptionService.activate_license(
             license_key=activation_data.license_key,
-            admin_email=current_user.get("email"),
+            admin_email=current_user.get("email") or "",
         )
 
         if not result["success"]:
@@ -90,6 +90,7 @@ async def get_license_status(
 ):
     """Get current license status for Validity Tracker (Admin/HOD dashboards)"""
     try:
+        college_id = college_id or ""
         result = await SubscriptionService.get_license_status(college_id=college_id)
         return result
     except Exception as e:
@@ -126,7 +127,8 @@ async def bulk_onboard_students(
             raise HTTPException(status_code=403, detail="Admin access required")
 
         # Validate file type
-        if not csv_file.filename.endswith(".csv"):
+        filename = csv_file.filename or ""
+        if not filename.endswith(".csv"):
             raise HTTPException(status_code=400, detail="Only CSV files are accepted")
 
         # Read & parse CSV
@@ -201,10 +203,11 @@ async def consume_edu_credits(
             )
 
         # Consume credits
+        metadata = consume_data.task_metadata or {}
         result = await SubscriptionService.consume_credits(
             user_id=user_id,
             task_type=consume_data.task_type,
-            metadata=consume_data.task_metadata,
+            metadata=metadata,
         )
 
         if not result["success"]:
@@ -264,9 +267,9 @@ async def bulk_refill_credits(
             raise HTTPException(status_code=403, detail="Faculty/HOD/Admin access required")
 
         result = await SubscriptionService.refill_credits(
-            student_ids=refill_data.student_ids,
-            department=refill_data.department,
-            year=refill_data.year,
+            student_ids=refill_data.student_ids or [],
+            department=refill_data.department or "",
+            year=refill_data.year or 1,
             credits_amount=refill_data.credits_amount,
             reason=refill_data.reason,
             refilled_by=str(current_user["_id"]),
@@ -382,10 +385,12 @@ async def generate_renewal_quote(
         if current_user.get("user_type") not in ["admin", "hod"]:
             raise HTTPException(status_code=403, detail="Admin/HOD access required")
 
+        proposed_tier_val = quote_data.proposed_tier.value if quote_data.proposed_tier else "starter"
+        proposed_users_val = quote_data.proposed_users or 100
         result = await SubscriptionService.generate_renewal_quote(
             license_key=quote_data.license_key,
-            proposed_tier=quote_data.proposed_tier.value if quote_data.proposed_tier else None,
-            proposed_users=quote_data.proposed_users,
+            proposed_tier=proposed_tier_val,
+            proposed_users=proposed_users_val,
             include_gpu_cluster=quote_data.include_gpu_cluster,
         )
 

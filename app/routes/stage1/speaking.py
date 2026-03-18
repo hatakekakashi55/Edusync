@@ -148,7 +148,7 @@ Your response must be a valid JSON object ONLY:
                 
             json_text = await AIService.call_kimi(prompt, json_mode=True)
             if not json_text:
-                raise Exception("Kimi model response was empty")
+                raise Exception("Gemini model response was empty")
             
             try:
                 result = json.loads(json_text)
@@ -254,7 +254,7 @@ EXAMPLE: [A good example answer - 1-2 sentences]"""
         
         text = await AIService.call_kimi(prompt)
         if not text:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         # Robust Parsing
         question = "Tell me about yourself"
@@ -405,7 +405,7 @@ FEEDBACK: [1-2 sentences of encouragement and tips for improvement]
         
         eval_response = await AIService.call_kimi(prompt)
         if not eval_response:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         # Robust Parsing
         score = 75

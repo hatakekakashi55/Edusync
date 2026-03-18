@@ -52,8 +52,17 @@ async def run_language_course_code(
         
         # Add AI feedback for errors
         if not result["success"] and result["error"]:
-            ai_hint = await AIService.get_error_hint(submission.code, result["error"], submission.language)
-            result["ai_hint"] = ai_hint
+            try:
+                ai_hint = await AIService.code_help(
+                    code=submission.code,
+                    error=result["error"],
+                    requirement="Fix the compilation/runtime error",
+                    language=submission.language,
+                    context=""
+                )
+                result["ai_hint"] = ai_hint
+            except Exception as e:
+                logger.debug(f"Could not get AI hint: {e}")
             
         return result
     except Exception as e:

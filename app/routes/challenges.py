@@ -57,7 +57,8 @@ async def get_challenges(
         if language:
             query["language"] = language
         if tags:
-            query["tags"] = {"$in": tags.split(",")}
+            tag_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
+            query["tags"] = {"$in": tag_list}
         
         total = await challenges_collection.count_documents(query)
         challenges = await challenges_collection.find(query) \
@@ -81,15 +82,17 @@ async def get_challenges(
         for ch in challenges:
             ch_id = str(ch["_id"])
             sub = submission_map.get(ch_id)
-            formatted.append({
-                "id": ch_id,
-                **convert_objectid_to_str(ch),
-                "user_status": {
-                    "attempted": sub is not None,
-                    "completed": sub.get("completed", False) if sub else False,
-                    "score": sub.get("score", 0) if sub else 0
-                }
-            })
+            ch_dict = convert_objectid_to_str(ch)
+            if ch_dict:
+                ch_dict.update({
+                    "id": ch_id,
+                    "user_status": {
+                        "attempted": sub is not None,
+                        "completed": sub.get("completed", False) if sub else False,
+                        "score": sub.get("score", 0) if sub else 0
+                    }
+                })
+                formatted.append(ch_dict)
             
         return {
             "success": True,

@@ -25,6 +25,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.version_control import VersionControlService
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -233,7 +234,7 @@ async def create_repository(
             user_id=user_id,
             name=repo_data.name,
             description=repo_data.description,
-            is_public=repo_data.is_public
+            is_public=repo_data.is_public or False
         )
         
         # Clean the repository document

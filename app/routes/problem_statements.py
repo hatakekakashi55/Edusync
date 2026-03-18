@@ -118,13 +118,25 @@ async def generate_ai_problem_statement(
         }}
         """
         
-        response = await model.generate_content_async(prompt)
-        content = response.text
-        # Extract JSON from response
         try:
-            ps_json = json.loads(re.search(r'\{.*\}', content, re.DOTALL).group())
-        except:
-            raise Exception("Failed to parse AI response")
+            if isinstance(model, dict) and "generate_content_async" not in model:
+                # Model is a dict wrapper, use call_gemini_with_retry instead
+                from app.services.ai_service import call_gemini_with_retry
+                response_text = await call_gemini_with_retry(prompt, model)
+                content = response_text
+            elif hasattr(model, 'generate_content_async'):
+                response = await model.generate_content_async(prompt)
+                content = response.text
+            else:
+                raise Exception("Invalid model format")
+                
+            # Extract JSON from response
+            match = re.search(r'\{.*\}', content, re.DOTALL)
+            if not match:
+                raise Exception("Could not find JSON in response")
+            ps_json = json.loads(match.group())
+        except Exception as parse_error:
+            raise Exception(f"Failed to parse AI response: {str(parse_error)}")
             
         ps_json["mode"] = "ai"
         ps_json["status"] = "open"

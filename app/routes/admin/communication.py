@@ -75,7 +75,7 @@ async def fetch_communication_tasks(
         # Filter to only get communication tasks (not quiz questions)
         q = {"skill": {"$exists": True}, "quiz_type": {"$exists": False}}
         if skill:
-            q["skill"] = skill
+            q["skill"] = {"$in": [skill]}
         tasks = []
         async for t in communication_tasks_collection.find(q).sort("created_at", -1):
             t["_id"] = str(t["_id"])

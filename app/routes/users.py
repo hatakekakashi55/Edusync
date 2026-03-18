@@ -79,8 +79,11 @@ async def update_profile(
         
         # Get updated user
         user = await users_collection.find_one({"_id": ObjectId(user_id)})
-        user.pop("password", None)
-        user["_id"] = str(user["_id"])
+        if user:
+            user.pop("password", None)
+            user["_id"] = str(user["_id"])
+        else:
+            raise HTTPException(status_code=404, detail="User not found")
         
         return {
             "message": "Profile updated successfully",

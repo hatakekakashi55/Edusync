@@ -112,8 +112,15 @@ async def get_interview_questions(
     try:
         user_id = str(current_user["_id"])
         
-        # Get questions based on type
-        questions = INTERVIEW_QUESTIONS.get(interview_type, [])
+        # Get questions based on type - using default questions
+        default_questions = [
+            {"id": 1, "question": "Tell us about yourself."},
+            {"id": 2, "question": "What are your strengths?"},
+            {"id": 3, "question": "What are your weaknesses?"},
+            {"id": 4, "question": "Why do you want this job?"},
+            {"id": 5, "question": "Where do you see yourself in 5 years?"}
+        ]
+        questions = default_questions
         
         # Shuffle and select requested number
         import random
@@ -410,7 +417,11 @@ async def submit_interview_answer(
     
     # Get next question logic
     updated_session = await interviews_collection.find_one({"_id": ObjectId(session_id)})
-    next_idx = updated_session["current_question_index"]
+    
+    if not updated_session:
+        raise HTTPException(status_code=404, detail="Interview session not found")
+    
+    next_idx = updated_session.get("current_question_index", 0)
     
     next_q = None
     is_completed = False

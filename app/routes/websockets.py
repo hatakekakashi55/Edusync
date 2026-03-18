@@ -14,6 +14,7 @@ import asyncio
 import hashlib
 import tempfile
 import subprocess
+import jwt
 from datetime import datetime, timezone, timedelta, date
 from typing import Optional, List, Dict, Any
 from pathlib import Path
@@ -25,6 +26,8 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.ai_service import AIService
+from app.services.websocket_manager import WebSocketManager
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -311,7 +314,7 @@ async def websocket_project_collaboration(websocket: WebSocket, project_id: str,
         except jwt.ExpiredSignatureError:
             await websocket.close(code=1008, reason="Token expired")
             return
-        except jwt.JWTError:
+        except jwt.InvalidTokenError:
             await websocket.close(code=1008, reason="Invalid token")
             return
         
@@ -335,10 +338,10 @@ async def websocket_project_collaboration(websocket: WebSocket, project_id: str,
             return
         
         # Connect user
-        await connection_manager.connect(websocket, project_id, user_id)
+        await WebSocketManager.connect(websocket, project_id, user_id)
         
         # Notify others that user joined
-        await connection_manager.broadcast_to_project(
+        await WebSocketManager.broadcast_to_project(
             project_id,
             {
                 "type": "user_joined",
@@ -359,7 +362,7 @@ async def websocket_project_collaboration(websocket: WebSocket, project_id: str,
                 
                 if message_type == "cursor_position":
                     # Broadcast cursor position to other users
-                    await connection_manager.broadcast_to_project(
+                    await WebSocketManager.broadcast_to_project(
                         project_id,
                         {
                             "type": "cursor_update",
@@ -374,7 +377,7 @@ async def websocket_project_collaboration(websocket: WebSocket, project_id: str,
                 
                 elif message_type == "code_change":
                     # Broadcast code changes in real-time
-                    await connection_manager.broadcast_to_project(
+                    await WebSocketManager.broadcast_to_project(
                         project_id,
                         {
                             "type": "code_update",
@@ -389,7 +392,7 @@ async def websocket_project_collaboration(websocket: WebSocket, project_id: str,
                 
                 elif message_type == "chat_message":
                     # Broadcast chat message to team
-                    await connection_manager.broadcast_to_project(
+                    await WebSocketManager.broadcast_to_project(
                         project_id,
                         {
                             "type": "team_chat",
@@ -401,9 +404,9 @@ async def websocket_project_collaboration(websocket: WebSocket, project_id: str,
                     )
                 
         except WebSocketDisconnect:
-            connection_manager.disconnect(websocket, project_id, user_id)
+            WebSocketManager.disconnect(websocket, project_id, user_id)
             # Notify others that user left
-            await connection_manager.broadcast_to_project(
+            await WebSocketManager.broadcast_to_project(
                 project_id,
                 {
                     "type": "user_left",

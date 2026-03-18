@@ -30,11 +30,12 @@ def create_static_dirs():
 
 def print_banner():
     """Print startup banner"""
-    if hasattr(sys.stdout, 'reconfigure'):
-        try:
+    try:
+        if hasattr(sys.stdout, 'reconfigure'):
             sys.stdout.reconfigure(encoding='utf-8')
-        except:
-            pass
+    except (AttributeError, Exception):
+        # Ignore reconfigure errors on systems that don't support it
+        pass
     
     banner = """
     ==============================================================

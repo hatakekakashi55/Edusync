@@ -42,7 +42,7 @@ async def list_projects(
             ]
         }
         if visibility:
-            query["visibility"] = visibility
+            query["visibility"] = {"$in": [visibility]}
             
         projects = await projects_collection.find(query).sort("created_at", -1).to_list(100)
         return {

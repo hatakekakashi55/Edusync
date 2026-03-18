@@ -20,6 +20,9 @@ async def get_job_matches(
         user_id = str(current_user["_id"])
         user = await users_collection.find_one({"_id": ObjectId(user_id)})
         
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
         # Get user's resume or profile skills
         resume = await resume_collection.find_one({"user_id": user_id})
         user_skills = set([s.lower() for s in user.get("skills", [])])
@@ -76,9 +79,9 @@ async def get_job_matches(
             "total_matches": total_matches,
             "average_match_score": round(avg_match_score, 1),
             "skills_match": round(avg_match_score * 0.8, 1),
-            "experience_match": 100 if user.get("experience") else 50,
+            "experience_match": 100 if user and user.get("experience") else 50,
             "project_match": min(100, (await projects_collection.count_documents({"owner_id": user_id})) * 33),
-            "goals_match": 85 if user.get("career_goals") else 0,
+            "goals_match": 85 if user and user.get("career_goals") else 0,
             "matched_jobs": matched_jobs[:limit],
             "skill_demand": "High" if avg_match_score > 70 else "Medium",
             "salary_range": "₹4 - ₹18 LPA",

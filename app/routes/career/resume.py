@@ -18,6 +18,8 @@ from datetime import datetime, timezone, timedelta, date
 from typing import Optional, List, Dict, Any
 from pathlib import Path
 from bson import ObjectId
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 from fastapi import APIRouter, HTTPException, Depends, status, UploadFile, File, Form, Query, Body, BackgroundTasks, Request
 from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Response

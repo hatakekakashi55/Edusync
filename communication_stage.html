@@ -2480,7 +2480,6 @@
             }
         }
 
-        /* Voice Animation */
         .voice-animation {
             display: flex;
             justify-content: center;
@@ -2498,7 +2497,6 @@
         }
 
         @keyframes voicePulse {
-
             0%,
             100% {
                 height: 10px;
@@ -2508,6 +2506,66 @@
                 height: 40px;
             }
         }
+
+        /* Gap Input Styles */
+        .gap-input {
+            width: 120px;
+            border-bottom: 2px solid var(--primary);
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-light);
+            text-align: center;
+            font-weight: 600;
+            padding: 5px;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s;
+        }
+
+        .gap-input:focus {
+            background: rgba(139, 92, 246, 0.2);
+            border-bottom-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.1);
+        }
+
+        /* Direction Follower Map Styles */
+        .map-location {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 10px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .map-location:hover {
+            transform: scale(1.05);
+            background: rgba(139, 92, 246, 0.3);
+            border-color: var(--primary-light);
+        }
+
+        .map-location i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--primary-light);
+        }
+
+        .map-location span {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .map-location.selected {
+            background: rgba(99, 102, 241, 0.4);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
 
         /* Responsive */
         @media (max-width: 1024px) {
@@ -3277,6 +3335,33 @@
                             <button class="btn-primary" onclick="startListeningMCQ()"><i class="fas fa-play"></i>
                                 Start Now</button>
                         </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon"><i class="fas fa-music"></i></div>
+                                <div class="feature-title">Fill the Beats</div>
+                            </div>
+                            <p class="feature-description">Listen to a song or dialog and fill in the missing words.</p>
+                            <button class="btn-primary" onclick="startFillBeats()"><i class="fas fa-play"></i>
+                                Start Now</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
+                                <div class="feature-title">Direction Follower</div>
+                            </div>
+                            <p class="feature-description">Follow audio directions to navigate to the correct point on a map.</p>
+                            <button class="btn-primary" onclick="startDirectionFollower()"><i class="fas fa-play"></i>
+                                Start Now</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon"><i class="fas fa-theater-masks"></i></div>
+                                <div class="feature-title">Tone Recognizer</div>
+                            </div>
+                            <p class="feature-description">Identify the speaker's emotion and tone from audio clips.</p>
+                            <button class="btn-primary" onclick="startToneRecognizer()"><i class="fas fa-play"></i>
+                                Start Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -3322,25 +3407,94 @@
                     </div>
 
                     <div class="challenge-prompt" id="listeningChallengeContent">
-                        <div style="text-align: center; margin-bottom: 30px;">
-                            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 15px;">Listen to the
-                                sentence carefully and type what you hear:</p>
-                            <button class="btn-primary" id="listeningPlayBtn" onclick="playListeningSentence()"
-                                style="padding: 12px 30px; font-size: 16px;">
-                                <i class="fas fa-play"></i> Play Sentence
+                        <!-- Content will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Fill the Beats Screen -->
+                <div id="fillBeatsScreen" class="challenge-screen" style="display: none;">
+                    <div class="challenge-info-bar">
+                        <div class="info-item"><i class="fas fa-clock"></i> <span id="fillBeatsTimer">02:00</span></div>
+                        <div class="info-item"><i class="fas fa-star" style="color: #fbbf24;"></i> <span id="fillBeatsCredits">20 Credits</span></div>
+                        <div class="info-item"><i class="fas fa-layer-group"></i> <span id="fillBeatsDifficulty">Medium</span></div>
+                    </div>
+                    <div class="challenge-prompt">
+                        <h3 id="fillBeatsTitle" style="text-align: center; margin-bottom: 20px;">Fill the Beats</h3>
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <button class="btn-primary" id="fillBeatsPlayBtn" onclick="playFillBeatsAudio()">
+                                <i class="fas fa-play"></i> Play Audio
+                            </button>
+                        </div>
+                        <div id="fillBeatsContainer" style="line-height: 2.5; font-size: 18px; color: var(--text); background: rgba(0,0,0,0.2); padding: 30px; border-radius: 15px; min-height: 150px; text-align: center;">
+                            <!-- Text with gaps will appear here -->
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <button class="btn-primary" onclick="submitFillBeats()" style="width: 100%;">
+                                <i class="fas fa-check"></i> Submit Answers
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Direction Follower Screen (Grid Path Tracing) -->
+                <div id="directionFollowerScreen" class="challenge-screen" style="display: none;">
+                    <div class="challenge-info-bar">
+                        <div class="info-item"><i class="fas fa-clock"></i> <span id="directionTimer">03:00</span></div>
+                        <div class="info-item"><i class="fas fa-star" style="color: #fbbf24;"></i> <span id="directionCredits">15 Credits</span></div>
+                        <div class="info-item"><i class="fas fa-layer-group"></i> <span id="directionDifficulty">Hard</span></div>
+                    </div>
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 10px;"><i class="fas fa-route" style="color: var(--primary);"></i> Direction Follower</h3>
+                        <p style="text-align: center; color: var(--text-muted); margin-bottom: 15px; font-size: 13px;" id="directionInstruction">Listen to the directions, then trace the path on the map by clicking each junction step-by-step.</p>
+                        
+                        <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+                            <button class="btn-primary" id="directionPlayBtn" onclick="playDirectionAudio()" style="padding: 10px 25px; border-radius: 25px;">
+                                <i class="fas fa-play"></i> Hear Directions
+                            </button>
+                            <button class="btn-secondary" id="directionUndoBtn" onclick="undoDirectionStep()" style="padding: 10px 20px; border-radius: 25px; display: none;">
+                                <i class="fas fa-undo"></i> Undo
+                            </button>
+                            <button class="btn-secondary" id="directionHintBtn" onclick="showDirectionGhost()" style="padding: 10px 20px; border-radius: 25px; display: none;">
+                                <i class="fas fa-ghost"></i> Hint
                             </button>
                         </div>
 
-                        <div style="margin-top: 30px;">
-                            <label style="display: block; margin-bottom: 10px; color: var(--text-muted);">What did you
-                                hear?</label>
-                            <input type="text" id="listeningInput" class="form-input"
-                                placeholder="Type the sentence you heard..."
-                                style="width: 100%; padding: 12px; margin-bottom: 20px;">
-                            <button class="btn-primary" id="listeningSubmitBtn" onclick="submitListeningAnswer()"
-                                style="width: 100%;">
-                                <i class="fas fa-check"></i> Submit Answer
+                        <div id="directionStatus" style="text-align: center; margin-bottom: 15px; font-size: 13px; color: var(--text-muted);">
+                            <span id="directionStepCount">Steps: 0</span> &nbsp;|&nbsp;
+                            <span id="directionStartLabel" style="color: #10b981;">Start: —</span> &nbsp;→&nbsp;
+                            <span id="directionEndLabel" style="color: #ef4444;">End: —</span>
+                        </div>
+
+                        <div id="directionMapContainer" style="position: relative; margin: 0 auto; max-width: 500px; aspect-ratio: 1/1; background: rgba(0,0,0,0.35); border-radius: 15px; border: 1px solid var(--glass-border); overflow: hidden;">
+                            <canvas id="directionCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; cursor: crosshair;"></canvas>
+                            <div id="directionGridOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; display: grid; pointer-events: none;"></div>
+                        </div>
+
+                        <div style="margin-top: 20px; text-align: center;">
+                            <p id="directionSelectedLocation" style="color: var(--primary-light); font-weight: 600; margin-bottom: 12px;"></p>
+                            <button class="btn-primary" id="directionCheckBtn" onclick="submitDirectionPath()" style="width: 100%; padding: 14px; font-size: 16px; font-weight: 600; display: none;">
+                                <i class="fas fa-check-double"></i> Check My Path
                             </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tone Recognizer Screen -->
+                <div id="toneRecognizerScreen" class="challenge-screen" style="display: none;">
+                    <div class="challenge-info-bar">
+                        <div class="info-item"><i class="fas fa-clock"></i> <span id="toneTimer">02:00</span></div>
+                        <div class="info-item"><i class="fas fa-star" style="color: #fbbf24;"></i> <span id="toneCredits">10 Credits</span></div>
+                        <div class="info-item"><i class="fas fa-layer-group"></i> <span id="toneDifficulty">Medium</span></div>
+                    </div>
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 20px;">Tone Recognizer</h3>
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <button class="btn-primary" id="tonePlayBtn" onclick="playToneAudio()" style="padding: 15px 40px; border-radius: 30px;">
+                                <i class="fas fa-play"></i> Play Voice Clip
+                            </button>
+                        </div>
+                        <p style="text-align: center; margin-bottom: 25px; color: var(--text);">How is the speaker feeling or what is their tone?</p>
+                        <div id="toneOptionsContainer" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <!-- Tone options will appear here -->
                         </div>
                     </div>
                 </div>
@@ -4824,8 +4978,36 @@
             console.error('Runtime Error:', e.error);
         });
 
-        // ==========================================================
-        // 1. GLOBAL VARIABLES AND CONFIGURATION
+        
+// ==========================================================
+// 1. GLOBAL VARIABLES AND CONFIGURATION
+
+        function showEvalLoading(containerId, msg) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            Array.from(container.children).forEach(c => {
+                if (!c.classList.contains('eval-loader')) c.style.display = 'none';
+            });
+            let loader = container.querySelector('.eval-loader');
+            if (!loader) {
+                loader = document.createElement('div');
+                loader.className = 'eval-loader';
+                container.appendChild(loader);
+            }
+            loader.innerHTML = `<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">${msg}</p></div>`;
+            loader.style.display = 'block';
+        }
+
+        function hideEvalLoading(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const loader = container.querySelector('.eval-loader');
+            if (loader) loader.style.display = 'none';
+            Array.from(container.children).forEach(c => {
+                if (!c.classList.contains('eval-loader')) c.style.display = '';
+            });
+        }
+
         // ==========================================================
 
         // API Configuration - Dynamic base URL
@@ -5122,15 +5304,27 @@
         function backToListeningMenu() {
             document.getElementById('listeningModeSelectionScreen').style.display = 'none';
             document.getElementById('listeningChallengeScreen').style.display = 'none';
+            document.getElementById('fillBeatsScreen').style.display = 'none';
+            document.getElementById('directionFollowerScreen').style.display = 'none';
+            document.getElementById('toneRecognizerScreen').style.display = 'none';
             document.getElementById('listeningSourceScreen').style.display = 'block';
             document.getElementById('listeningFeedback').style.display = 'none';
+            
+            // Clear all intervals
+            if (listeningTimerInterval) { clearInterval(listeningTimerInterval); listeningTimerInterval = null; }
+            if (fillBeatsTimerInterval) { clearInterval(fillBeatsTimerInterval); fillBeatsTimerInterval = null; }
+            if (directionTimerInterval) { clearInterval(directionTimerInterval); directionTimerInterval = null; }
+            if (toneTimerInterval) { clearInterval(toneTimerInterval); toneTimerInterval = null; }
         }
 
         async function startListeningSource(source) {
             // Reset state and UI
             listeningState.currentSource = source;
-            document.getElementById('listeningInput').value = '';
-            document.getElementById('listeningInput').disabled = false;
+            const listeningInput = document.getElementById('listeningInput');
+            if (listeningInput) {
+                listeningInput.value = '';
+                listeningInput.disabled = false;
+            }
 
             // Stop any active timers
             if (listeningTimerInterval) {
@@ -5142,15 +5336,19 @@
             document.getElementById('listeningModeSelectionScreen').style.display = 'none';
             document.getElementById('listeningChallengeScreen').style.display = 'block';
             document.getElementById('listeningFeedback').style.display = 'none';
-            document.getElementById('listeningPlayBtn').style.display = 'inline-block';
-            document.getElementById('listeningInput').style.display = 'block';
-            document.getElementById('listeningSubmitBtn').style.display = 'block';
+            const playBtnEl = document.getElementById('listeningPlayBtn');
+            const inputEl = document.getElementById('listeningInput');
+            const submitBtnEl = document.getElementById('listeningSubmitBtn');
+            
+            if (playBtnEl) playBtnEl.style.display = 'inline-block';
+            if (inputEl) inputEl.style.display = 'block';
+            if (submitBtnEl) submitBtnEl.style.display = 'block';
 
             try {
                 // Show loading overlay
                 const listeningContent = document.getElementById('listeningChallengeContent');
                 if (listeningContent) {
-                    listeningContent.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 48px; color: var(--primary);"></i><p style="margin-top: 15px; color: var(--text-muted);">Loading challenge...</p></div>';
+                    listeningContent.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating your challenge...</p></div>';
                 }
 
                 if (source === 'admin') {
@@ -5289,6 +5487,7 @@
                 }
             } catch (error) {
                 console.error('❌ Network error:', error);
+                hideEvalLoading('listeningChallengeContent');
                 showToast('error', 'Network Error', 'Check your connection: ' + error.message);
                 backToListeningMenu();
             }
@@ -5314,6 +5513,114 @@
             } catch (error) {
                 console.error('❌ Error playing sentence:', error);
                 showToast('error', 'Playback Error', 'Could not play the sentence. Please try again.');
+            }
+        }
+
+        async function submitListeningAnswer() {
+            const answerInput = document.getElementById('listeningInput').value.trim();
+            if (!answerInput) {
+                showToast('warning', 'Empty Answer', 'Please type what you heard before submitting.');
+                return;
+            }
+
+            try {
+                showToast('info', 'Evaluating', 'Checking your answer...');
+                const submitBtn = document.getElementById('listeningSubmitBtn');
+                if (submitBtn) submitBtn.disabled = true;
+                showEvalLoading('listeningChallengeContent', 'AI is evaluating your answer...');
+
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    },
+                    body: JSON.stringify({
+                        user_answer: answerInput,
+                        actual_sentence: listeningState.currentChallenge.sentence || listeningState.currentChallenge.audio_text,
+                        challenge_id: listeningState.currentChallenge.id || 'ai-gen',
+                        difficulty: listeningState.currentChallenge.difficulty || 'medium'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    // Stop timer
+                    if (listeningTimerInterval) {
+                        clearInterval(listeningTimerInterval);
+                        listeningTimerInterval = null;
+                    }
+
+                    // Show feedback
+                    const challengeContent = document.getElementById('listeningChallengeContent');
+                    if (challengeContent) challengeContent.style.display = 'none';
+                    
+                    const feedbackDiv = document.getElementById('listeningFeedback');
+                    const feedbackTitle = document.getElementById('feedbackTitle');
+                    const feedbackMessage = document.getElementById('feedbackMessage');
+
+                    const isSuccess = result.score >= 60;
+                    
+                    if (feedbackTitle) {
+                        feedbackTitle.innerHTML = `<i class="fas ${isSuccess ? 'fa-check-circle' : 'fa-info-circle'}" style="color: ${isSuccess ? '#10b981' : '#f59e0b'};"></i> Your Score: ${result.score}%`;
+                    }
+                    
+                    let mistakesHtml = '';
+                    if (result.mistakes && result.mistakes.length > 0) {
+                        mistakesHtml = `
+                            <div style="margin-top: 15px; background: rgba(239, 68, 68, 0.05); padding: 15px; border-radius: 8px; border-left: 3px solid #ef4444;">
+                                <div style="color: #ef4444; font-weight: 600; font-size: 13px; margin-bottom: 5px;"><i class="fas fa-exclamation-triangle"></i> Areas to focus on:</div>
+                                <ul style="margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 13px;">
+                                    ${result.mistakes.map(m => `<li>${m}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+
+                    if (feedbackMessage) {
+                        feedbackMessage.innerHTML = `
+                            <p style="margin-bottom: 15px; font-size: 15px;">${result.feedback || 'Good effort!'}</p>
+                            <p style="margin-bottom: 20px; font-size: 14px; color: var(--text-muted); font-style: italic;">
+                                <i class="fas fa-language" style="color: var(--primary);"></i> ${result.tamil_feedback || ''}
+                            </p>
+                            
+                            <div style="background: var(--glass); padding: 20px; border-radius: 12px; border: 1px solid var(--glass-border);">
+                                <div style="margin-bottom: 15px;">
+                                    <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">What you heard:</span>
+                                    <div style="color: #10b981; font-weight: 500; margin-top: 5px;">"${listeningState.currentChallenge.sentence || listeningState.currentChallenge.audio_text}"</div>
+                                </div>
+                                
+                                <div>
+                                    <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">What you typed:</span>
+                                    <div style="color: var(--text); margin-top: 5px;">"${answerInput}"</div>
+                                </div>
+                            </div>
+                            
+                            ${mistakesHtml}
+                            
+                            <div style="margin-top: 20px; text-align: center; color: #10b981; font-weight: 600;">
+                                <i class="fas fa-coins"></i> +${result.credits_earned || 0} Credits Earned
+                            </div>
+                        `;
+                    }
+
+                    if (feedbackDiv) feedbackDiv.style.display = 'block';
+                    
+                    if (typeof loadUserData === 'function') {
+                        loadUserData(); // Refresh credits
+                    }
+                    if (submitBtn) submitBtn.disabled = false;
+                } else {
+                    hideEvalLoading('listeningChallengeContent');
+                    showToast('error', 'Evaluation Failed', 'Please try submitting again');
+                    if (submitBtn) submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error submitting listening answer:', error);
+                showToast('error', 'Network Error', 'Please check your connection and try again');
+                const submitBtn = document.getElementById('listeningSubmitBtn');
+                if (submitBtn) submitBtn.disabled = false;
             }
         }
 
@@ -5507,7 +5814,7 @@
                     
                     feedbackDiv.style.display = 'block';
                     // Update credits in UI
-                    fetchUserCredits();
+                    loadUserData();
                 } else {
                     showToast('error', 'Error', 'Failed to evaluate answer');
                     document.getElementById('mcqSubmitBtn').disabled = false;
@@ -5667,82 +5974,318 @@
             }, 1000);
         }
 
-        async function submitListeningAnswer() {
-            const userAnswer = document.getElementById('listeningInput').value.trim();
-            const actualSentence = listeningState.currentChallenge?.sentence || '';
+        // Advanced Listening Features State
+        let fillBeatsState = { currentChallenge: null, timeLeft: 120 };
+        let directionState = { currentChallenge: null, timeLeft: 180, selectedLocation: null };
+        let toneState = { currentChallenge: null, timeLeft: 120, selectedTone: null };
+        
+        let fillBeatsTimerInterval = null;
+        let directionTimerInterval = null;
+        let toneTimerInterval = null;
 
-            if (!userAnswer) {
-                showToast('warning', 'Empty Answer', 'Please type what you heard');
+        // --- Fill the Beats ---
+        async function startFillBeats() {
+            try {
+                document.getElementById('listeningSourceScreen').style.display = 'none';
+                document.getElementById('fillBeatsScreen').style.display = 'block';
+                document.getElementById('fillBeatsContainer').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                
+                const response = await fetch(`${API_BASE_URL}/communication/generate-listening-gap`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    fillBeatsState.currentChallenge = data;
+                    
+                    // Render UI
+                    document.getElementById('fillBeatsCredits').textContent = `20 Credits`;
+                    document.getElementById('fillBeatsDifficulty').textContent = (data.difficulty || 'medium').toUpperCase();
+                    
+                    // Process text to insert input fields
+                    let text = data.text_with_gaps;
+                    let processedText = text.replace(/\[___\]/g, (match, offset) => {
+                        const index = (text.substring(0, offset).match(/\[___\]/g) || []).length;
+                        return `<input type="text" class="gap-input" data-index="${index}" style="width: 100px; border-bottom: 2px solid var(--primary); background: transparent; color: var(--primary-light); text-align: center; margin: 0 5px; font-weight: 600;">`;
+                    });
+                    
+                    document.getElementById('fillBeatsContainer').innerHTML = processedText;
+                    
+                    // Start timer
+                    fillBeatsState.timeLeft = 120;
+                    if (fillBeatsTimerInterval) clearInterval(fillBeatsTimerInterval);
+                    fillBeatsTimerInterval = setInterval(() => {
+                        fillBeatsState.timeLeft--;
+                        const mins = Math.floor(fillBeatsState.timeLeft / 60);
+                        const secs = fillBeatsState.timeLeft % 60;
+                        document.getElementById('fillBeatsTimer').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                        if (fillBeatsState.timeLeft <= 0) {
+                            clearInterval(fillBeatsTimerInterval);
+                            showToast('warning', 'Time Up!', 'Please submit your answers.');
+                        }
+                    }, 1000);
+                    
+                    showToast('success', 'Ready!', 'Listen to the audio and fill the blanks');
+                } else {
+                    throw new Error('Server returned ' + response.status);
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('error', 'Error', 'Failed to load Fill the Beats');
+                backToListeningMenu();
+            }
+        }
+
+        function playFillBeatsAudio() {
+            if (fillBeatsState.currentChallenge) {
+                playListeningAudio(fillBeatsState.currentChallenge.full_text);
+            }
+        }
+
+        async function submitFillBeats() {
+            const inputs = document.querySelectorAll('.gap-input');
+            const userAnswers = Array.from(inputs).sort((a, b) => a.dataset.index - b.dataset.index).map(inp => inp.value.trim());
+            
+            if (userAnswers.some(ans => !ans)) {
+                showToast('warning', 'Incomplete', 'Please fill all the blanks first.');
                 return;
             }
-
+            
             try {
-                // Show loading overlay
-                showToast('info', 'Analyzing', '⏳ AI is analyzing your answer...');
-                document.getElementById('listeningInput').disabled = true;
-
-                // Stop the timer
-                if (listeningTimerInterval) {
-                    clearInterval(listeningTimerInterval);
-                    listeningTimerInterval = null;
-                }
-
-                // Send to backend for evaluation
-                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening`, {
+                showToast('info', 'Evaluating', 'Checking your answers...');
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-gap`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
                     body: JSON.stringify({
-                        user_answer: userAnswer,
-                        actual_sentence: actualSentence,
-                        challenge_id: listeningState.currentChallenge?.id || 'gen',
-                        time_taken: 0
+                        user_answers: userAnswers,
+                        correct_answers: fillBeatsState.currentChallenge.correct_answers,
+                        challenge_id: fillBeatsState.currentChallenge.id,
+                        difficulty: fillBeatsState.currentChallenge.difficulty
                     })
                 });
-
+                
                 if (response.ok) {
                     const result = await response.json();
-                    const accuracy = result.score || 0;
-                    const earnedCredits = result.credits_earned || 0;
-
-                    // Show feedback - hide challenge section
-                    document.getElementById('listeningChallengeScreen').style.display = 'none';
-
+                    if (fillBeatsTimerInterval) clearInterval(fillBeatsTimerInterval);
+                    
+                    document.getElementById('fillBeatsScreen').style.display = 'none';
                     const feedbackDiv = document.getElementById('listeningFeedback');
-                    const feedbackTitle = document.getElementById('feedbackTitle');
-                    const feedbackMessage = document.getElementById('feedbackMessage');
-
-                    if (accuracy >= 80) {
-                        feedbackTitle.innerHTML = `<i class="fas fa-check-circle" style="color: var(--success);"></i> Excellent!`;
-                    } else if (accuracy >= 60) {
-                        feedbackTitle.innerHTML = `<i class="fas fa-star" style="color: #f59e0b;"></i> Good Effort!`;
-                    } else {
-                        feedbackTitle.innerHTML = `<i class="fas fa-lightbulb" style="color: #3b82f6;"></i> Try Again!`;
-                    }
-
-                    feedbackMessage.innerHTML = `
-                        ${result.feedback || 'Your answer was evaluated.'} <br>
-                        <div style="margin-top: 10px; font-weight: bold; color: var(--primary);">
-                            Accuracy: ${accuracy}% | Credits Earned: +${earnedCredits}
+                    document.getElementById('feedbackTitle').innerHTML = result.score >= 80 ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Excellent!' : '<i class="fas fa-info-circle"></i> Result';
+                    document.getElementById('feedbackMessage').innerHTML = `
+                        <div style="text-align: center; margin-bottom: 15px;">
+                            <div style="font-size: 24px; font-weight: 700; color: var(--primary);">${result.score}% Accuracy</div>
+                            <div style="color: var(--secondary);">+${result.credits_earned} Credits Earned</div>
                         </div>
-                        <div style="margin-top: 5px; font-style: italic; color: var(--text-muted); font-size: 0.9em;">
-                            ${result.tamil_feedback || ''}
-                        </div>
-                        <br>
-                        <strong>Your Answer:</strong> <br> <small>"${userAnswer}"</small> <br>
-                        <strong>Correct Answer:</strong> <br> <small>"${actualSentence}"</small>
+                        <p>${result.feedback}</p>
+                        <p style="margin-top: 10px; color: var(--text-muted); font-style: italic;">${result.tamil_feedback || ''}</p>
                     `;
-
                     feedbackDiv.style.display = 'block';
-                    console.log('✅ Listening evaluation successful:', result);
+                    loadUserData();
                 } else {
-                    throw new Error('Server evaluation failed');
+                    throw new Error('Server returned ' + response.status);
                 }
-            } catch (error) {
-                console.error(error);
-                showToast('error', 'Evaluation Error', 'Could not evaluate your answer');
+            } catch (e) {
+                hideEvalLoading('fillBeatsScreen');
+                showToast('error', 'Error', 'Evaluation failed');
+            }
+        }
+
+        // --- Direction Follower ---
+        async function startDirectionFollower() {
+            try {
+                document.getElementById('listeningSourceScreen').style.display = 'none';
+                document.getElementById('directionFollowerScreen').style.display = 'block';
+                document.getElementById('directionMapGrid').innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating map...</p></div>';
+                
+                const response = await fetch(`${API_BASE_URL}/communication/generate-listening-direction`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    directionState.currentChallenge = data;
+                    directionState.selectedLocation = null;
+                    document.getElementById('directionSelectedLocation').textContent = '';
+                    
+                    const grid = document.getElementById('directionMapGrid');
+                    grid.innerHTML = '';
+                    data.map_locations.forEach((loc, idx) => {
+                        const div = document.createElement('div');
+                        div.className = 'map-location';
+                        div.innerHTML = `<i class="fas ${loc.icon || 'fa-building'}"></i><span style="font-size: 10px; display: block;">${loc.name}</span>`;
+                        div.style.cssText = 'background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; padding: 5px; text-align: center;';
+                        div.onclick = () => {
+                            document.querySelectorAll('.map-location').forEach(el => el.style.background = 'rgba(255,255,255,0.1)');
+                            div.style.background = 'rgba(99, 102, 241, 0.4)';
+                            div.style.boxShadow = '0 0 10px var(--primary)';
+                            directionState.selectedLocation = loc.name;
+                            document.getElementById('directionSelectedLocation').textContent = `Selected: ${loc.name}`;
+                            evaluateDirection(loc.name);
+                        };
+                        grid.appendChild(div);
+                    });
+                    
+                    // Start timer
+                    directionState.timeLeft = 180;
+                    if (directionTimerInterval) clearInterval(directionTimerInterval);
+                    directionTimerInterval = setInterval(() => {
+                        directionState.timeLeft--;
+                        const mins = Math.floor(directionState.timeLeft / 60);
+                        const secs = directionState.timeLeft % 60;
+                        document.getElementById('directionTimer').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                    }, 1000);
+                    
+                    showToast('info', 'Listen Carefully', 'Follow the directions to find the destination');
+                } else {
+                    throw new Error('Server returned ' + response.status);
+                }
+            } catch (e) {
+                showToast('error', 'Error', 'Failed to load Direction Follower');
+                backToListeningMenu();
+            }
+        }
+
+        function playDirectionAudio() {
+            if (directionState.currentChallenge) {
+                playListeningAudio(directionState.currentChallenge.directions_text);
+            }
+        }
+
+        async function evaluateDirection(selectedName) {
+            try {
+                showToast('info', 'Checking', 'Verifying location...');
+                showEvalLoading('directionFollowerScreen', 'Verifying your location...');
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-direction`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+                    body: JSON.stringify({
+                        selected_location: selectedName,
+                        correct_location: directionState.currentChallenge.correct_location,
+                        challenge_id: directionState.currentChallenge.id,
+                        difficulty: directionState.currentChallenge.difficulty
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (directionTimerInterval) clearInterval(directionTimerInterval);
+                    
+                    setTimeout(() => {
+                        document.getElementById('directionFollowerScreen').style.display = 'none';
+                        const feedbackDiv = document.getElementById('listeningFeedback');
+                        document.getElementById('feedbackTitle').innerHTML = result.is_correct ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Correct Destination!' : '<i class="fas fa-times-circle" style="color: #ef4444;"></i> Wrong Location';
+                        document.getElementById('feedbackMessage').innerHTML = `
+                            <p>${result.feedback}</p>
+                            <p style="margin-top: 10px; color: var(--text-muted); font-style: italic;">${result.tamil_feedback || ''}</p>
+                            <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                                <strong>Transcript:</strong> <br>
+                                <span style="font-size: 13px;">${directionState.currentChallenge.directions_text}</span>
+                            </div>
+                        `;
+                        feedbackDiv.style.display = 'block';
+                        loadUserData();
+                    }, 500);
+                } else {
+                    throw new Error('Server returned ' + response.status);
+                }
+            } catch (e) {
+                hideEvalLoading('directionFollowerScreen');
+                showToast('error', 'Error', 'Evaluation failed');
+            }
+        }
+
+        // --- Tone Recognizer ---
+        async function startToneRecognizer() {
+            try {
+                document.getElementById('listeningSourceScreen').style.display = 'none';
+                document.getElementById('toneRecognizerScreen').style.display = 'block';
+                document.getElementById('toneOptionsContainer').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                
+                const response = await fetch(`${API_BASE_URL}/communication/generate-listening-tone`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    toneState.currentChallenge = data;
+                    toneState.selectedTone = null;
+                    
+                    const container = document.getElementById('toneOptionsContainer');
+                    container.innerHTML = '';
+                    data.options.forEach((opt, idx) => {
+                        const btn = document.createElement('div');
+                        btn.className = 'selection-card small';
+                        btn.style.cssText = 'padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;';
+                        btn.innerHTML = `<span style="font-size: 18px; font-weight: 600;">${opt}</span>`;
+                        btn.onclick = () => evaluateTone(opt);
+                        container.appendChild(btn);
+                    });
+                    
+                    toneState.timeLeft = 120;
+                    if (toneTimerInterval) clearInterval(toneTimerInterval);
+                    toneTimerInterval = setInterval(() => {
+                        toneState.timeLeft--;
+                        const mins = Math.floor(toneState.timeLeft / 60);
+                        const secs = toneState.timeLeft % 60;
+                        document.getElementById('toneTimer').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                    }, 1000);
+                    
+                    showToast('info', 'Tone Recognizer', 'Listen to the voice and guess the emotion');
+                } else {
+                    throw new Error('Server returned ' + response.status);
+                }
+            } catch (e) {
+                showToast('error', 'Error', 'Failed to load Tone Recognizer');
+                backToListeningMenu();
+            }
+        }
+
+        function playToneAudio() {
+            if (toneState.currentChallenge) {
+                playListeningAudio(toneState.currentChallenge.voice_text);
+            }
+        }
+
+        async function evaluateTone(selectedOption) {
+            try {
+                showToast('info', 'Evaluating', 'Analyzing your choice...');
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-tone`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
+                    body: JSON.stringify({
+                        selected_tone: selectedOption,
+                        correct_tone: toneState.currentChallenge.correct_tone,
+                        challenge_id: toneState.currentChallenge.id,
+                        difficulty: toneState.currentChallenge.difficulty
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (toneTimerInterval) clearInterval(toneTimerInterval);
+                    
+                    document.getElementById('toneRecognizerScreen').style.display = 'none';
+                    const feedbackDiv = document.getElementById('listeningFeedback');
+                    document.getElementById('feedbackTitle').innerHTML = result.is_correct ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Spot on!' : '<i class="fas fa-times-circle" style="color: #ef4444;"></i> Not quite';
+                    document.getElementById('feedbackMessage').innerHTML = `
+                        <p>${result.feedback}</p>
+                        <p style="margin-top: 10px; color: var(--text-muted); font-style: italic;">${result.tamil_feedback || ''}</p>
+                        <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                            <strong>Speaker said:</strong> <br>
+                            <span style="font-size: 14px; font-style: italic;">"${toneState.currentChallenge.voice_text}"</span>
+                        </div>
+                    `;
+                    feedbackDiv.style.display = 'block';
+                    loadUserData();
+                } else {
+                    throw new Error('Server returned ' + response.status);
+                }
+            } catch (e) {
+                hideEvalLoading('toneRecognizerScreen');
+                showToast('error', 'Error', 'Evaluation failed');
             }
         }
 
@@ -5793,7 +6336,7 @@
                 // Show loading overlay
                 const readingChallengeContent = document.getElementById('readingChallengeContent');
                 if (readingChallengeContent) {
-                    readingChallengeContent.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 48px; color: var(--primary);"></i><p style="margin-top: 15px; color: var(--text-muted);">Loading challenge...</p></div>';
+                    readingChallengeContent.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating your challenge...</p></div>';
                 }
 
                 let challenge = null;
@@ -6008,6 +6551,7 @@
                 const textareas = document.querySelectorAll('.reading-answer-box, #readingAnswer');
                 textareas.forEach(ta => ta.disabled = true);
                 if (document.getElementById('readingSubmitBtn')) document.getElementById('readingSubmitBtn').disabled = true;
+                showEvalLoading('readingChallengeContent', 'AI is analyzing your reading...');
 
                 // Stop timer
                 if (readingTimerInterval) {
@@ -6093,10 +6637,12 @@
                 } else {
                     const errorText = await response.text();
                     console.error('❌ Evaluation error:', response.status, errorText);
+                    hideEvalLoading('readingChallengeContent');
                     showToast('error', 'Evaluation Error', 'Could not evaluate your answer');
                 }
             } catch (error) {
                 console.error('❌ Submission error:', error);
+                hideEvalLoading('readingChallengeContent');
                 showToast('error', 'Submission Error', error.message);
             }
         }
@@ -6142,7 +6688,7 @@
                 // Show loading overlay
                 const writingChallengeContent = document.getElementById('writingChallengeContent');
                 if (writingChallengeContent) {
-                    writingChallengeContent.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 48px; color: var(--primary);"></i><p style="margin-top: 15px; color: var(--text-muted);">Loading challenge...</p></div>';
+                    writingChallengeContent.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating your challenge...</p></div>';
                 }
 
                 let challenge = null;
@@ -6298,6 +6844,7 @@
                 // Show loading
                 showToast('info', 'Analyzing', '⏳ AI is analyzing your essay and generating feedback...');
                 document.getElementById('writingAnswer').disabled = true;
+                showEvalLoading('writingChallengeContent', 'AI is analyzing your writing...');
 
                 // Stop the timer
                 if (writingTimerInterval) {
@@ -6396,6 +6943,7 @@
                 }
             } catch (error) {
                 console.error('❌ Submission Error:', error);
+                hideEvalLoading('writingChallengeContent');
                 showToast('error', 'Submission Error', error.message || 'Could not evaluate your essay. Please try again.');
                 document.getElementById('writingAnswer').disabled = false;
 
@@ -6454,7 +7002,7 @@
                 // Show loading overlay
                 const speakingChallengeContent = document.getElementById('speakingChallengeContent');
                 if (speakingChallengeContent) {
-                    speakingChallengeContent.innerHTML = '<div style="text-align: center; padding: 40px;"><i class="fas fa-spinner fa-spin" style="font-size: 48px; color: var(--primary);"></i><p style="margin-top: 15px; color: var(--text-muted);">Loading challenge...</p></div>';
+                    speakingChallengeContent.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating your challenge...</p></div>';
                 }
 
                 let challenge = null;
@@ -6656,6 +7204,7 @@
                 // Show loading
                 showToast('info', 'Analyzing', '⏳ AI is analyzing your pronunciation and grammar...');
                 document.getElementById('speakingSubmitBtn').disabled = true;
+                showEvalLoading('speakingChallengeContent', 'AI is analyzing your speech...');
 
                 // Create audio blob
                 const audioBlob = new Blob(speakingAudioChunks, { type: 'audio/webm' });
@@ -6728,10 +7277,12 @@
                 } else {
                     const errorText = await response.text();
                     console.error('❌ Evaluation error:', response.status, errorText);
+                    hideEvalLoading('speakingChallengeContent');
                     showToast('error', 'Evaluation Error', 'Failed to evaluate recording');
                 }
             } catch (error) {
                 console.error('❌ Submission error:', error);
+                hideEvalLoading('speakingChallengeContent');
                 showToast('error', 'Submission Error', 'Could not submit recording: ' + error.message);
             }
         }

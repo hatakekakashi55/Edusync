@@ -74,7 +74,7 @@ async def get_notifications(
         }
         
         if unread_only:
-            query["read"] = False
+            query["read"] = {"$in": [False]}
         
         total = await notifications_collection.count_documents(query)
         

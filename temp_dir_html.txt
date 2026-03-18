@@ -1,0 +1,25 @@
+id="directionFollowerScreen" class="challenge-screen" style="display: none;">
+                    <div class="challenge-info-bar">
+                        <div class="info-item"><i class="fas fa-clock"></i> <span id="directionTimer">03:00</span></div>
+                        <div class="info-item"><i class="fas fa-star" style="color: #fbbf24;"></i> <span id="directionCredits">15 Credits</span></div>
+                        <div class="info-item"><i class="fas fa-layer-group"></i> <span id="directionDifficulty">Hard</span></div>
+                    </div>
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 15px;">Direction Follower</h3>
+                        <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;" id="directionInstruction">Listen to the directions and click the correct destination on the map.</p>
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <button class="btn-primary" id="directionPlayBtn" onclick="playDirectionAudio()">
+                                <i class="fas fa-play"></i> Hear Directions
+                            </button>
+                        </div>
+                        <div id="directionMapGrid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; aspect-ratio: 1/1; margin: 0 auto; max-width: 500px;">
+                            <!-- Map locations will appear here -->
+                        </div>
+                        <div style="margin-top: 20px; text-align: center;">
+                            <p id="directionSelectedLocation" style="color: var(--primary-light); font-weight: 600;"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tone Recognizer Screen -->
+                <div 

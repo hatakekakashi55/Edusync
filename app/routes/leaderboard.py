@@ -117,7 +117,7 @@ async def get_leaderboard(
             query = {"period": period}
             if period == "monthly":
                 month_start = datetime.now(timezone.utc).replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-                query["month_start"] = month_start
+                query["month_start"] = {"$lte": datetime.now(timezone.utc)}
             
             leaderboard_entries = await leaderboard_collection.find(query) \
                 .sort("total_score", -1) \

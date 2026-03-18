@@ -132,6 +132,7 @@ from app.routes.stage1.write_challenge import router as stage1_write_router
 from app.routes.stage1.speaking import router as stage1_speaking_router
 from app.routes.stage1.ai import router as stage1_ai_router
 from app.routes.stage1.roleplay import router as stage1_roleplay_router
+from app.routes.stage1.listening import router as stage1_listening_router
 
 # Frontend
 from app.routes.frontend import router as frontend_router
@@ -229,6 +230,7 @@ app.include_router(stage1_write_router)
 app.include_router(stage1_speaking_router)
 app.include_router(stage1_ai_router)
 app.include_router(stage1_roleplay_router)
+app.include_router(stage1_listening_router)
 
 # Frontend (Catch-all)
 app.include_router(frontend_router)

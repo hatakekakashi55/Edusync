@@ -72,7 +72,7 @@ async def get_submissions(
         if challenge_id:
             query["challenge_id"] = challenge_id
         if completed is not None:
-            query["completed"] = completed
+            query["completed"] = {"$in": [completed]}
         
         total = await submissions_collection.count_documents(query)
         

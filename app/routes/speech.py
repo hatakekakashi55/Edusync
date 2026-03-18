@@ -22,8 +22,8 @@ router = APIRouter(prefix="/api/speech", tags=["Speech"])
 
 @router.post("/generate", tags=["Speech"])
 async def generate_speech(
-    request: Request = None,
-    speech_data: SpeechRequest = None,
+    request: Request,
+    speech_data: Optional[SpeechRequest] = None,
     current_user: dict = Depends(verify_token)
 ):
     """Generate audio from text (TTS) supporting both JSON and model formats"""

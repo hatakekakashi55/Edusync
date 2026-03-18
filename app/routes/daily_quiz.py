@@ -173,8 +173,11 @@ async def record_daily_challenge_completion(
         
         # Check if both quizzes are now complete
         user = await users_collection.find_one({"_id": ObjectId(user_id)})
-        daily_data = user.get("daily_challenges", {}).get(today, {})
-        is_both_complete = daily_data.get("meaning", {}).get("completed", False) and daily_data.get("fill", {}).get("completed", False)
+        if user:
+            daily_data = user.get("daily_challenges", {}).get(today, {})
+            is_both_complete = daily_data.get("meaning", {}).get("completed", False) and daily_data.get("fill", {}).get("completed", False)
+        else:
+            is_both_complete = False
         
         return {
             "success": True,

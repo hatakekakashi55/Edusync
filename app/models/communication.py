@@ -86,3 +86,21 @@ class ListeningMCQEvaluationRequest(BaseModel):
     challenge_id: Optional[str] = None
     difficulty: Optional[str] = "medium"
 
+
+class ListeningGapEvaluationRequest(BaseModel):
+    user_answers: List[str]
+    correct_answers: List[str]
+    challenge_id: Optional[str] = None
+
+
+class ListeningToneEvaluationRequest(BaseModel):
+    selected_tone: str
+    correct_tone: str
+    challenge_id: Optional[str] = None
+
+
+class ListeningDirectionEvaluationRequest(BaseModel):
+    clicked_point_id: str
+    correct_point_id: str
+    challenge_id: Optional[str] = None
+

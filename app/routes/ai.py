@@ -285,11 +285,11 @@ async def get_code_help(
     """Coding help"""
     try:
         help_response = await AIService.code_help(
-            code=help_request.code,
-            error=help_request.error,
-            requirement=help_request.requirement,
+            code=help_request.code or "",
+            error=help_request.error or "",
+            requirement=help_request.requirement or "",
             language=help_request.language,
-            context=help_request.context
+            context=help_request.context or ""
         )
         return {"success": True, "help": help_response}
     except Exception as e:
@@ -302,10 +302,11 @@ async def code_review_api(
 ):
     """Code review"""
     try:
+        requirements = review_request.requirements or []
         review = await AIService.code_review(
             code=review_request.code,
             language=review_request.language,
-            requirements=review_request.requirements
+            requirements=requirements
         )
         return {"success": True, "review": review}
     except Exception as e:
@@ -318,6 +319,9 @@ async def get_project_ideas(current_user: dict = Depends(verify_token)):
         user_id = str(current_user["_id"])
         user = await users_collection.find_one({"_id": ObjectId(user_id)})
         
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+            
         project_ideas = await AIService.generate_project_ideas({
             "stage": user.get("stage", "freshie"),
             "skills": user.get("skills", []),

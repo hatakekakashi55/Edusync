@@ -25,6 +25,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.notification_service import NotificationService
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -168,11 +169,13 @@ async def award_credits(
         # Get updated user data
         user = await users_collection.find_one({"_id": ObjectId(user_id)})
         
+        new_credits = user.get("credits", 0) if user else 0
+        
         return {
             "success": True,
             "message": f"Awarded {credits} credits",
             "awarded_credits": credits,
-            "new_credits": user.get("credits", 0),
+            "new_credits": new_credits,
             "xp_earned": credits * 2
         }
         

@@ -23,6 +23,7 @@ from fastapi import APIRouter, HTTPException, Depends, status, UploadFile, File,
 from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Response
 
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
+from app.services.notification_service import NotificationService
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
 from app.lifespan import get_redis_client, get_executor

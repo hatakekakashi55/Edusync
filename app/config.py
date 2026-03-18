@@ -60,7 +60,7 @@ RAPIDAPI_HOST = os.getenv("RAPIDAPI_HOST", "linkedin-jobs-search.p.rapidapi.com"
 
 # =============== AI CONFIGURATION ===============
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "kimi-k2.5:cloud")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemini-3-flash-preview:cloud")
 
 # =============== REDIS CONFIGURATION ===============
 REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379")

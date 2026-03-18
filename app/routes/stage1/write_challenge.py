@@ -145,7 +145,7 @@ async def get_ai_write_challenge(current_user: dict = Depends(get_current_user))
         
         text = await AIService.call_kimi(prompt)
         if not text:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         # Robust Parsing
         topic = "Write about your day"
@@ -461,7 +461,7 @@ DESCRIPTION: [Full prompt description - 2-3 sentences explaining what to write]"
         
         text = await AIService.call_kimi(prompt)
         if not text:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         # Robust Parsing
         topic_text = "Daily Life"

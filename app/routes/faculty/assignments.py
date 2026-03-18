@@ -678,7 +678,8 @@ async def create_assignment(
                     if len(content) > MAX_FILE_SIZE:
                         continue
                     
-                    file_ext = Path(file.filename).suffix.lower()
+                    filename = file.filename or "unnamed_file"
+                    file_ext = Path(filename).suffix.lower()
                     if file_ext not in ALLOWED_EXTENSIONS:
                         continue
                     

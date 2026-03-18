@@ -25,6 +25,7 @@ from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Res
 from app.dependencies import get_current_user, verify_token, convert_objectid_to_str, create_access_token, create_refresh_token
 from app.database import *
 from app.services.ai_wrapper import gemini_model, get_gemini_model, get_faculty_gemini_model, hod_gemini_model, faculty_gemini_models, AIModelWrapper
+from app.services.notification_service import NotificationService
 from app.lifespan import get_redis_client, get_executor
 from app.config import *
 
@@ -224,7 +225,7 @@ async def request_faculty_leave(
                 "has_substitute": leave_data.assign_substitute
             },
             "attachments": leave_data.attachments,
-            "approvers": [str(hod["_id"])]
+            "approvers": [str(hod["_id"])] if hod else []
         }
         
         result = await create_approval_request_internal(approval_data, current_user)
@@ -257,6 +258,9 @@ async def request_resource(
             "user_type": UserType.HOD.value,
             "department": current_user["department"]
         })
+        
+        if not hod:
+            raise HTTPException(status_code=400, detail="No HOD found for your department")
         
         approval_data = {
             "title": f"Resource Request: {resource_data.item_name}",

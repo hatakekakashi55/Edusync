@@ -611,14 +611,14 @@ class AIService:
 
     @staticmethod
     async def call_kimi(prompt: str, system_prompt: str = None, json_mode: bool = False):
-        """Call Kimi (via Ollama/Cloud) directly for Communication Stage features"""
+        """Call Gemini/AI (via Ollama/Cloud) directly for Communication Stage features"""
         try:
             full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
             if json_mode:
                 if "Return ONLY valid JSON" not in full_prompt:
                     full_prompt += "\n\nIMPORTANT: Your response must be a valid JSON object only. No preamble, no explanation."
             
-            logger.info(f"🔄 Calling Kimi Model ({OLLAMA_MODEL}) for communication feature")
+            logger.info(f"🔄 Calling Gemini Model ({OLLAMA_MODEL}) for communication feature")
             
             async with httpx.AsyncClient(timeout=90.0) as client:
                 # Some deployments might use /api/generate (Ollama style) or /v1/chat/completions (OpenAI style)
@@ -649,10 +649,10 @@ class AIService:
                             return text[start_idx:end_idx+1]
                     return text
                 else:
-                    logger.error(f"❌ Kimi API error: {response.status_code} - {response.text}")
+                    logger.error(f"❌ Gemini API error: {response.status_code} - {response.text}")
                     return None
         except Exception as e:
-            logger.error(f"❌ Kimi connection error: {e}")
+            logger.error(f"❌ Gemini connection error: {e}")
             return None
         
         

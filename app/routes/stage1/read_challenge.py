@@ -111,7 +111,7 @@ async def get_ai_read_challenge(current_user: dict = Depends(get_current_user)):
         
         sentence_text = await AIService.call_kimi(prompt)
         if not sentence_text:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         sentence_text = sentence_text.strip().strip('"').strip("'")
         
@@ -431,7 +431,7 @@ async def generate_reading_challenge(
         
         json_str = await AIService.call_kimi(prompt, json_mode=True)
         if not json_str:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         if "```" in json_str:
             import re
@@ -513,14 +513,6 @@ async def evaluate_reading_answer(
 ):
     """Evaluate reading comprehension answer using Ollama"""
     try:
-        answer = request_data.get("answer", "")
-        passage = request_data.get("passage", "")
-        question = request_data.get("question", "")
-        example_answer = request_data.get("example_answer", "")
-        
-        if not answer:
-            raise HTTPException(status_code=400, detail="Answer is required")
-        
         # Support both single answer (legacy) and multiple answers
         answer = request_data.get("answer", "")
         answers_list = request_data.get("answers", []) # Should be list of objects with question and answer
@@ -559,7 +551,7 @@ async def evaluate_reading_answer(
             # Use JSON mode for multi-eval
             eval_response = await AIService.call_kimi(prompt, json_mode=True)
             if not eval_response:
-                raise Exception("Kimi model response was empty")
+                raise Exception("Gemini model response was empty")
                 
             if "```" in eval_response:
                 import re
@@ -599,7 +591,7 @@ FEEDBACK: [1-2 sentences of feedback]"""
         
         eval_response = await AIService.call_kimi(prompt)
         if not eval_response:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         # Robust Parsing
         score = 70

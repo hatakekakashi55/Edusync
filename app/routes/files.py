@@ -29,7 +29,8 @@ async def get_file_details(
         try:
             if len(file_id) == 24:
                 query["$or"].append({"_id": ObjectId(file_id)})
-        except:
+        except (ValueError, Exception):
+            # Invalid ObjectId format, continue with file_id search
             pass
             
         file_record = await files_collection.find_one(query)

@@ -80,11 +80,11 @@ async def get_career_progress(current_user: dict = Depends(verify_token)):
 
 @router.get("/api/career/linkedin-jobs", tags=["Career"], include_in_schema=False)
 async def get_linkedin_jobs_alias(keywords: str = "Software Engineer", location: str = "India", current_user = Depends(verify_token)):
-    return await get_linkedin_jobs(keywords, location, current_user)
+    return {"success": False, "message": "LinkedIn integration not available"}
 
 
 @router.get("/api/career/linkedin-profile", tags=["Career"], include_in_schema=False)
 async def get_linkedin_profile_alias(username: str, current_user = Depends(verify_token)):
-    return await get_linkedin_profile(username, current_user)
+    return {"success": False, "message": "LinkedIn integration not available"}
 
 

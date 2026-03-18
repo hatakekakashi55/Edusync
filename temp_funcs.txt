@@ -1,0 +1,165 @@
+==== startListeningSource ====
+async function startListeningSource(source) {
+            // Reset state and UI
+            listeningState.currentSource = source;
+            const listeningInput = document.getElementById('listeningInput');
+            if (listeningInput) {
+                listeningInput.value = '';
+                listeningInput.disabled = false;
+            }
+
+            // Stop any active timers
+            if (listeningTimerInterval) {
+                clearInterval(listeningTimerInterval);
+                listeningTimerInterval = null;
+            }
+
+            // Reset UI elements - MAKE ELEMENTS VISIBLE
+            document.getElementById('listeningModeSelectionScreen').style.display = 'none';
+            document.getElementById('listeningChallengeScreen').style.display = 'block';
+            document.getElementById('listeningFeedback').style.display = 'none';
+            const playBtnEl = document.getElementById('listeningPlayBtn');
+            const inputEl = document.getElementById('listeningInput');
+            const submitBtnEl = document.getElementById('listeningSubmitBtn');
+            
+            if (playBtnEl) playBtnEl.style.display = 'inline-block';
+            if (inputEl) inputEl.style.display = 'block';
+            if (submitBtnEl) submitBtnEl.style.display = 'block';
+
+            try {
+                // Show loading overlay
+                const listeningContent = document.getElementById('listeningChallengeContent');
+                if (listeningContent) {
+         
+
+==== startListeningMCQ ====
+async function startListeningMCQ() {
+            try {
+                // Hide main listening screen
+                document.getElementById('listeningSourceScreen').style.display = 'none';
+                
+                // Show challenge screen with loading state
+                const challengeScreen = document.getElementById('listeningChallengeScreen');
+                challengeScreen.style.display = 'block';
+                
+                // Clear any previous feedback or hidden states
+                document.getElementById('listeningFeedback').style.display = 'none';
+                document.getElementById('listeningChallengeContent').style.display = 'block';
+                
+                const contentDiv = document.getElementById('listeningChallengeContent');
+                contentDiv.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div>
+                        <p style="color: var(--text-muted);">Generating your Listen & Respond challenge...</p>
+                    </div>
+                `;
+                
+                // Fetch MCQ from backend
+                const response = await fetch(`${API_BASE_URL}/communication/generate-listening-mcq`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    }
+
+
+==== submitListeningAnswer ====
+async function submitListeningAnswer() {
+            const answerInput = document.getElementById('listeningInput').value.trim();
+            if (!answerInput) {
+                showToast('warning', 'Empty Answer', 'Please type what you heard before submitting.');
+                return;
+            }
+
+            try {
+                showToast('info', 'Evaluating', 'Checking your answer...');
+                const submitBtn = document.getElementById('listeningSubmitBtn');
+                if (submitBtn) submitBtn.disabled = true;
+
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    },
+                    body: JSON.stringify({
+                        user_answer: answerInput,
+                        actual_sentence: listeningState.currentChallenge.sentence || listeningState.currentChallenge.audio_text,
+                        challenge_id: listeningState.currentChallenge.id || 'ai-gen',
+                        difficulty: listeningState.currentChallenge.difficulty || 'medium'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    // Stop timer
+                    if (listeningTimerInterval) {
+   
+
+==== submitListeningMCQ ====
+async function submitListeningMCQ() {
+            if (selectedMCQIndex === -1) return;
+            
+            try {
+                showToast('info', 'Evaluating', 'Checking your answer...');
+                document.getElementById('mcqSubmitBtn').disabled = true;
+                
+                const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-mcq`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    },
+                    body: JSON.stringify({
+                        selected_index: selectedMCQIndex,
+                        correct_index: listeningState.currentChallenge.correct_index,
+                        challenge_id: listeningState.currentChallenge.id,
+                        difficulty: listeningState.currentChallenge.difficulty
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    // Stop timer
+                    if (listeningTimerInterval) {
+                        clearInterval(listeningTimerInterval);
+                        listeningTimerInterval = null;
+                    }
+
+                    // Show feedback
+                    document.getElementById('listeningChallengeContent').style.display = 'none';
+
+
+==== startReadingChallenge ====
+async function startReadingChallenge() {
+            // Show source selection
+            document.getElementById('readingSourceScreen').style.display = 'none';
+            document.getElementById('readingModeSelectionScreen').style.display = 'block';
+        }
+
+        
+
+==== submitReadingChallenge ==== NOT FOUND
+
+==== startWritingChallenge ====
+async function startWritingChallenge() {
+            // Show source selection
+            document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('writingModeSelectionScreen').style.display = 'block';
+        }
+
+        
+
+==== submitWritingChallenge ==== NOT FOUND
+
+==== startSpeakingChallenge ====
+async function startSpeakingChallenge() {
+            // Show source selection
+            document.getElementById('speakingSourceScreen').style.display = 'none';
+            document.getElementById('speakingModeSelectionScreen').style.display = 'block';
+        }
+
+        
+
+==== submitSpeakingChallenge ==== NOT FOUND

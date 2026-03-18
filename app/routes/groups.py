@@ -155,8 +155,11 @@ async def get_group_detail(
         ]
         
         group_data = convert_objectid_to_str(group)
-        group_data["members_list"] = members_list
-        group_data["is_member"] = user_id in member_ids
+        if group_data:
+            group_data["members_list"] = members_list
+            group_data["is_member"] = user_id in member_ids
+        else:
+            group_data = {"members_list": members_list, "is_member": user_id in member_ids}
         
         return {
             "success": True,

@@ -176,24 +176,23 @@ Respond with grammar corrections and tips."""
         else:  # general mode
             system_prompt = """You are a helpful English learning assistant. Help with grammar, pronunciation, and conversation practice."""
 
-        # Try to call Kimi directly
+        # Try to call Gemini directly
         try:
-            logger.info(f"Attempting to call Kimi for mode: {mode}")
+            logger.info(f"Attempting to call Gemini for mode: {mode}")
             
             reply = await AIService.call_kimi(user_message, system_prompt)
-            
             if reply and reply.strip():
-                logger.info(f"✅ Kimi response successful for mode: {mode}")
+                logger.info(f"✅ Gemini response successful for mode: {mode}")
                 return {
                     "status": "success",
                     "mode": mode,
                     "user_message": user_message,
                     "reply": reply.strip(),
-                    "source": "kimi"
+                    "source": "gemini"
                 }
             
         except Exception as e:
-            logger.warning(f"Kimi connection error: {e}. Using intelligent fallback.")
+            logger.warning(f"Gemini connection error: {e}. Using intelligent fallback.")
                     
         except Exception as e:
             logger.warning(f"Ollama connection error: {e}. Using intelligent fallback.")
@@ -219,159 +218,6 @@ Respond with grammar corrections and tips."""
             "source": "error_fallback"
         }
 
-
-@router.post("/api/communication/evaluate-listening", tags=["Stage 1", "AI"])
-async def evaluate_listening(data: ListeningEvaluationRequest, current_user: dict = Depends(get_current_user)):
-    """Evaluate a listening challenge answer using AI and award credits."""
-    try:
-        user_answer = data.user_answer.strip()
-        actual_sentence = data.actual_sentence.strip()
-        
-        if not user_answer:
-            raise HTTPException(status_code=400, detail="Answer cannot be empty")
-            
-        system_prompt = "You are a friendly and professional English teacher evaluating a student's listening comprehension."
-        prompt = f"""Compare the student's typed answer with the correct sentence they were supposed to hear.
-        
-        Correct Sentence: "{actual_sentence}"
-        Student Answer: "{user_answer}"
-        
-        Evaluate the accuracy (0-100), identify small typos versus serious misunderstandings, and provide encouraging feedback.
-        
-        Your response must be a valid JSON object ONLY:
-        {{
-            "score": integer (0-100),
-            "feedback": "Two sentences of professional, constructive feedback in English",
-            "tamil_feedback": "A clear professional explanation in Tamil with suggestions for improvement",
-            "mistakes": ["specific words misspelled or missed"],
-            "praise": "Something positive about their attempt",
-            "suggestions": ["how to specifically improve next time"]
-        }}"""
-        
-        json_str = await AIService.call_kimi(prompt, system_prompt, json_mode=True)
-        
-        if not json_str:
-            # Fallback evaluation
-            import difflib
-            matcher = difflib.SequenceMatcher(None, actual_sentence.lower(), user_answer.lower())
-            score = int(matcher.ratio() * 100)
-            result = {
-                "score": score,
-                "feedback": "Good effort! Keep practicing your listening skills.",
-                "tamil_feedback": "நல்ல முயற்சி! தொடர்ந்து பயிற்சி செய்யுங்கள்.",
-                "mistakes": [],
-                "praise": "You're making progress!",
-                "suggestions": ["Try listening to the audio multiple times."]
-            }
-        else:
-            if "```" in json_str:
-                match = re.search(r'\{.*\}', json_str, re.DOTALL)
-                if match:
-                    json_str = match.group(0)
-            result = json.loads(json_str)
-        
-        # Award credits based on score
-        score = result.get("score", 0)
-        credits_earned = 0
-        if score >= 60:
-            credits_earned = max(5, round((score / 100) * 15))
-            
-            await update_user_credits(
-                str(current_user["_id"]),
-                credits_earned,
-                "listening_challenge",
-                f"Completed listening challenge with {score}% score"
-            )
-            
-        result["credits_earned"] = credits_earned
-        return result
-        
-    except Exception as e:
-        logger.error(f"Error evaluating listening: {e}")
-        # Return a safe fallback so the UI doesn't break
-        return {
-            "score": 50,
-            "feedback": "We couldn't reach the AI for a detailed analysis right now.",
-            "tamil_feedback": "தற்போது AI இணைக்க முடியவில்லை.",
-            "mistakes": [],
-            "credits_earned": 0
-        }
-
-
-@router.post("/api/communication/generate-listening-mcq", tags=["Stage 1", "AI"])
-async def generate_listening_mcq(current_user: dict = Depends(get_current_user)):
-    """Generate a Listen & Respond MCQ challenge using AI."""
-    try:
-        system_prompt = "You are an English teacher creating a listening comprehension quiz."
-        prompt = """Generate a high-quality listening comprehension multiple choice question for an English learner.
-        The question should be based on a natural conversational scenario or a practical situation.
-        
-        Your response must be a valid JSON object ONLY:
-        {
-            "id": "unique_string",
-            "audio_text": "The sentence or question the student will HEAR (e.g., 'If it rains tomorrow, will the football game still be held?')",
-            "question": "The written question the student will READ (e.g., 'What is the speaker asking about?')",
-            "options": ["Option A", "Option B", "Option C", "Option D"],
-            "correct_index": integer (0-3),
-            "explanation": "Brief explanation of why the answer is correct",
-            "tamil_explanation": "A clear explanation in Tamil",
-            "difficulty": "easy/medium/hard",
-            "category": "conversational/academic/business"
-        }"""
-        
-        json_str = await AIService.call_kimi(prompt, system_prompt, json_mode=True)
-        if not json_str:
-            raise Exception("Kimi model response was empty")
-            
-        data = json.loads(json_str)
-        return data
-        
-    except Exception as e:
-        logger.error(f"Error generating listening mcq: {e}")
-        # Return a high-quality fallback
-        return {
-            "id": "fallback_mcq_1",
-            "audio_text": "I'm sorry, I won't be able to make it to the meeting at 3 PM today because my flight was delayed. Can we reschedule for tomorrow morning?",
-            "question": "Why is the speaker rescheduling the meeting?",
-            "options": [
-                "They forgot about the meeting.",
-                "Their flight was delayed.",
-                "They have another meeting at 3 PM.",
-                "They are sick."
-            ],
-            "correct_index": 1,
-            "explanation": "The speaker explicitly mentions that their flight was delayed.",
-            "tamil_explanation": "பேச்சாளர் தனது விமானம் தாமதமானதால் கூட்டத்தை மாற்றியமைக்கக் கோருகிறார்.",
-            "difficulty": "medium",
-            "category": "business"
-        }
-
-
-@router.post("/api/communication/evaluate-listening-mcq", tags=["Stage 1", "AI"])
-async def evaluate_listening_mcq(data: ListeningMCQEvaluationRequest, current_user: dict = Depends(get_current_user)):
-    """Evaluate a Listening MCQ answer and award credits."""
-    try:
-        is_correct = (data.selected_index == data.correct_index)
-        credits_earned = 0
-        
-        if is_correct:
-            credits_earned = 10
-            await update_user_credits(
-                str(current_user["_id"]),
-                credits_earned,
-                "listening_mcq",
-                f"Completed Listen & Respond challenge correctly ({data.difficulty})"
-            )
-            
-        return {
-            "success": True,
-            "is_correct": is_correct,
-            "credits_earned": credits_earned,
-            "feedback": "Perfect! You understood the recording well." if is_correct else "Not quite right. Try listening again more carefully."
-        }
-    except Exception as e:
-        logger.error(f"Error evaluating listening mcq: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/api/communication/analyze-pronunciation", tags=["Stage 1", "AI"])
@@ -419,7 +265,7 @@ async def evaluate_speech_challenge(
         
         json_text = await AIService.call_kimi(prompt, json_mode=True)
         if not json_text:
-            raise Exception("Kimi model response was empty")
+            raise Exception("Gemini model response was empty")
         
         try:
             result = json.loads(json_text)

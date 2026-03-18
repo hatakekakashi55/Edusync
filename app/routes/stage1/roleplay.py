@@ -208,7 +208,7 @@ Respond naturally as the character would — keep it to 2-3 sentences.
 
 Your response as the character (stay in character, 2-3 sentences only):"""
             
-            # Use AI service
+            # Use Gemini service
             ai_reply = await AIService.call_kimi(full_prompt, session["system_prompt"])
             
             if not ai_reply:
