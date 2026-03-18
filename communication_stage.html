@@ -3635,6 +3635,46 @@
                                     class="fas fa-feather-alt"></i>
                                 Start Now</button>
                         </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon"><i class="fas fa-image"></i></div>
+                                <div class="feature-title">Picture Prompt</div>
+                            </div>
+                            <p class="feature-description">Test your creativity and grammar by writing a 50-word description about a random image.</p>
+                            <button class="btn-primary" onclick="startPicturePrompt()"><i
+                                    class="fas fa-camera"></i>
+                                Start Now</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon" style="background: rgba(244, 63, 94, 0.1); color: #f43f5e;"><i class="fas fa-ban"></i></div>
+                                <div class="feature-title">No-Filter Challenge</div>
+                            </div>
+                            <p class="feature-description">Rewrite simple sentences using advanced vocabulary without basic filter words.</p>
+                            <button class="btn-primary" onclick="startNoFilterChallenge()" style="background: linear-gradient(135deg, #f43f5e, #e11d48); border:none;"><i
+                                    class="fas fa-magic"></i>
+                                Start Now</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon" style="background: rgba(14, 165, 233, 0.1); color: #0ea5e9;"><i class="fas fa-reply-all"></i></div>
+                                <div class="feature-title">Quick Reply</div>
+                            </div>
+                            <p class="feature-description">Draft a professional response to a mock email or message within 2 minutes.</p>
+                            <button class="btn-primary" onclick="startQuickReplyChallenge()" style="background: linear-gradient(135deg, #0ea5e9, #0284c7); border:none;"><i
+                                    class="fas fa-bolt"></i>
+                                Start Now</button>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-header">
+                                <div class="feature-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"><i class="fas fa-link"></i></div>
+                                <div class="feature-title">Word Chain</div>
+                            </div>
+                            <p class="feature-description">Form a 10-word meaningful sentence where each word starts with the last letter of the previous word.</p>
+                            <button class="btn-primary" onclick="startWordChainChallenge()" style="background: linear-gradient(135deg, #10b981, #059669); border:none;"><i
+                                    class="fas fa-play"></i>
+                                Start Now</button>
+                        </div>
                     </div>
                 </div>
 
@@ -3691,6 +3731,219 @@
                             <button class="btn-primary" onclick="startWritingSource(writingState.currentSource)"
                                 style="flex: 1;">
                                 <i class="fas fa-repeat"></i> Next Challenge
+                            </button>
+                            <button class="btn-secondary" onclick="backToWritingMenu()" style="flex: 1;">
+                                <i class="fas fa-arrow-left"></i> Back to Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Picture Prompt Screen -->
+                <div id="picturePromptScreen" class="challenge-screen" style="display: none;">
+                    <button class="back-btn-small" onclick="backToWritingMenu()">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <div class="challenge-info-bar" style="margin-top: 20px;">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="picPromptTimer">05:00</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star" style="color: #fbbf24;"></i>
+                            <span>15 Credits</span>
+                        </div>
+                    </div>
+
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Picture Prompt</h3>
+                        <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">Observe the image carefully and write a creative 50-word description about it. Focus on grammar and vocabulary.</p>
+                        
+                        <div style="text-align: center; margin-bottom: 25px;">
+                            <img id="promptImage" src="" alt="Random Prompt" style="max-width: 100%; height: auto; max-height: 400px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        </div>
+                        
+                        <textarea id="picPromptAnswer" class="form-textarea" placeholder="Write your 50-word description here..." style="font-size: 16px; margin-bottom: 10px; min-height: 250px; padding: 20px; line-height: 1.6; border-radius: 12px; resize: vertical; box-sizing: border-box; width: 100%;"></textarea>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <span style="font-size: 14px; color: var(--text-muted);">Word count: <span id="picWordCount">0</span> / 50</span>
+                        </div>
+                        
+                        <button class="btn-primary" id="submitPicPromptBtn" onclick="submitPicturePrompt()" style="width: 100%; font-size: 16px; padding: 15px;">
+                            <i class="fas fa-paper-plane"></i> Submit Description
+                        </button>
+                    </div>
+
+                    <div id="picPromptFeedback" style="display: none; margin-top: 30px; padding: 20px; background: rgba(74, 222, 128, 0.1); border-radius: 10px; border-left: 4px solid var(--success);">
+                        <h3 id="picPromptFeedbackTitle" style="color: var(--success); margin-bottom: 10px;">Evaluation Complete</h3>
+                        <div id="picPromptFeedbackContent" style="color: var(--text); font-size: 15px; line-height: 1.6;"></div>
+                        <div style="margin-top: 20px; display: flex; gap: 10px;">
+                            <button class="btn-primary" onclick="startPicturePrompt()" style="flex: 1;">
+                                <i class="fas fa-image"></i> New Picture
+                            </button>
+                            <button class="btn-secondary" onclick="backToWritingMenu()" style="flex: 1;">
+                                <i class="fas fa-arrow-left"></i> Back to Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No-Filter Challenge Screen -->
+                <div id="noFilterScreen" class="challenge-screen" style="display: none;">
+                    <button class="back-btn-small" onclick="backToWritingMenu()">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <div class="challenge-info-bar" style="margin-top: 20px;">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="noFilterTimer">03:00</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star" style="color: #fbbf24;"></i>
+                            <span>15 Credits</span>
+                        </div>
+                    </div>
+
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">No-Filter Challenge</h3>
+                        <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">Rewrite the sentence below using beautiful, advanced vocabulary. You are <b style="color: #f43f5e;">NOT allowed</b> to use the banned filter words.</p>
+                        
+                        <div style="background: rgba(30, 41, 59, 0.5); padding: 25px; border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 20px; text-align: center;">
+                            <div style="font-size: 14px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 10px;">Original Sentence</div>
+                            <div id="nfOriginalSentence" style="font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 20px;">The food was very good.</div>
+                            
+                            <div style="display: inline-block; background: rgba(244, 63, 94, 0.1); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(244, 63, 94, 0.3);">
+                                <span style="color: #f43f5e; font-size: 14px; font-weight: 600;"><i class="fas fa-ban"></i> BANNED: </span>
+                                <span id="nfBannedWords" style="color: #f43f5e; font-weight: 700; font-size: 16px;">very, good</span>
+                            </div>
+                        </div>
+
+                        <textarea id="nfAnswer" class="form-textarea" placeholder="Write your rewritten sentence here..." style="font-size: 16px; margin-bottom: 10px; min-height: 150px; padding: 20px; line-height: 1.6; border-radius: 12px; resize: vertical; box-sizing: border-box; width: 100%;"></textarea>
+                        
+                        <button class="btn-primary" id="submitNoFilterBtn" onclick="submitNoFilterChallenge()" style="width: 100%; font-size: 16px; padding: 15px; background: linear-gradient(135deg, #f43f5e, #e11d48); border: none;">
+                            <i class="fas fa-paper-plane"></i> Submit Rewrite
+                        </button>
+                    </div>
+
+                    <div id="nfFeedback" style="display: none; margin-top: 30px; padding: 20px; background: rgba(74, 222, 128, 0.1); border-radius: 10px; border-left: 4px solid var(--success);">
+                        <h3 id="nfFeedbackTitle" style="color: var(--success); margin-bottom: 10px;">Evaluation Complete</h3>
+                        <div id="nfFeedbackContent" style="color: var(--text); font-size: 15px; line-height: 1.6;"></div>
+                        <div style="margin-top: 20px; display: flex; gap: 10px;">
+                            <button class="btn-primary" onclick="startNoFilterChallenge()" style="flex: 1; background: linear-gradient(135deg, #f43f5e, #e11d48); border: none;">
+                                <i class="fas fa-redo"></i> Next Challenge
+                            </button>
+                            <button class="btn-secondary" onclick="backToWritingMenu()" style="flex: 1;">
+                                <i class="fas fa-arrow-left"></i> Back to Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Reply Challenge Screen -->
+                <div id="quickReplyScreen" class="challenge-screen" style="display: none;">
+                    <button class="back-btn-small" onclick="backToWritingMenu()">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <div class="challenge-info-bar" style="margin-top: 20px;">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="qrTimer">02:00</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star" style="color: #fbbf24;"></i>
+                            <span>20 Credits</span>
+                        </div>
+                    </div>
+
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Quick Reply Time Attack</h3>
+                        <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">Draft a professional and polite reply to the message below within 2 minutes.</p>
+                        
+                        <div style="background: rgba(15, 23, 42, 0.4); padding: 25px; border-radius: 15px; border: 1px solid var(--glass-border); margin-bottom: 20px; text-align: left; position: relative;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+                                <div style="width: 40px; height: 40px; border-radius: 50%; background: #0ea5e9; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <div id="qrSender" style="font-size: 16px; font-weight: 600; color: var(--text);">Manager</div>
+                                    <div id="qrSubject" style="font-size: 13px; color: var(--text-muted);">Subject: Project Update</div>
+                                </div>
+                            </div>
+                            <div id="qrMessage" style="font-size: 15px; line-height: 1.6; color: var(--text);">
+                                Hi, I need the final report on the Q3 metrics by today afternoon instead of tomorrow. Let me know if that is possible.
+                            </div>
+                        </div>
+
+                        <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 10px;"><i class="fas fa-edit"></i> Your Reply:</div>
+                        <textarea id="qrAnswer" class="form-textarea" placeholder="Type your professional reply here..." style="font-size: 16px; margin-bottom: 10px; min-height: 150px; padding: 20px; line-height: 1.6; border-radius: 12px; resize: vertical; box-sizing: border-box; width: 100%; font-family: inherit;"></textarea>
+                        
+                        <button class="btn-primary" id="submitQuickReplyBtn" onclick="submitQuickReplyChallenge()" style="width: 100%; font-size: 16px; padding: 15px; background: linear-gradient(135deg, #0ea5e9, #0284c7); border: none;">
+                            <i class="fas fa-paper-plane"></i> Send Reply
+                        </button>
+                    </div>
+
+                    <div id="qrFeedback" style="display: none; margin-top: 30px; padding: 20px; background: rgba(74, 222, 128, 0.1); border-radius: 10px; border-left: 4px solid var(--success);">
+                        <h3 id="qrFeedbackTitle" style="color: var(--success); margin-bottom: 10px;">Reply Sent & Evaluated</h3>
+                        <div id="qrFeedbackContent" style="color: var(--text); font-size: 15px; line-height: 1.6;"></div>
+                        <div style="margin-top: 20px; display: flex; gap: 10px;">
+                            <button class="btn-primary" onclick="startQuickReplyChallenge()" style="flex: 1; background: linear-gradient(135deg, #0ea5e9, #0284c7); border: none;">
+                                <i class="fas fa-redo"></i> Next Mock Email
+                            </button>
+                            <button class="btn-secondary" onclick="backToWritingMenu()" style="flex: 1;">
+                                <i class="fas fa-arrow-left"></i> Back to Menu
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Word Chain Challenge Screen -->
+                <div id="wordChainScreen" class="challenge-screen" style="display: none;">
+                    <button class="back-btn-small" onclick="backToWritingMenu()">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <div class="challenge-info-bar" style="margin-top: 20px;">
+                        <div class="info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="wcTimer">05:00</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-star" style="color: #fbbf24;"></i>
+                            <span>25 Credits</span>
+                        </div>
+                    </div>
+
+                    <div class="challenge-prompt">
+                        <h3 style="text-align: center; margin-bottom: 20px; color: var(--text);">Word Chain Challenge</h3>
+                        <p style="text-align: center; color: var(--text-muted); margin-bottom: 20px;">
+                            Form a meaningful sentence of exactly <b style="color: #10b981;">10 words</b>. 
+                            <br>Rule: Each word MUST start with the <b>last letter</b> of the previous word!
+                        </p>
+                        
+                        <div style="background: rgba(16, 185, 129, 0.1); padding: 25px; border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.3); margin-bottom: 20px; text-align: center;">
+                            <div style="font-size: 14px; text-transform: uppercase; color: #10b981; letter-spacing: 1px; margin-bottom: 10px;">Starting Word</div>
+                            <div id="wcStartingWord" style="font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: 2px;">Apple</div>
+                            <div style="margin-top: 15px; font-size: 13px; color: var(--text-muted);">
+                                Your first word MUST be "<span id="wcStartingWordEcho" style="color: var(--text); font-weight: bold;">Apple</span>"
+                            </div>
+                        </div>
+
+                        <div id="wcLiveValidation" style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 35px;">
+                            <!-- Live word chain visualizer will go here -->
+                        </div>
+
+                        <textarea id="wcAnswer" class="form-textarea" placeholder="Type your 10-word sentence here..." style="font-size: 18px; text-align: center; margin-bottom: 10px; min-height: 120px; padding: 20px; line-height: 1.6; border-radius: 12px; resize: vertical; box-sizing: border-box; width: 100%; border: 2px solid var(--glass-border);"></textarea>
+                        
+                        <button class="btn-primary" id="submitWordChainBtn" onclick="submitWordChainChallenge()" style="width: 100%; font-size: 16px; padding: 15px; background: linear-gradient(135deg, #10b981, #059669); border: none;">
+                            <i class="fas fa-link"></i> Check Word Chain
+                        </button>
+                    </div>
+
+                    <div id="wcFeedback" style="display: none; margin-top: 30px; padding: 20px; background: rgba(74, 222, 128, 0.1); border-radius: 10px; border-left: 4px solid var(--success);">
+                        <h3 id="wcFeedbackTitle" style="color: var(--success); margin-bottom: 10px;">Chain Evaluated</h3>
+                        <div id="wcFeedbackContent" style="color: var(--text); font-size: 15px; line-height: 1.6;"></div>
+                        <div style="margin-top: 20px; display: flex; gap: 10px;">
+                            <button class="btn-primary" onclick="startWordChainChallenge()" style="flex: 1; background: linear-gradient(135deg, #10b981, #059669); border: none;">
+                                <i class="fas fa-redo"></i> Next Starting Word
                             </button>
                             <button class="btn-secondary" onclick="backToWritingMenu()" style="flex: 1;">
                                 <i class="fas fa-arrow-left"></i> Back to Menu
@@ -6666,6 +6919,621 @@
             document.getElementById('writingChallengeScreen').style.display = 'none';
             document.getElementById('writingSourceScreen').style.display = 'block';
             document.getElementById('writingFeedback').style.display = 'none';
+            if (document.getElementById('picturePromptScreen')) {
+                document.getElementById('picturePromptScreen').style.display = 'none';
+            }
+            if (document.getElementById('noFilterScreen')) {
+                document.getElementById('noFilterScreen').style.display = 'none';
+            }
+            if (document.getElementById('quickReplyScreen')) {
+                document.getElementById('quickReplyScreen').style.display = 'none';
+            }
+            if (document.getElementById('wordChainScreen')) {
+                document.getElementById('wordChainScreen').style.display = 'none';
+            }
+        }
+
+        let picPromptTimerInterval;
+        let picPromptTimeLeft = 300;
+
+        function startPicturePrompt() {
+            document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('picturePromptScreen').style.display = 'block';
+            document.getElementById('picPromptFeedback').style.display = 'none';
+            document.getElementById('submitPicPromptBtn').disabled = false;
+            
+            const textArea = document.getElementById('picPromptAnswer');
+            textArea.value = '';
+            textArea.disabled = false;
+            
+            // Random image from Unsplash Source / Picsum
+            const randomId = Math.floor(Math.random() * 1000) + 1;
+            document.getElementById('promptImage').src = `https://picsum.photos/500/300?random=${randomId}`;
+            
+            document.getElementById('picWordCount').textContent = '0';
+            
+            // Setup word count listener if not already attached
+            if (!textArea.dataset.listenerAttached) {
+                textArea.addEventListener('input', function() {
+                    const words = this.value.trim().split(/\s+/).filter(w => w.length > 0);
+                    document.getElementById('picWordCount').textContent = words.length;
+                });
+                textArea.dataset.listenerAttached = 'true';
+            }
+            
+            // Start Timer
+            picPromptTimeLeft = 300; // 5 minutes
+            if (picPromptTimerInterval) clearInterval(picPromptTimerInterval);
+            
+            updatePicPromptTimer();
+            picPromptTimerInterval = setInterval(() => {
+                picPromptTimeLeft--;
+                updatePicPromptTimer();
+                if (picPromptTimeLeft <= 0) {
+                    clearInterval(picPromptTimerInterval);
+                    submitPicturePrompt();
+                }
+            }, 1000);
+        }
+
+        function updatePicPromptTimer() {
+            const minutes = Math.floor(picPromptTimeLeft / 60);
+            const seconds = picPromptTimeLeft % 60;
+            const timerEl = document.getElementById('picPromptTimer');
+            if(timerEl) timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        async function submitPicturePrompt() {
+            const textArea = document.getElementById('picPromptAnswer');
+            const answer = textArea.value.trim();
+            const words = answer.split(/\s+/).filter(w => w.length > 0);
+            
+            if (words.length < 10) {
+                showToast('warning', 'Too Short', 'Please write at least 10 words to be evaluated.');
+                return;
+            }
+            
+            if (picPromptTimerInterval) clearInterval(picPromptTimerInterval);
+            textArea.disabled = true;
+            document.getElementById('submitPicPromptBtn').disabled = true;
+            document.getElementById('submitPicPromptBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Evaluating...';
+            
+            // Using existing AI service endpoint to evaluate writing
+            try {
+                const token = localStorage.getItem('access_token');
+                if (!token) throw new Error('Not authenticated');
+
+                const response = await fetch(`${API_BASE_URL}/communication/analyze-grammar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        text: answer,
+                        context: 'A creative description of an image.'
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    const feedbackHTML = `
+                        <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">Analysis Result</h4>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                <div style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--success);">
+                                    <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Creativity & Vibe</div>
+                                    <div style="font-size: 18px; color: var(--success); font-weight: 600;">Good</div>
+                                </div>
+                                <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary);">
+                                    <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Word Count</div>
+                                    <div style="font-size: 18px; color: var(--primary); font-weight: 600;">${words.length} words</div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-magic"></i> Corrected Text & AI Reply:</h5>
+                                <p style="color: var(--text); background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; line-height: 1.6; font-size: 15px; margin-bottom: 15px;">
+                                    ${result.corrected_english || answer}
+                                </p>
+                                <p style="color: var(--accent); font-style: italic; font-size: 14px; background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid var(--accent);">
+                                    <i class="fas fa-chalkboard-teacher"></i> "${result.reply_text || 'Good attempt. Keep practicing!'}"
+                                </p>
+                            </div>
+                            
+                            ${result.mistake_analysis_tamil ? `
+                            <div>
+                                <h5 style="color: #fbbf24; margin-bottom: 10px; font-size: 15px;"><i class="fas fa-lightbulb"></i> Grammar Feedback (Tamil):</h5>
+                                <div style="color: var(--text-muted); background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; font-size: 14px; line-height: 1.6;">
+                                    <i class="fas fa-exclamation-circle" style="color: #fbbf24; margin-right: 8px;"></i>
+                                    ${result.mistake_analysis_tamil}
+                                </div>
+                            </div>
+                            ` : '<div style="color: var(--success);"><i class="fas fa-check-circle"></i> Excellent grammar! No major corrections needed.</div>'}
+                        </div>
+                    `;
+
+                    document.getElementById('picPromptFeedbackContent').innerHTML = feedbackHTML;
+                    document.getElementById('picPromptFeedback').style.display = 'block';
+                    
+                } else {
+                    throw new Error('Could not evaluate description');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('error', 'Evaluation Error', 'Failed to analyze description');
+            } finally {
+                document.getElementById('submitPicPromptBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Submit Description';
+            }
+        }
+
+        const noFilterPrompts = [
+            { sentence: "The food was very good.", banned: ["very", "good"] },
+            { sentence: "The movie was really bad and boring.", banned: ["really", "bad", "boring"] },
+            { sentence: "She is a very nice person.", banned: ["very", "nice"] },
+            { sentence: "The weather is very hot today.", banned: ["very", "hot"] },
+            { sentence: "I was very happy to see my friend.", banned: ["very", "happy"] },
+            { sentence: "He ran very fast to catch the bus.", banned: ["very", "fast"] },
+            { sentence: "The test was very hard to pass.", banned: ["very", "hard"] },
+            { sentence: "It was a very big house.", banned: ["very", "big"] },
+            { sentence: "She looked very beautiful in that dress.", banned: ["very", "beautiful"] },
+            { sentence: "The dog was very loud when the mailman came.", banned: ["very", "loud"] }
+        ];
+
+        let currentNoFilterPrompt = null;
+        let noFilterTimerInterval;
+        let noFilterTimeLeft = 180; // 3 minutes
+
+        function startNoFilterChallenge() {
+            document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('noFilterScreen').style.display = 'block';
+            document.getElementById('nfFeedback').style.display = 'none';
+            document.getElementById('submitNoFilterBtn').disabled = false;
+            
+            const textArea = document.getElementById('nfAnswer');
+            textArea.value = '';
+            textArea.disabled = false;
+            
+            // Pick a random prompt
+            currentNoFilterPrompt = noFilterPrompts[Math.floor(Math.random() * noFilterPrompts.length)];
+            document.getElementById('nfOriginalSentence').textContent = currentNoFilterPrompt.sentence;
+            document.getElementById('nfBannedWords').textContent = currentNoFilterPrompt.banned.join(", ");
+            
+            // Start Timer
+            noFilterTimeLeft = 180; // 3 minutes
+            if (noFilterTimerInterval) clearInterval(noFilterTimerInterval);
+            
+            updateNoFilterTimer();
+            noFilterTimerInterval = setInterval(() => {
+                noFilterTimeLeft--;
+                updateNoFilterTimer();
+                if (noFilterTimeLeft <= 0) {
+                    clearInterval(noFilterTimerInterval);
+                    submitNoFilterChallenge();
+                }
+            }, 1000);
+        }
+
+        function updateNoFilterTimer() {
+            const minutes = Math.floor(noFilterTimeLeft / 60);
+            const seconds = noFilterTimeLeft % 60;
+            const timerEl = document.getElementById('noFilterTimer');
+            if(timerEl) timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        async function submitNoFilterChallenge() {
+            const textArea = document.getElementById('nfAnswer');
+            const answer = textArea.value.trim();
+            
+            if (answer.length < 5) {
+                showToast('warning', 'Too Short', 'Please write a proper rewritten sentence.');
+                return;
+            }
+            
+            // Check for banned words locally first
+            const answerLower = answer.toLowerCase();
+            const usedBannedWords = currentNoFilterPrompt.banned.filter(w => answerLower.includes(w.toLowerCase()));
+            
+            if (usedBannedWords.length > 0) {
+                showToast('error', 'Filter Violated!', `You used banned words: ${usedBannedWords.join(', ')}`);
+                return;
+            }
+            
+            if (noFilterTimerInterval) clearInterval(noFilterTimerInterval);
+            textArea.disabled = true;
+            document.getElementById('submitNoFilterBtn').disabled = true;
+            document.getElementById('submitNoFilterBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Evaluating Vocabulary...';
+            
+            try {
+                const token = localStorage.getItem('access_token');
+                if (!token) throw new Error('Not authenticated');
+
+                const response = await fetch(`${API_BASE_URL}/communication/analyze-grammar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        text: answer,
+                        context: `The user was asked to rewrite the sentence "${currentNoFilterPrompt.sentence}" using advanced vocabulary, without using the words: ${currentNoFilterPrompt.banned.join(", ")}. Grade their creativity, vocabulary choice, and grammar. Return your analysis.`
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    const feedbackHTML = `
+                        <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">🌟 Vocabulary Analysis</h4>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-magic"></i> Feedback & AI Comments:</h5>
+                                <p style="color: var(--text); background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; line-height: 1.6; font-size: 15px; margin-bottom: 15px;">
+                                    ${result.corrected_english || answer}
+                                </p>
+                                <p style="color: #e11d48; font-style: italic; font-size: 14px; background: rgba(244, 63, 94, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #e11d48;">
+                                    <i class="fas fa-chalkboard-teacher"></i> "${result.reply_text || 'Great use of advanced vocabulary!'}"
+                                </p>
+                            </div>
+                            
+                            ${result.mistake_analysis_tamil ? `
+                            <div>
+                                <h5 style="color: #fbbf24; margin-bottom: 10px; font-size: 15px;"><i class="fas fa-lightbulb"></i> Area for Improvement (Tamil):</h5>
+                                <div style="color: var(--text-muted); background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; font-size: 14px; line-height: 1.6;">
+                                    <i class="fas fa-exclamation-circle" style="color: #fbbf24; margin-right: 8px;"></i>
+                                    ${result.mistake_analysis_tamil}
+                                </div>
+                            </div>
+                            ` : '<div style="color: var(--success);"><i class="fas fa-check-circle"></i> Excellent vocabulary choice! No major corrections needed.</div>'}
+                        </div>
+                    `;
+
+                    document.getElementById('nfFeedbackContent').innerHTML = feedbackHTML;
+                    document.getElementById('nfFeedback').style.display = 'block';
+                    
+                    // Trigger confetti if they pass
+                    if(typeof confetti === 'function') {
+                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                    }
+                    
+                } else {
+                    throw new Error('Could not evaluate rewrite');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('error', 'Evaluation Error', 'Failed to analyze rewritten sentence');
+            } finally {
+                document.getElementById('submitNoFilterBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Submit Rewrite';
+            }
+        }
+
+        const quickReplyPrompts = [
+            { sender: "Sarah (Manager)", subject: "Urgent: Project Deadline", message: "Hi, I need the final report on the Q3 metrics by today afternoon instead of tomorrow. Let me know if that is possible." },
+            { sender: "Client Support", subject: "Complaint: Delayed Shipment", message: "Hello, our shipment was supposed to arrive two days ago but we haven't received tracking updates. What is going on?" },
+            { sender: "HR Department", subject: "Job Interview Invitation", message: "Dear candidate, we would like to invite you for an interview this Friday at 10 AM. Please confirm if this time works for you." },
+            { sender: "Vendor API Team", subject: "API Integration Error", message: "We are noticing several 500 errors coming from your server when calling our webhooks. Could your engineering team investigate this ASAP?" },
+            { sender: "David (Colleague)", subject: "Sick Leave Coverage", message: "Hey, I woke up feeling very sick today and won't be able to make it to the office. Could you possibly cover my 2 PM presentation to the new clients?" }
+        ];
+
+        let currentQuickReplyPrompt = null;
+        let qrTimerInterval;
+        let qrTimeLeft = 120; // 2 minutes
+
+        function startQuickReplyChallenge() {
+            document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('quickReplyScreen').style.display = 'block';
+            document.getElementById('qrFeedback').style.display = 'none';
+            document.getElementById('submitQuickReplyBtn').disabled = false;
+            
+            const textArea = document.getElementById('qrAnswer');
+            textArea.value = '';
+            textArea.disabled = false;
+            
+            // Pick a random prompt
+            currentQuickReplyPrompt = quickReplyPrompts[Math.floor(Math.random() * quickReplyPrompts.length)];
+            document.getElementById('qrSender').textContent = currentQuickReplyPrompt.sender;
+            document.getElementById('qrSubject').textContent = "Subject: " + currentQuickReplyPrompt.subject;
+            document.getElementById('qrMessage').textContent = currentQuickReplyPrompt.message;
+            
+            // Start Timer
+            qrTimeLeft = 120; // 2 minutes
+            if (qrTimerInterval) clearInterval(qrTimerInterval);
+            
+            updateQuickReplyTimer();
+            qrTimerInterval = setInterval(() => {
+                qrTimeLeft--;
+                updateQuickReplyTimer();
+                if (qrTimeLeft <= 0) {
+                    clearInterval(qrTimerInterval);
+                    submitQuickReplyChallenge();
+                }
+            }, 1000);
+        }
+
+        function updateQuickReplyTimer() {
+            const minutes = Math.floor(qrTimeLeft / 60);
+            const seconds = qrTimeLeft % 60;
+            const timerEl = document.getElementById('qrTimer');
+            if(timerEl) timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        async function submitQuickReplyChallenge() {
+            const textArea = document.getElementById('qrAnswer');
+            const answer = textArea.value.trim();
+            
+            if (answer.length < 10) {
+                showToast('warning', 'Too Short', 'Please draft a proper response.');
+                return;
+            }
+            
+            if (qrTimerInterval) clearInterval(qrTimerInterval);
+            textArea.disabled = true;
+            document.getElementById('submitQuickReplyBtn').disabled = true;
+            document.getElementById('submitQuickReplyBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing Professionalism...';
+            
+            try {
+                const token = localStorage.getItem('access_token');
+                if (!token) throw new Error('Not authenticated');
+
+                const response = await fetch(`${API_BASE_URL}/communication/analyze-grammar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        text: answer,
+                        context: `The user was given this mock email from ${currentQuickReplyPrompt.sender}: "${currentQuickReplyPrompt.message}". Grade their formulated response on professionalism, politeness, and appropriate format.`
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    const feedbackHTML = `
+                        <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">📫 Professional Analysis</h4>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-briefcase"></i> AI Feedback:</h5>
+                                <p style="color: #0ea5e9; font-style: italic; font-size: 14px; background: rgba(14, 165, 233, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #0ea5e9; margin-bottom: 15px;">
+                                    <i class="fas fa-chalkboard-teacher"></i> "${result.reply_text || 'Very professional and well written!'}"
+                                </p>
+                                <p style="color: var(--text); background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; line-height: 1.6; font-size: 15px;">
+                                    ${result.corrected_english ? '<b>Suggested Version:</b><br>' + result.corrected_english : 'No major grammatical improvements needed.'}
+                                </p>
+                            </div>
+                            
+                            ${result.mistake_analysis_tamil ? `
+                            <div>
+                                <h5 style="color: #fbbf24; margin-bottom: 10px; font-size: 15px;"><i class="fas fa-lightbulb"></i> Analysis (Tamil):</h5>
+                                <div style="color: var(--text-muted); background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; font-size: 14px; line-height: 1.6;">
+                                    <i class="fas fa-info-circle" style="color: #fbbf24; margin-right: 8px;"></i>
+                                    ${result.mistake_analysis_tamil}
+                                </div>
+                            </div>
+                            ` : '<div style="color: var(--success);"><i class="fas fa-check-circle"></i> Excellent professional tone!</div>'}
+                        </div>
+                    `;
+
+                    document.getElementById('qrFeedbackContent').innerHTML = feedbackHTML;
+                    document.getElementById('qrFeedback').style.display = 'block';
+                    
+                    if(typeof confetti === 'function') {
+                        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+                    }
+                    
+                } else {
+                    throw new Error('Could not evaluate quick reply');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('error', 'Evaluation Error', 'Failed to analyze reply');
+            } finally {
+                document.getElementById('submitQuickReplyBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Send Reply';
+            }
+        }
+
+        const wordChainStarters = [
+            "Apple", "Time", "Computer", "Mountain", "Friend", "Happy", "Ocean", "River"
+        ];
+
+        let currentWordChainStarter = null;
+        let wcTimerInterval;
+        let wcTimeLeft = 300; // 5 minutes
+
+        function startWordChainChallenge() {
+            document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('wordChainScreen').style.display = 'block';
+            document.getElementById('wcFeedback').style.display = 'none';
+            document.getElementById('submitWordChainBtn').disabled = false;
+            
+            const textArea = document.getElementById('wcAnswer');
+            textArea.value = '';
+            textArea.disabled = false;
+            
+            // Pick a random prompt
+            currentWordChainStarter = wordChainStarters[Math.floor(Math.random() * wordChainStarters.length)];
+            document.getElementById('wcStartingWord').textContent = currentWordChainStarter;
+            document.getElementById('wcStartingWordEcho').textContent = currentWordChainStarter;
+            
+            const liveValEl = document.getElementById('wcLiveValidation');
+            if (liveValEl) liveValEl.innerHTML = '';
+
+            // Listen to real-time updates to highlight invalid words
+            if (!textArea.dataset.wcListener) {
+                textArea.addEventListener('input', function() {
+                    validateWordChainLive(this.value.trim());
+                });
+                textArea.dataset.wcListener = 'true';
+            }
+            
+            // Start Timer
+            wcTimeLeft = 300; // 5 minutes
+            if (wcTimerInterval) clearInterval(wcTimerInterval);
+            
+            updateWordChainTimer();
+            wcTimerInterval = setInterval(() => {
+                wcTimeLeft--;
+                updateWordChainTimer();
+                if (wcTimeLeft <= 0) {
+                    clearInterval(wcTimerInterval);
+                    submitWordChainChallenge();
+                }
+            }, 1000);
+        }
+
+        function validateWordChainLive(text) {
+            const liveValEl = document.getElementById('wcLiveValidation');
+            if (!liveValEl) return;
+            
+            const words = text.split(/[\s,\.\!\?]+/).filter(w => w.length > 0);
+            if (words.length === 0) {
+                liveValEl.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            let prevWord = currentWordChainStarter.toLowerCase();
+
+            for (let i = 0; i < words.length; i++) {
+                const currentWord = words[i].toLowerCase();
+                const expectedStartLetter = prevWord.slice(-1);
+                const actualStartLetter = currentWord.charAt(0);
+                
+                const isFirstWord = (i === 0);
+                let isValid = false;
+                
+                if (isFirstWord) {
+                    isValid = (currentWord === currentWordChainStarter.toLowerCase());
+                } else {
+                    isValid = (actualStartLetter === expectedStartLetter);
+                }
+
+                const color = isValid ? 'var(--success)' : '#f43f5e';
+                const bg = isValid ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)';
+                html += `<span style="padding: 4px 8px; border-radius: 6px; font-size: 13px; font-weight: 600; color: ${color}; background: ${bg};">${words[i]}</span>`;
+                
+                if (i < words.length - 1) {
+                    html += `<i class="fas fa-arrow-right" style="color: var(--text-muted); font-size: 10px; margin-top: 5px;"></i>`;
+                }
+                
+                prevWord = currentWord;
+            }
+            
+            // Show count
+            const countColor = words.length === 10 ? 'var(--success)' : 'var(--text-muted)';
+            html += `<div style="width: 100%; text-align: center; font-size: 12px; margin-top: 5px; color: ${countColor};">Total Words: ${words.length}/10</div>`;
+
+            liveValEl.innerHTML = html;
+        }
+
+        function updateWordChainTimer() {
+            const minutes = Math.floor(wcTimeLeft / 60);
+            const seconds = wcTimeLeft % 60;
+            const timerEl = document.getElementById('wcTimer');
+            if(timerEl) timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        async function submitWordChainChallenge() {
+            const textArea = document.getElementById('wcAnswer');
+            const answer = textArea.value.trim();
+            const words = answer.split(/[\s,\.\!\?]+/).filter(w => w.length > 0);
+            
+            if (words.length !== 10) {
+                showToast('warning', 'Rule Violated', `You must write exactly 10 words. You wrote ${words.length}.`);
+                return;
+            }
+            
+            // Check Word Chain constraint locally
+            let prevWord = currentWordChainStarter.toLowerCase();
+            for (let i = 0; i < words.length; i++) {
+                const currentWord = words[i].toLowerCase();
+                if (i === 0) {
+                    if (currentWord !== prevWord) {
+                        showToast('error', 'Rule Violated', `The first word MUST be "${currentWordChainStarter}"`);
+                        return;
+                    }
+                } else {
+                    const expectedStartLetter = prevWord.slice(-1);
+                    const actualStartLetter = currentWord.charAt(0);
+                    if (actualStartLetter !== expectedStartLetter) {
+                        showToast('error', 'Chain Broken!', `"${words[i]}" does not start with the letter "${expectedStartLetter}" (from "${words[i-1]}").`);
+                        return;
+                    }
+                }
+                prevWord = currentWord;
+            }
+            
+            if (wcTimerInterval) clearInterval(wcTimerInterval);
+            textArea.disabled = true;
+            document.getElementById('submitWordChainBtn').disabled = true;
+            document.getElementById('submitWordChainBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Meaning...';
+            
+            try {
+                const token = localStorage.getItem('access_token');
+                if (!token) throw new Error('Not authenticated');
+
+                const response = await fetch(`${API_BASE_URL}/communication/analyze-grammar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        text: answer,
+                        context: `The user was playing a Word Chain game starting with "${currentWordChainStarter}". They generated this 10-word sequence: "${answer}". Grade if this sequence makes a somewhat meaningful sentence/story, and provide grammar feedback. Also reply with an encouraging text.`
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    const feedbackHTML = `
+                        <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">🔗 Word Chain Analysis</h4>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-pen-nib"></i> AI Evaluation:</h5>
+                                <p style="color: #10b981; font-style: italic; font-size: 14px; background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #10b981; margin-bottom: 15px;">
+                                    <i class="fas fa-chalkboard-teacher"></i> "${result.reply_text || 'Nice word chain! Very creative.'}"
+                                </p>
+                                <p style="color: var(--text); background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; line-height: 1.6; font-size: 15px;">
+                                    ${result.corrected_english ? '<b>Grammar Correction:</b><br>' + result.corrected_english : 'Grammatically sound!'}
+                                </p>
+                            </div>
+                            
+                            ${result.mistake_analysis_tamil ? `
+                            <div>
+                                <h5 style="color: #fbbf24; margin-bottom: 10px; font-size: 15px;"><i class="fas fa-lightbulb"></i> Analysis (Tamil):</h5>
+                                <div style="color: var(--text-muted); background: rgba(251, 191, 36, 0.1); padding: 15px; border-radius: 8px; border-left: 3px solid #fbbf24; font-size: 14px; line-height: 1.6;">
+                                    <i class="fas fa-info-circle" style="color: #fbbf24; margin-right: 8px;"></i>
+                                    ${result.mistake_analysis_tamil}
+                                </div>
+                            </div>
+                            ` : '<div style="color: var(--success);"><i class="fas fa-check-circle"></i> Great job constructing meaning!</div>'}
+                        </div>
+                    `;
+
+                    document.getElementById('wcFeedbackContent').innerHTML = feedbackHTML;
+                    document.getElementById('wcFeedback').style.display = 'block';
+                    
+                    if(typeof confetti === 'function') {
+                        confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+                    }
+                    
+                } else {
+                    throw new Error('Could not evaluate word chain');
+                }
+            } catch (error) {
+                console.error(error);
+                showToast('error', 'Evaluation Error', 'Failed to analyze sentence');
+            } finally {
+                document.getElementById('submitWordChainBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Check Word Chain';
+            }
         }
 
         async function startWritingSource(source) {
