@@ -1390,6 +1390,587 @@
             animation: pulse-red 1.5s infinite;
             box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
         }
+
+        /* ============================================================
+           WHATSAPP COMMUNITY WORKFLOW STYLES
+           ============================================================ */
+        .wa-workflow-wrapper {
+            margin-top: 30px;
+        }
+
+        .wa-community-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background: rgba(0,0,0,0.2);
+            padding: 6px;
+            border-radius: 16px;
+            border: 1px solid rgba(37, 211, 102, 0.15);
+        }
+
+        .wa-tab-btn {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .wa-tab-btn:hover {
+            background: rgba(37, 211, 102, 0.1);
+            color: #25D366;
+        }
+
+        .wa-tab-btn.active {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+        }
+
+        .wa-tab-content {
+            display: none;
+            animation: waFadeIn 0.4s ease;
+        }
+
+        .wa-tab-content.active {
+            display: block;
+        }
+
+        @keyframes waFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Phase Header */
+        .wa-phase-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(37, 211, 102, 0.2);
+        }
+
+        .wa-phase-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            flex-shrink: 0;
+        }
+
+        .wa-phase-info h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .wa-phase-info p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Step Cards */
+        .wa-steps-grid {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .wa-step-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            gap: 16px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wa-step-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #25D366, #128C7E);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .wa-step-card:hover {
+            transform: translateX(6px);
+            border-color: rgba(37, 211, 102, 0.3);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.1);
+        }
+
+        .wa-step-num {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+            border-radius: 50%;
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .wa-step-content h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .wa-step-content p {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .wa-step-emoji {
+            font-size: 20px;
+            margin-right: 6px;
+        }
+
+        /* Info Cards Grid */
+        .wa-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .wa-info-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .wa-info-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(37, 211, 102, 0.3);
+            box-shadow: 0 12px 30px rgba(37, 211, 102, 0.1);
+        }
+
+        .wa-info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .wa-info-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .wa-info-card-header h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .wa-info-card p, .wa-info-card li {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .wa-info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .wa-info-card ul li {
+            padding: 6px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .wa-info-card ul li::before {
+            content: '✅';
+            flex-shrink: 0;
+        }
+
+        /* Calendar Table */
+        .wa-calendar-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 30px;
+        }
+
+        .wa-calendar-table th {
+            background: linear-gradient(135deg, #1a3a2a, #0f2418);
+            color: #25D366;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .wa-calendar-table td {
+            background: var(--glass);
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: var(--text);
+            font-size: 13px;
+            vertical-align: top;
+        }
+
+        .wa-calendar-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .wa-calendar-table tr:hover td {
+            background: rgba(37, 211, 102, 0.05);
+        }
+
+        .wa-day-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+        }
+
+        /* Timeline */
+        .wa-timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 30px;
+        }
+
+        .wa-timeline::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #25D366, #128C7E, rgba(37, 211, 102, 0.2));
+            border-radius: 3px;
+        }
+
+        .wa-timeline-item {
+            position: relative;
+            padding: 20px;
+            margin-bottom: 16px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            transition: all 0.3s;
+        }
+
+        .wa-timeline-item:hover {
+            transform: translateX(6px);
+            border-color: rgba(37, 211, 102, 0.3);
+        }
+
+        .wa-timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 24px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #25D366;
+            border: 3px solid var(--dark);
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.4);
+        }
+
+        .wa-timeline-item h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .wa-timeline-item p {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .wa-timeline-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+            margin-top: 8px;
+        }
+
+        /* Rule Cards */
+        .wa-rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .wa-rule-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            gap: 14px;
+            transition: all 0.3s;
+        }
+
+        .wa-rule-card:hover {
+            border-color: rgba(37, 211, 102, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.08);
+        }
+
+        .wa-rule-icon {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            border-radius: 12px;
+            background: rgba(37, 211, 102, 0.12);
+            color: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .wa-rule-card h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .wa-rule-card p {
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Enforcement Steps */
+        .wa-enforcement {
+            display: flex;
+            gap: 0;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .wa-enforcement-step {
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .wa-enforcement-step.warning {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .wa-enforcement-step.mute {
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .wa-enforcement-step.remove {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .wa-enforcement-arrow {
+            font-size: 20px;
+            color: var(--text-muted);
+            padding: 0 8px;
+        }
+
+        .wa-enforcement-step h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .wa-enforcement-step.warning h5 { color: #f59e0b; }
+        .wa-enforcement-step.mute h5 { color: #6366f1; }
+        .wa-enforcement-step.remove h5 { color: #ef4444; }
+
+        .wa-enforcement-step p {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* Role Cards */
+        .wa-roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .wa-role-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 28px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wa-role-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #25D366, #128C7E);
+        }
+
+        .wa-role-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(37, 211, 102, 0.3);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.12);
+        }
+
+        .wa-role-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 16px;
+            border: 3px solid rgba(37, 211, 102, 0.3);
+        }
+
+        .wa-role-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .wa-role-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .wa-role-badge.admin {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+
+        .wa-role-badge.moderator {
+            background: rgba(99, 102, 241, 0.15);
+            color: #6366f1;
+        }
+
+        .wa-role-badge.content-lead {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+
+        .wa-role-badge.member {
+            background: rgba(37, 211, 102, 0.15);
+            color: #25D366;
+        }
+
+        .wa-role-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .wa-role-card ul li {
+            padding: 5px 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .wa-role-card ul li::before {
+            content: '▸';
+            color: #25D366;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Responsive adjustments for workflow */
+        @media (max-width: 768px) {
+            .wa-community-tabs {
+                flex-direction: column;
+            }
+            .wa-info-grid,
+            .wa-rules-grid,
+            .wa-roles-grid {
+                grid-template-columns: 1fr;
+            }
+            .wa-calendar-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .wa-enforcement {
+                flex-direction: column;
+            }
+            .wa-enforcement-arrow {
+                transform: rotate(90deg);
+            }
+        }
     </style>
     <script>
         function applyFacultyTheme(theme) {
@@ -2344,6 +2925,517 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- ============================================================
+                     WHATSAPP COMMUNITY WORKFLOW — "NOW" Community
+                     ============================================================ -->
+                <div class="wa-workflow-wrapper">
+                    <!-- Workflow Header -->
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding: 24px; background: linear-gradient(135deg, rgba(37, 211, 102, 0.12), rgba(18, 140, 126, 0.08)); border-radius: 20px; border: 1px solid rgba(37, 211, 102, 0.2);">
+                        <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #25D366, #128C7E); display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; box-shadow: 0 6px 25px rgba(37, 211, 102, 0.35);">
+                            <i class="fab fa-whatsapp" style="color: white;"></i>
+                        </div>
+                        <div>
+                            <h2 style="font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 4px;">
+                                NOW Community — WhatsApp Workflow
+                            </h2>
+                            <p style="color: var(--text-muted); font-size: 14px;">
+                                Complete operational handbook for running the NOW WhatsApp Community — from onboarding to weekly management.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Workflow Tabs -->
+                    <div class="wa-community-tabs" id="waCommunityTabs">
+                        <button class="wa-tab-btn active" data-wa-tab="onboarding">
+                            <i class="fas fa-user-plus"></i> Onboarding
+                        </button>
+                        <button class="wa-tab-btn" data-wa-tab="daily-ops">
+                            <i class="fas fa-sun"></i> Daily Ops
+                        </button>
+                        <button class="wa-tab-btn" data-wa-tab="weekly-calendar">
+                            <i class="fas fa-calendar-week"></i> Weekly Calendar
+                        </button>
+                        <button class="wa-tab-btn" data-wa-tab="event-planning">
+                            <i class="fas fa-calendar-star"></i> Event Planning
+                        </button>
+                        <button class="wa-tab-btn" data-wa-tab="moderation">
+                            <i class="fas fa-shield-alt"></i> Moderation
+                        </button>
+                        <button class="wa-tab-btn" data-wa-tab="team-roles">
+                            <i class="fas fa-user-shield"></i> Team Roles
+                        </button>
+                    </div>
+
+                    <!-- ================================================
+                         PHASE 01: MEMBER ONBOARDING FLOW
+                         ================================================ -->
+                    <div class="wa-tab-content active" id="wa-tab-onboarding">
+                        <div class="wa-phase-header">
+                            <div class="wa-phase-number">01</div>
+                            <div class="wa-phase-info">
+                                <h2>Member Onboarding Flow</h2>
+                                <p>Step-by-step process from invite to active member status</p>
+                            </div>
+                        </div>
+
+                        <div class="wa-steps-grid">
+                            <div class="wa-step-card">
+                                <div class="wa-step-num">1</div>
+                                <div class="wa-step-content">
+                                    <h4><span class="wa-step-emoji">🔗</span> Invite Link Distribution</h4>
+                                    <p>The Community Admin generates a unique WhatsApp Community invite link from the group settings. The link is shared via official channels only — pinned in existing class groups, sent via email, or posted on the EduSync dashboard. Each link is time-limited (7 days) and tracked to prevent unauthorized sharing.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-step-card">
+                                <div class="wa-step-num">2</div>
+                                <div class="wa-step-content">
+                                    <h4><span class="wa-step-emoji">✅</span> Admin Approval Process</h4>
+                                    <p>The Community Admin reviews all join requests within 24 hours. Each request is verified against the enrolled student list or faculty directory. Unrecognized numbers are cross-checked via the EduSync database before approval. Spam or unknown requests are declined with a brief reason noted in the admin log.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-step-card">
+                                <div class="wa-step-num">3</div>
+                                <div class="wa-step-content">
+                                    <h4><span class="wa-step-emoji">👋</span> Welcome Message</h4>
+                                    <p>Within 1 hour of approval, the admin or a designated moderator sends a personalized welcome message that includes: the member's name, a brief overview of the community's purpose, links to the pinned community rules, the weekly schedule, and a prompt to introduce themselves. Template: <em>"Welcome to NOW Community, [Name]! 🎉 Please read our 📌 pinned rules and introduce yourself in the #introductions group."</em></p>
+                                </div>
+                            </div>
+
+                            <div class="wa-step-card">
+                                <div class="wa-step-num">4</div>
+                                <div class="wa-step-content">
+                                    <h4><span class="wa-step-emoji">📜</span> Rules Acknowledgment</h4>
+                                    <p>New members must read the community guidelines (pinned in the Announcements group) and react with a ✅ emoji to confirm they've read and agree to abide by the rules. Members who don't acknowledge within 48 hours receive a gentle reminder DM from a moderator. Failure to acknowledge within 72 hours results in a temporary mute until completed.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-step-card">
+                                <div class="wa-step-num">5</div>
+                                <div class="wa-step-content">
+                                    <h4><span class="wa-step-emoji">🙋</span> Self-Introduction Post</h4>
+                                    <p>Each new member posts a brief introduction in the designated #introductions group using the following format: <strong>Name | Department | Year | One Fun Fact | What they hope to learn.</strong> Moderators welcome each introduction with a reaction or short reply to foster a sense of belonging from day one.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-step-card">
+                                <div class="wa-step-num">6</div>
+                                <div class="wa-step-content">
+                                    <h4><span class="wa-step-emoji">🎯</span> Transition to Active Member</h4>
+                                    <p>Once a member has completed steps 1–5, they are officially marked as an "Active Member." They gain access to all sub-groups (Discussion, Resources, Events, etc.), can participate in polls, and are added to the weekly content roster. The Content Lead tags them in the next relevant discussion to integrate them naturally into the community flow.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================================================
+                         PHASE 02: DAILY OPERATIONS WORKFLOW
+                         ================================================ -->
+                    <div class="wa-tab-content" id="wa-tab-daily-ops">
+                        <div class="wa-phase-header">
+                            <div class="wa-phase-number">02</div>
+                            <div class="wa-phase-info">
+                                <h2>Daily Operations Workflow</h2>
+                                <p>Structured routines to keep the community active and organized every day</p>
+                            </div>
+                        </div>
+
+                        <div class="wa-info-grid">
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon">🌅</div>
+                                    <h4>Morning Kickoff (8:00 AM)</h4>
+                                </div>
+                                <ul>
+                                    <li>The Content Lead or assigned moderator posts a "Good Morning" message in the main group by 8:00 AM</li>
+                                    <li>Includes: today's theme, a motivational quote, and a quick poll or question of the day</li>
+                                    <li>Template: <em>"☀️ Good Morning, NOW Community! Today's theme: [Theme]. QOTD: [Question]. Drop your answers below! 💬"</em></li>
+                                    <li>Pin the message so latecomers can catch up</li>
+                                </ul>
+                            </div>
+
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon">📢</div>
+                                    <h4>Announcements Channel Rules</h4>
+                                </div>
+                                <ul>
+                                    <li>Only Community Admin and Moderators can post in the Announcements group</li>
+                                    <li>Maximum 3 announcements per day to avoid notification fatigue</li>
+                                    <li>All announcements must be clear, concise, and include a call-to-action</li>
+                                    <li>Use formatting: bold for titles, bullet points for details, emojis for scannability</li>
+                                    <li>Urgent announcements are prefixed with 🚨 and tagged with @everyone</li>
+                                </ul>
+                            </div>
+
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon">💬</div>
+                                    <h4>Open Discussion Guidelines</h4>
+                                </div>
+                                <ul>
+                                    <li>Open discussions happen in the designated Discussion group only — not in Announcements</li>
+                                    <li>Stay on topic: if a conversation drifts, moderators redirect it to the appropriate sub-group</li>
+                                    <li>No spam, chain messages, or unsolicited promotional content</li>
+                                    <li>Reply to messages using the "Reply" feature to keep threads organized</li>
+                                    <li>Voice notes are limited to 60 seconds; longer discussions should be text-based or scheduled as calls</li>
+                                </ul>
+                            </div>
+
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon">🌙</div>
+                                    <h4>Evening Wrap-Up (9:00 PM)</h4>
+                                </div>
+                                <ul>
+                                    <li>A moderator posts an evening summary at 9:00 PM</li>
+                                    <li>Includes: key highlights from the day, resources shared, upcoming events tomorrow</li>
+                                    <li>Template: <em>"🌙 That's a wrap for today! Here's what happened: [Summary]. Tomorrow: [Preview]. Good night! 🌟"</em></li>
+                                    <li>Silent hours: No non-urgent messages between 10:00 PM – 7:00 AM</li>
+                                </ul>
+                            </div>
+
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon">👤</div>
+                                    <h4>Responsibility Matrix</h4>
+                                </div>
+                                <ul>
+                                    <li><strong>Morning Kickoff:</strong> Content Lead (Mon–Fri), Moderator on duty (Sat–Sun)</li>
+                                    <li><strong>Announcements:</strong> Community Admin or Faculty Coordinator</li>
+                                    <li><strong>Discussion Moderation:</strong> Assigned Moderator of the day</li>
+                                    <li><strong>Evening Wrap-Up:</strong> Rotating moderator (schedule posted weekly)</li>
+                                    <li><strong>Emergency Moderation:</strong> Community Admin (available 24/7)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================================================
+                         PHASE 03: WEEKLY CONTENT CALENDAR
+                         ================================================ -->
+                    <div class="wa-tab-content" id="wa-tab-weekly-calendar">
+                        <div class="wa-phase-header">
+                            <div class="wa-phase-number">03</div>
+                            <div class="wa-phase-info">
+                                <h2>Weekly Content Calendar</h2>
+                                <p>A themed schedule for every day of the week to keep engagement consistent</p>
+                            </div>
+                        </div>
+
+                        <table class="wa-calendar-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Theme</th>
+                                    <th>Activity / Content Type</th>
+                                    <th>Time</th>
+                                    <th>Led By</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="wa-day-badge">MON</span></td>
+                                    <td><strong>🚀 Motivation Monday</strong></td>
+                                    <td>Share a motivational quote, success story, or productivity tip. Members can share their weekly goals and intentions.</td>
+                                    <td>8:00 AM</td>
+                                    <td>Content Lead</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="wa-day-badge">TUE</span></td>
+                                    <td><strong>📚 Knowledge Tuesday</strong></td>
+                                    <td>Post a curated article, research paper, tutorial, or educational resource related to the community's focus area. Open discussion follows.</td>
+                                    <td>9:00 AM</td>
+                                    <td>Faculty / Content Lead</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="wa-day-badge">WED</span></td>
+                                    <td><strong>💡 Idea Wednesday</strong></td>
+                                    <td>Brainstorming session: post a challenge or problem statement. Members collaborate and share innovative ideas via text or voice notes.</td>
+                                    <td>10:00 AM</td>
+                                    <td>Moderator</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="wa-day-badge">THU</span></td>
+                                    <td><strong>🎤 Throwback Thursday</strong></td>
+                                    <td>Highlight a past event, project showcase, or member achievement. Can include photos, videos, or testimonials from community members.</td>
+                                    <td>11:00 AM</td>
+                                    <td>Community Admin</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="wa-day-badge">FRI</span></td>
+                                    <td><strong>🎯 Skill Friday</strong></td>
+                                    <td>Quick skill-building activity: mini quiz, coding challenge, vocabulary exercise, or a "How-To" guide shared by a member or faculty.</td>
+                                    <td>9:30 AM</td>
+                                    <td>Content Lead / Guest</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="wa-day-badge">SAT</span></td>
+                                    <td><strong>🗣️ Open Mic Saturday</strong></td>
+                                    <td>Casual discussion day. Members can share anything: hobbies, interests, book recommendations, project updates, or personal wins.</td>
+                                    <td>10:00 AM</td>
+                                    <td>Moderator on Duty</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="wa-day-badge">SUN</span></td>
+                                    <td><strong>📋 Planning Sunday</strong></td>
+                                    <td>Week-ahead preview: share next week's schedule, upcoming events, deadlines, and content plan. Collect member suggestions via poll.</td>
+                                    <td>6:00 PM</td>
+                                    <td>Community Admin</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ================================================
+                         PHASE 04: EVENT PLANNING WORKFLOW
+                         ================================================ -->
+                    <div class="wa-tab-content" id="wa-tab-event-planning">
+                        <div class="wa-phase-header">
+                            <div class="wa-phase-number">04</div>
+                            <div class="wa-phase-info">
+                                <h2>Event Planning Workflow</h2>
+                                <p>End-to-end process for planning, executing, and following up on community events</p>
+                            </div>
+                        </div>
+
+                        <div class="wa-timeline">
+                            <div class="wa-timeline-item">
+                                <h4>📝 Step 1: Idea Confirmation</h4>
+                                <p>The Event Lead (Community Admin or a designated member) proposes the event idea in the admin group chat. The idea is discussed among admins and moderators, covering: purpose, target audience, date options, required resources, and expected outcomes. A final decision is made within 48 hours. Once confirmed, the event is logged in the Community Event Calendar.</p>
+                                <span class="wa-timeline-tag">📅 14 days before event</span>
+                            </div>
+
+                            <div class="wa-timeline-item">
+                                <h4>📢 Step 2: Official Announcement</h4>
+                                <p>The Community Admin posts a detailed announcement in the Announcements group exactly 7 days before the event. The announcement includes: event name, date & time, platform (WhatsApp call / Zoom / in-person), agenda, speaker bios (if applicable), and a registration link or RSVP poll. The message is pinned and cross-posted in all relevant sub-groups.</p>
+                                <span class="wa-timeline-tag">📅 7 days before event</span>
+                            </div>
+
+                            <div class="wa-timeline-item">
+                                <h4>⏰ Step 3: Reminder Notification</h4>
+                                <p>A reminder is sent 1 day before the event at 6:00 PM. It includes: event recap, time zone confirmation, any prep materials, and a "See you there!" call-to-action. A second reminder is sent 1 hour before the event starts. For WhatsApp calls, the admin creates the call link in advance and shares it during this reminder.</p>
+                                <span class="wa-timeline-tag">📅 1 day before event</span>
+                            </div>
+
+                            <div class="wa-timeline-item">
+                                <h4>🎯 Step 4: Day-of Execution</h4>
+                                <p>The assigned moderator opens the event with a brief intro: welcome attendees, share the agenda, introduce the speaker/host, and set ground rules (mute when not speaking, raise hand feature, etc.). During the event, a note-taker captures key points. The moderator manages Q&A, tracks time, and ensures the event stays on schedule. The event concludes with next steps and a thank-you message.</p>
+                                <span class="wa-timeline-tag">📅 Event day</span>
+                            </div>
+
+                            <div class="wa-timeline-item">
+                                <h4>📄 Step 5: Post-Event Summary</h4>
+                                <p>Within 24 hours of the event, the Content Lead compiles and shares: a summary of key takeaways, any recordings or slides (uploaded to a shared drive), photos or screenshots, links to referenced resources, and a brief "thank you" message to the speaker and participants. This is posted in both the Announcements and Resources groups.</p>
+                                <span class="wa-timeline-tag">📅 Within 24 hours after</span>
+                            </div>
+
+                            <div class="wa-timeline-item">
+                                <h4>📊 Step 6: Feedback Collection</h4>
+                                <p>The admin sends a quick feedback poll or Google Form within 48 hours of the event. Questions cover: overall satisfaction (1–5 stars), most valuable takeaway, suggestions for future events, and interest in volunteering for the next event. Results are reviewed in the next admin review meeting and used to improve future events. Top feedback is shared anonymously with the community.</p>
+                                <span class="wa-timeline-tag">📅 Within 48 hours after</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================================================
+                         PHASE 05: MODERATION RULES & PROCESS
+                         ================================================ -->
+                    <div class="wa-tab-content" id="wa-tab-moderation">
+                        <div class="wa-phase-header">
+                            <div class="wa-phase-number">05</div>
+                            <div class="wa-phase-info">
+                                <h2>Moderation Rules & Process</h2>
+                                <p>Community governance policies, enforcement steps, and reporting procedures</p>
+                            </div>
+                        </div>
+
+                        <!-- Community Rules -->
+                        <h3 style="color: #25D366; font-size: 18px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-gavel"></i> Community Rules
+                        </h3>
+                        <div class="wa-rules-grid">
+                            <div class="wa-rule-card">
+                                <div class="wa-rule-icon">🤝</div>
+                                <div>
+                                    <h4>Rule 1: Respect All Members</h4>
+                                    <p>Treat every member with dignity and respect. No personal attacks, bullying, hate speech, discrimination, or harassment of any kind. Disagreements should be handled constructively and professionally.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-rule-card">
+                                <div class="wa-rule-icon">📵</div>
+                                <div>
+                                    <h4>Rule 2: No Spam or Promotions</h4>
+                                    <p>Do not share unsolicited advertisements, chain messages, referral links, MLM schemes, or off-topic promotional content. Relevant resource sharing is allowed only in designated groups with moderator approval.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-rule-card">
+                                <div class="wa-rule-icon">🔒</div>
+                                <div>
+                                    <h4>Rule 3: Protect Privacy</h4>
+                                    <p>Never share personal information (phone numbers, addresses, photos) of other members without explicit consent. What's shared in the community stays in the community. Respect confidentiality at all times.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-rule-card">
+                                <div class="wa-rule-icon">📌</div>
+                                <div>
+                                    <h4>Rule 4: Stay On-Topic</h4>
+                                    <p>Post content in the appropriate sub-group. General chit-chat belongs in the Discussion group, academic resources in the Resources group, and event-related content in the Events group. Off-topic posts may be deleted without notice.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-rule-card">
+                                <div class="wa-rule-icon">🕐</div>
+                                <div>
+                                    <h4>Rule 5: Observe Silent Hours</h4>
+                                    <p>No non-urgent messages between 10:00 PM and 7:00 AM. Emergency announcements from admins are the only exception. Repeated violations during silent hours will result in a temporary mute.</p>
+                                </div>
+                            </div>
+
+                            <div class="wa-rule-card">
+                                <div class="wa-rule-icon">📸</div>
+                                <div>
+                                    <h4>Rule 6: No Screenshots Without Permission</h4>
+                                    <p>Taking and sharing screenshots of community conversations outside the group is strictly prohibited without the explicit consent of the message author(s). Violations are treated as a serious breach of trust and may result in immediate removal.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enforcement Process -->
+                        <h3 style="color: #25D366; font-size: 18px; margin: 30px 0 18px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-balance-scale"></i> Enforcement Process
+                        </h3>
+                        <div class="wa-enforcement">
+                            <div class="wa-enforcement-step warning">
+                                <h5>⚠️ 1st Strike: Warning</h5>
+                                <p>Private DM from moderator citing the specific rule violated. Offense is logged in admin records.</p>
+                            </div>
+                            <div class="wa-enforcement-arrow">→</div>
+                            <div class="wa-enforcement-step warning">
+                                <h5>⚠️ 2nd Strike: Final Warning</h5>
+                                <p>Public reminder of rules in the group (without naming the member). Second private DM with final warning.</p>
+                            </div>
+                            <div class="wa-enforcement-arrow">→</div>
+                            <div class="wa-enforcement-step mute">
+                                <h5>🔇 3rd Strike: Mute</h5>
+                                <p>Member is muted for 24–72 hours depending on severity. Notified via DM with mute duration and reason.</p>
+                            </div>
+                            <div class="wa-enforcement-arrow">→</div>
+                            <div class="wa-enforcement-step remove">
+                                <h5>🚫 4th Strike: Removal</h5>
+                                <p>Permanent removal from the community. Member is informed via DM. Re-entry requires admin review and approval.</p>
+                            </div>
+                        </div>
+
+                        <!-- Reporting Issues -->
+                        <h3 style="color: #25D366; font-size: 18px; margin: 30px 0 18px; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-flag"></i> How to Report Issues
+                        </h3>
+                        <div class="wa-info-grid">
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon"><i class="fas fa-envelope"></i></div>
+                                    <h4>Private Reporting</h4>
+                                </div>
+                                <p>Members can report issues by sending a direct message to any moderator or the Community Admin. Reports should include: the name of the person involved, a screenshot or description of the incident, and the date/time it occurred. All reports are treated confidentially.</p>
+                            </div>
+                            <div class="wa-info-card">
+                                <div class="wa-info-card-header">
+                                    <div class="wa-info-card-icon"><i class="fas fa-clipboard-check"></i></div>
+                                    <h4>Review & Resolution</h4>
+                                </div>
+                                <p>The moderator acknowledges the report within 4 hours and escalates to the Community Admin if needed. The admin reviews the evidence, consults with the moderation team, and takes action within 24 hours. The reporter is informed of the outcome (without sharing details of any disciplinary action taken).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================================================
+                         PHASE 06: TEAM ROLES & RESPONSIBILITIES
+                         ================================================ -->
+                    <div class="wa-tab-content" id="wa-tab-team-roles">
+                        <div class="wa-phase-header">
+                            <div class="wa-phase-number">06</div>
+                            <div class="wa-phase-info">
+                                <h2>Team Roles & Responsibilities</h2>
+                                <p>Clearly defined roles to ensure smooth community management</p>
+                            </div>
+                        </div>
+
+                        <div class="wa-roles-grid">
+                            <!-- Community Admin -->
+                            <div class="wa-role-card">
+                                <div class="wa-role-avatar" style="background: rgba(239, 68, 68, 0.1);">👑</div>
+                                <h3>Community Admin</h3>
+                                <span class="wa-role-badge admin">ADMIN</span>
+                                <ul>
+                                    <li>Reviews and approves all join requests within 24 hours</li>
+                                    <li>Sends personalized welcome messages within 1 hour of approval</li>
+                                    <li>Creates and manages all WhatsApp Community sub-groups</li>
+                                    <li>Makes final decisions on moderation escalations and member removals</li>
+                                    <li>Conducts weekly admin review meetings (every Sunday at 7:00 PM)</li>
+                                    <li>Manages the community invite link and regenerates it when needed</li>
+                                    <li>Coordinates with faculty and external stakeholders</li>
+                                    <li>Oversees the overall community strategy and growth plan</li>
+                                </ul>
+                            </div>
+
+                            <!-- Moderator -->
+                            <div class="wa-role-card">
+                                <div class="wa-role-avatar" style="background: rgba(99, 102, 241, 0.1);">🛡️</div>
+                                <h3>Moderator</h3>
+                                <span class="wa-role-badge moderator">MODERATOR</span>
+                                <ul>
+                                    <li>Monitors all group conversations daily for rule violations</li>
+                                    <li>Issues warnings and applies mutes according to the enforcement process</li>
+                                    <li>Responds to member reports within 4 hours and escalates to Admin when needed</li>
+                                    <li>Posts the evening wrap-up summary on assigned days</li>
+                                    <li>Redirects off-topic conversations to the appropriate sub-groups</li>
+                                    <li>Assists with event execution: manages Q&A, tracks time, maintains order</li>
+                                    <li>Sends onboarding reminders to new members who haven't completed steps</li>
+                                </ul>
+                            </div>
+
+                            <!-- Content Lead -->
+                            <div class="wa-role-card">
+                                <div class="wa-role-avatar" style="background: rgba(245, 158, 11, 0.1);">✍️</div>
+                                <h3>Content Lead</h3>
+                                <span class="wa-role-badge content-lead">CONTENT LEAD</span>
+                                <ul>
+                                    <li>Plans and executes the weekly content calendar (Mon–Fri themes)</li>
+                                    <li>Posts the morning kickoff message by 8:00 AM on weekdays</li>
+                                    <li>Curates and shares educational resources, articles, and study materials</li>
+                                    <li>Designs engagement activities: polls, quizzes, discussion prompts, challenges</li>
+                                    <li>Compiles post-event summaries with key takeaways within 24 hours</li>
+                                    <li>Tracks engagement metrics (poll responses, discussion participation) weekly</li>
+                                    <li>Proposes new content ideas and themes in the weekly admin meeting</li>
+                                </ul>
+                            </div>
+
+                            <!-- Active Member -->
+                            <div class="wa-role-card">
+                                <div class="wa-role-avatar" style="background: rgba(37, 211, 102, 0.1);">🌟</div>
+                                <h3>Active Member</h3>
+                                <span class="wa-role-badge member">MEMBER</span>
+                                <ul>
+                                    <li>Participates in daily discussions, polls, and community activities</li>
+                                    <li>Follows all community rules and respects silent hours</li>
+                                    <li>Posts content in the appropriate sub-groups only</li>
+                                    <li>Reports rule violations or concerns to moderators via private DM</li>
+                                    <li>Provides feedback on events and content to help improve the community</li>
+                                    <li>Welcomes new members and helps them feel included</li>
+                                    <li>Can volunteer to lead a session or contribute content on Skill Friday</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END: WhatsApp Community Workflow -->
+
             </div>
 
 
@@ -4239,6 +5331,10 @@ Or by appointment</textarea>
                 navigateToPage('content');
                 showAIMessage("Opening content library... ✅", 'system');
             }
+            else if (message.includes('community') || message.includes('communities') || message.includes('whatsapp') || message.includes('workflow')) {
+                navigateToPage('communities');
+                showAIMessage("Opening communities & WhatsApp workflow... ✅", 'system');
+            }
             else if (message.includes('profile') || message.includes('setting')) {
                 navigateToPage('profile');
                 showAIMessage("Opening profile settings... ✅", 'system');
@@ -5093,6 +6189,9 @@ Or by appointment</textarea>
                     break;
                 case 'grading':
                     loadGradingData();
+                    break;
+                case 'communities':
+                    loadCommunities();
                     break;
                 case 'profile':
                     loadProfileData();
@@ -14681,6 +15780,20 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
             document.getElementById('communityModal').style.display = 'none';
         }
 
+        function manageCommunity(communityId) {
+            console.log("Managing community:", communityId);
+            showAIMessage(`Opening management tools for community...`, 'system');
+            // Mock Implementation
+            alert("Management features coming soon!");
+        }
+
+        function inviteToCommunity(communityId) {
+            console.log("Inviting members to community:", communityId);
+            const community = communities.find(c => c.id === communityId);
+            const name = community ? community.name : "Community";
+            alert(`Invite link for ${name} copied to clipboard! (Mock)`);
+        }
+
         async function populateCommunityClassrooms() {
             try {
                 const token = localStorage.getItem('access_token');
@@ -14695,12 +15808,14 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                     const dropdown = document.getElementById('communityClassroom');
                     dropdown.innerHTML = '<option value="">-- Select Classroom --</option>';
 
-                    classroomsData.forEach(classroom => {
-                        const option = document.createElement('option');
-                        option.value = classroom._id;
-                        option.textContent = `${classroom.code} - ${classroom.name}`;
-                        dropdown.appendChild(option);
-                    });
+                    if (classroomsData.classrooms) {
+                        classroomsData.classrooms.forEach(classroom => {
+                            const option = document.createElement('option');
+                            option.value = classroom.id;
+                            option.textContent = `${classroom.code} - ${classroom.name}`;
+                            dropdown.appendChild(option);
+                        });
+                    }
                 }
             } catch (error) {
                 console.error('Failed to load classrooms:', error);
@@ -14717,19 +15832,21 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                 });
 
                 if (response.ok) {
-                    const students = await response.json();
+                    const studentsData = await response.json();
                     const container = document.getElementById('memberCheckboxes');
                     container.innerHTML = '';
 
-                    students.forEach(student => {
-                        const checkbox = document.createElement('label');
-                        checkbox.style.cssText = 'display: flex; align-items: center; gap: 10px; padding: 5px;';
-                        checkbox.innerHTML = `
-                    <input type="checkbox" value="${student._id}">
-                    <span>${student.full_name} (${student.student_id})</span>
-                `;
-                        container.appendChild(checkbox);
-                    });
+                    if (studentsData.students) {
+                        studentsData.students.forEach(student => {
+                            const checkbox = document.createElement('label');
+                            checkbox.style.cssText = 'display: flex; align-items: center; gap: 10px; padding: 5px;';
+                            checkbox.innerHTML = `
+                        <input type="checkbox" value="${student.id}">
+                        <span>${student.first_name} ${student.last_name} (${student.student_id})</span>
+                    `;
+                            container.appendChild(checkbox);
+                        });
+                    }
                 }
             } catch (error) {
                 console.error('Failed to load students:', error);
@@ -14773,7 +15890,7 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                 }
 
                 // Create community via API
-                const response = await fetch('http://localhost:8000/api/communities/create', {
+                const response = await fetch('http://localhost:8000/api/faculty/communities', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -14788,19 +15905,27 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                     closeCommunityModal();
                     loadCommunities();
                 } else {
-                    throw new Error('Failed to create community');
+                    const contentType = response.headers.get("content-type");
+                    let errorMessage = 'Failed to create community';
+                    if (contentType && contentType.includes("application/json")) {
+                        const errData = await response.json();
+                        errorMessage = errData.detail || errorMessage;
+                    } else {
+                        errorMessage = await response.text();
+                    }
+                    throw new Error(errorMessage);
                 }
 
             } catch (error) {
                 console.error('Error creating community:', error);
-                alert('Failed to create community. Please try again.');
+                alert('Error: ' + error.message);
             }
         }
 
         async function loadCommunities() {
             try {
                 const token = localStorage.getItem('access_token');
-                const response = await fetch('http://localhost:8000/api/communities', {
+                const response = await fetch('http://localhost:8000/api/faculty/communities', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -14810,7 +15935,8 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                 const emptyState = document.getElementById('emptyCommunityState');
 
                 if (response.ok) {
-                    communities = await response.json();
+                    const data = await response.json();
+                    communities = data.communities || [];
 
                     if (communities.length === 0) {
                         container.innerHTML = '';
@@ -14838,8 +15964,8 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
             const card = document.createElement('div');
             card.className = 'content-card';
 
-            const memberCount = community.members_count || 0;
-            const postCount = community.posts_count || 0;
+            const memberCount = community.members || 0;
+            const postCount = community.post_count || 0;
             const privacyBadge = getPrivacyBadge(community.privacy);
             const typeIcon = community.type === 'classroom' ? 'fa-chalkboard' : 'fa-users';
 
@@ -14865,18 +15991,18 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                 <div class="stat-label">Posts</div>
             </div>
             <div class="stat">
-                <div class="stat-value">${community.active ? 'Active' : 'Inactive'}</div>
+                <div class="stat-value">Active</div>
                 <div class="stat-label">Status</div>
             </div>
         </div>
         <div class="action-buttons" style="margin-top: 15px;">
-            <button class="btn btn-primary" onclick="enterCommunity('${community._id}')">
+            <button class="btn btn-primary" onclick="enterCommunity('${community.id}')">
                 <i class="fas fa-door-open"></i> Enter
             </button>
-            <button class="btn btn-secondary" onclick="manageCommunity('${community._id}')">
+            <button class="btn btn-secondary" onclick="manageCommunity('${community.id}')">
                 <i class="fas fa-cog"></i> Manage
             </button>
-            <button class="btn btn-warning" onclick="inviteToCommunity('${community._id}')">
+            <button class="btn btn-warning" onclick="inviteToCommunity('${community.id}')">
                 <i class="fas fa-user-plus"></i> Invite
             </button>
         </div>
@@ -14895,7 +16021,7 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
         }
 
         function enterCommunity(communityId) {
-            const community = communities.find(c => c._id === communityId);
+            const community = communities.find(c => c.id === communityId);
             if (community) {
                 // Store current community in session
                 sessionStorage.setItem('current_community', JSON.stringify(community));
@@ -14904,6 +16030,35 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
                 window.open(`community.html?id=${communityId}`, '_blank');
             }
         }
+
+        // ============================================================
+        // WHATSAPP COMMUNITY WORKFLOW — TAB SWITCHING
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            const waTabContainer = document.getElementById('waCommunityTabs');
+            if (waTabContainer) {
+                waTabContainer.addEventListener('click', function(e) {
+                    const btn = e.target.closest('.wa-tab-btn');
+                    if (!btn) return;
+
+                    const tabId = btn.getAttribute('data-wa-tab');
+                    if (!tabId) return;
+
+                    // Remove active from all tab buttons
+                    waTabContainer.querySelectorAll('.wa-tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    // Hide all tab content panels
+                    document.querySelectorAll('.wa-tab-content').forEach(panel => panel.classList.remove('active'));
+
+                    // Show the target panel
+                    const targetPanel = document.getElementById('wa-tab-' + tabId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            }
+        });
 
 
     </script>

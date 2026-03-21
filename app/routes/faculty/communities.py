@@ -47,6 +47,7 @@ from app.models.faculty import *
 
 # Import helper functions
 from app.utils.helpers import *
+from app.services.notification_service import NotificationService
 
 logger = logging.getLogger("edusync")
 
@@ -143,36 +144,50 @@ async def create_community(
         if community_data.type == "custom" and community_data.members:
             members.extend(community_data.members)
         
+        logger.info(f"Creating community {community_data.name} for user {user_id}")
+        
+        # Ensure unique members and all are strings
+        unique_members = []
+        seen = set()
+        for m in members:
+            m_str = str(m)
+            if m_str not in seen:
+                unique_members.append(m_str)
+                seen.add(m_str)
+        
         community = {
             "name": community_data.name,
             "description": community_data.description,
-            "type": community_data.type,
+            "type": community_data.type or "general",
             "classroom_id": community_data.classroom_id,
             "created_by": user_id,
-            "created_by_name": current_user["full_name"],
-            "members": members,
-            "privacy": community_data.privacy,
+            "created_by_name": current_user.get("full_name") or current_user.get("name") or "Faculty",
+            "members": unique_members,
+            "privacy": community_data.privacy or "public",
             "created_at": datetime.now(timezone.utc),
             "updated_at": datetime.now(timezone.utc),
             "message_count": 0,
             "file_count": 0,
-            "active_members": len(members)
+            "active_members": len(unique_members)
         }
         
         result = await faculty_communities_collection.insert_one(community)
         community_id = str(result.inserted_id)
         
         # Send notifications to members
-        for member_id in members:
+        for member_id in unique_members:
             if member_id != user_id:
-                await NotificationService.create_notification(
-                    user_id=member_id,
-                    title="New Community",
-                    message=f"You've been added to community '{community_data.name}'",
-                    notification_type="community",
-                    priority="medium",
-                    action_url=f"/communities/{community_id}"
-                )
+                try:
+                    await NotificationService.create_notification(
+                        user_id=member_id,
+                        title="New Community",
+                        message=f"You've been added to community '{community_data.name}'",
+                        notification_type="community",
+                        priority="medium",
+                        action_url=f"/communities/{community_id}"
+                    )
+                except Exception as notify_err:
+                    logger.warning(f"Failed to send notification to {member_id}: {notify_err}")
         
         return {
             "message": "Community created successfully",
@@ -183,7 +198,7 @@ async def create_community(
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Create community error: {e}")
-        raise HTTPException(status_code=500, detail="Failed to create community")
+        logger.error(f"Create community error: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to create community: {str(e)}")
 
 
