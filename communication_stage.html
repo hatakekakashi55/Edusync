@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://js.puter.com/v2/"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stage 1: Communication Skills - EduSync 4.0</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1440,7 +1441,7 @@
         }
 
         .feedback-list li:before {
-            content: "•";
+            content: "â€¢";
             color: var(--stage-1);
             position: absolute;
             left: -10px;
@@ -3301,7 +3302,7 @@
         <main class="main-content">
             <!-- Listening Section -->
             <div id="listeningSection" style="display: none;">
-                <div class="stage-header"
+                <div class="stage-header" id="listeningHeader"
                     style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1));">
                     <div class="stage-title">
                         <div class="stage-icon" style="background: var(--primary);"><i class="fas fa-headphones"></i>
@@ -3460,11 +3461,11 @@
 
                         <div id="directionStatus" style="text-align: center; margin-bottom: 15px; font-size: 13px; color: var(--text-muted);">
                             <span id="directionStepCount">Steps: 0</span> &nbsp;|&nbsp;
-                            <span id="directionStartLabel" style="color: #10b981;">Start: —</span> &nbsp;→&nbsp;
-                            <span id="directionEndLabel" style="color: #ef4444;">End: —</span>
+                            <span id="directionStartLabel" style="color: #10b981;">Start: â€”</span> &nbsp;â†’&nbsp;
+                            <span id="directionEndLabel" style="color: #ef4444;">End: â€”</span>
                         </div>
 
-                        <div id="directionMapContainer" style="position: relative; margin: 0 auto; max-width: 500px; aspect-ratio: 1/1; background: rgba(0,0,0,0.35); border-radius: 15px; border: 1px solid var(--glass-border); overflow: hidden;">
+                        <div id="directionMapContainer" style="position: relative; margin: 0 auto; max-width: 500px; aspect-ratio: 1/1; background: linear-gradient(145deg, rgba(15,15,35,0.95), rgba(30,25,60,0.85)); border-radius: 18px; border: 1.5px solid rgba(139, 92, 246, 0.25); overflow: hidden; box-shadow: 0 0 30px rgba(99, 102, 241, 0.08), inset 0 0 40px rgba(0,0,0,0.3);">
                             <canvas id="directionCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; cursor: crosshair;"></canvas>
                             <div id="directionGridOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; display: grid; pointer-events: none;"></div>
                         </div>
@@ -3517,7 +3518,7 @@
 
             <!-- Reading Section -->
             <div id="readingSection" style="display: none;">
-                <div class="stage-header"
+                <div class="stage-header" id="readingHeader"
                     style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1));">
                     <div class="stage-title">
                         <div class="stage-icon" style="background: var(--secondary);"><i class="fas fa-book-open"></i>
@@ -3610,7 +3611,7 @@
 
             <!-- Writing Section -->
             <div id="writingSection" style="display: none;">
-                <div class="stage-header"
+                <div class="stage-header" id="writingHeader"
                     style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1));">
                     <div class="stage-title">
                         <div class="stage-icon" style="background: var(--accent);"><i class="fas fa-pen-nib"></i></div>
@@ -3955,7 +3956,7 @@
 
             <!-- Speaking Section -->
             <div id="speakingSection" style="display: none;">
-                <div class="stage-header"
+                <div class="stage-header" id="speakingHeader"
                     style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(124, 58, 237, 0.1));">
                     <div class="stage-title">
                         <div class="stage-icon" style="background: var(--stage-1);"><i class="fas fa-microphone"></i>
@@ -4227,7 +4228,7 @@
                     <!-- Completion Message -->
                     <div id="quizCompletionMessage"
                         style="display: none; padding: 20px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.15)); border-radius: 10px; border-left: 4px solid var(--secondary); text-align: center;">
-                        <div style="font-size: 24px; margin-bottom: 10px;">✅</div>
+                        <div style="font-size: 24px; margin-bottom: 10px;">âœ…</div>
                         <div style="color: var(--secondary); font-weight: 600; font-size: 16px;">Today's Challenges
                             Completed</div>
                         <div style="color: var(--text-muted); font-size: 14px; margin-top: 8px;">Come back tomorrow for
@@ -4501,86 +4502,86 @@
                         <div class="feature-card" onclick="selectRoleplayScenario('interview')" style="cursor:pointer;">
                             <div class="feature-header">
                                 <div class="feature-icon"
-                                    style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; font-size: 26px;">💼
+                                    style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; font-size: 26px;">ðŸ’¼
                                 </div>
                                 <div class="feature-title">Job Interview</div>
                             </div>
-                            <p class="feature-description">Face AI interviewers — from friendly HR to tough CTO panels.
+                            <p class="feature-description">Face AI interviewers â€” from friendly HR to tough CTO panels.
                             </p>
                             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;">
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(74,222,128,0.15); color: #4ade80;">Easy
-                                    15⭐</span>
+                                    15â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(251,191,36,0.15); color: #fbbf24;">Medium
-                                    25⭐</span>
+                                    25â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(239,68,68,0.15); color: #ef4444;">Hard
-                                    40⭐</span>
+                                    40â­</span>
                             </div>
                         </div>
                         <div class="feature-card" onclick="selectRoleplayScenario('sales')" style="cursor:pointer;">
                             <div class="feature-header">
                                 <div class="feature-icon"
-                                    style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-size: 26px;">🛒
+                                    style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-size: 26px;">ðŸ›’
                                 </div>
                                 <div class="feature-title">Sales Pitch</div>
                             </div>
-                            <p class="feature-description">Convince skeptical customers — from friendly buyers to tough
+                            <p class="feature-description">Convince skeptical customers â€” from friendly buyers to tough
                                 CFOs.</p>
                             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;">
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(74,222,128,0.15); color: #4ade80;">Easy
-                                    15⭐</span>
+                                    15â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(251,191,36,0.15); color: #fbbf24;">Medium
-                                    25⭐</span>
+                                    25â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(239,68,68,0.15); color: #ef4444;">Hard
-                                    40⭐</span>
+                                    40â­</span>
                             </div>
                         </div>
                         <div class="feature-card" onclick="selectRoleplayScenario('team_lead')" style="cursor:pointer;">
                             <div class="feature-header">
                                 <div class="feature-icon"
-                                    style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6; font-size: 26px;">👥
+                                    style="background: rgba(139, 92, 246, 0.2); color: #8b5cf6; font-size: 26px;">ðŸ‘¥
                                 </div>
                                 <div class="feature-title">Team Leadership</div>
                             </div>
-                            <p class="feature-description">Handle difficult team situations — from guiding juniors to
+                            <p class="feature-description">Handle difficult team situations â€” from guiding juniors to
                                 managing conflicts.</p>
                             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;">
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(74,222,128,0.15); color: #4ade80;">Easy
-                                    15⭐</span>
+                                    15â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(251,191,36,0.15); color: #fbbf24;">Medium
-                                    25⭐</span>
+                                    25â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(239,68,68,0.15); color: #ef4444;">Hard
-                                    40⭐</span>
+                                    40â­</span>
                             </div>
                         </div>
                         <div class="feature-card" onclick="selectRoleplayScenario('customer_support')"
                             style="cursor:pointer;">
                             <div class="feature-header">
                                 <div class="feature-icon"
-                                    style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-size: 26px;">🎧
+                                    style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-size: 26px;">ðŸŽ§
                                 </div>
                                 <div class="feature-title">Customer Support</div>
                             </div>
-                            <p class="feature-description">De-escalate angry customers — from mild complaints to VIP
+                            <p class="feature-description">De-escalate angry customers â€” from mild complaints to VIP
                                 threats.</p>
                             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px;">
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(74,222,128,0.15); color: #4ade80;">Easy
-                                    15⭐</span>
+                                    15â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(251,191,36,0.15); color: #fbbf24;">Medium
-                                    25⭐</span>
+                                    25â­</span>
                                 <span
                                     style="padding: 4px 10px; border-radius: 20px; font-size: 11px; background: rgba(239,68,68,0.15); color: #ef4444;">Hard
-                                    40⭐</span>
+                                    40â­</span>
                             </div>
                         </div>
                     </div>
@@ -4611,11 +4612,11 @@
                                         class="fas fa-seedling"></i></div>
                                 <div>
                                     <div class="feature-title">Easy</div>
-                                    <div style="color: var(--text-muted); font-size: 13px;">Warm & friendly — great for
+                                    <div style="color: var(--text-muted); font-size: 13px;">Warm & friendly â€” great for
                                         beginners</div>
                                 </div>
                             </div>
-                            <p class="feature-description">8 turns · 15 credits · Encouraging feedback</p>
+                            <p class="feature-description">8 turns Â· 15 credits Â· Encouraging feedback</p>
                         </div>
                         <div class="feature-card" onclick="startRoleplaySession('medium')"
                             style="cursor:pointer; border-left: 4px solid #fbbf24;">
@@ -4628,7 +4629,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="feature-description">10 turns · 25 credits · Deeper follow-up questions</p>
+                            <p class="feature-description">10 turns Â· 25 credits Â· Deeper follow-up questions</p>
                         </div>
                         <div class="feature-card" onclick="startRoleplaySession('hard')"
                             style="cursor:pointer; border-left: 4px solid #ef4444;">
@@ -4637,11 +4638,11 @@
                                         class="fas fa-bolt"></i></div>
                                 <div>
                                     <div class="feature-title">Hard</div>
-                                    <div style="color: var(--text-muted); font-size: 13px;">Intense pressure — expert
+                                    <div style="color: var(--text-muted); font-size: 13px;">Intense pressure â€” expert
                                         level</div>
                                 </div>
                             </div>
-                            <p class="feature-description">12 turns · 40 credits · Stress test your skills</p>
+                            <p class="feature-description">12 turns Â· 40 credits Â· Stress test your skills</p>
                         </div>
                     </div>
                 </div>
@@ -4651,7 +4652,7 @@
                     <div
                         style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <span id="roleplayChatIcon" style="font-size: 28px;">🎭</span>
+                            <span id="roleplayChatIcon" style="font-size: 28px;">ðŸŽ­</span>
                             <div>
                                 <h3 id="roleplayChatTitle" style="font-size: 16px; margin: 0;"></h3>
                                 <span id="roleplayChatMeta" style="font-size: 12px; color: var(--text-muted);"></span>
@@ -4693,7 +4694,7 @@
                 <!-- Evaluation Report Screen -->
                 <div id="roleplayEvalScreen" style="display: none;">
                     <div style="text-align: center; margin-bottom: 25px;">
-                        <div style="font-size: 48px; margin-bottom: 10px;">📊</div>
+                        <div style="font-size: 48px; margin-bottom: 10px;">ðŸ“Š</div>
                         <h2 style="font-size: 22px; margin-bottom: 5px;">Session Report</h2>
                         <p style="color: var(--text-muted);">Here's how you performed</p>
                     </div>
@@ -4721,7 +4722,7 @@
                         </div>
                         <div class="stage-text">
                             <h1>Speech Analyzer</h1>
-                            <p class="stage-subtitle">Record your speech → AI transcribes → Get filler words, pace &
+                            <p class="stage-subtitle">Record your speech â†’ AI transcribes â†’ Get filler words, pace &
                                 fluency report</p>
                         </div>
                     </div>
@@ -4759,7 +4760,7 @@
                         style="text-align: center; margin-bottom: 20px; border-left: 4px solid #06b6d4;">
                         <div
                             style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">
-                            🎯 Today's Topic</div>
+                            ðŸŽ¯ Today's Topic</div>
                         <div id="analyzerTopic"
                             style="font-size: 20px; font-weight: 600; line-height: 1.5; color: var(--text);">Tell me
                             about yourself and your career goals.</div>
@@ -4839,7 +4840,7 @@
                 <!-- ===== STEP 2: PROCESSING SCREEN ===== -->
                 <div id="analyzerProcessingScreen" style="display: none;">
                     <div class="feature-card" style="text-align: center; padding: 50px 30px;">
-                        <div style="font-size: 48px; margin-bottom: 20px;">🔬</div>
+                        <div style="font-size: 48px; margin-bottom: 20px;">ðŸ”¬</div>
                         <h3 style="margin-bottom: 20px; font-size: 18px;">Analyzing Your Speech...</h3>
 
                         <!-- Pipeline Steps -->
@@ -4934,8 +4935,8 @@
                         <div style="position: relative; margin-top: 12px;">
                             <div
                                 style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">
-                                <span>🐢 Too Slow</span><span>🚶 Slow</span><span>✅ Good</span><span>🏃
-                                    Fast</span><span>⚡ Too Fast</span>
+                                <span>ðŸ¢ Too Slow</span><span>ðŸš¶ Slow</span><span>âœ… Good</span><span>ðŸƒ
+                                    Fast</span><span>âš¡ Too Fast</span>
                             </div>
                             <div
                                 style="height: 12px; border-radius: 6px; background: linear-gradient(90deg, #ef4444 0%, #f59e0b 25%, #10b981 40%, #10b981 60%, #3b82f6 75%, #ef4444 100%); position: relative; overflow: visible;">
@@ -4993,7 +4994,7 @@
                         </div>
                         <div class="stage-text">
                             <h1>Shadow Practice</h1>
-                            <p class="stage-subtitle">Match your pronunciation to the reference — ELSA style scoring</p>
+                            <p class="stage-subtitle">Match your pronunciation to the reference â€” ELSA style scoring</p>
                         </div>
                     </div>
                 </div>
@@ -5009,7 +5010,7 @@
 
                     <div style="margin: 20px 0;">
                         <label
-                            style="display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500;">📝
+                            style="display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500;">ðŸ“
                             Reference Text (the correct sentence):</label>
                         <textarea id="shadowRefText" rows="3"
                             placeholder="Enter the original sentence to practice... Example: The quick brown fox jumps over the lazy dog"
@@ -5017,7 +5018,7 @@
                     </div>
                     <div style="margin-bottom: 20px;">
                         <label
-                            style="display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500;">🎙️
+                            style="display: block; margin-bottom: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500;">ðŸŽ™ï¸
                             Your Speech (what you actually said):</label>
                         <textarea id="shadowUserText" rows="3"
                             placeholder="Type what you spoke... Example: The quick brown fax jumps over the lazy dock"
@@ -5545,7 +5546,8 @@
             currentChallenge: null,
             currentSource: 'ai',
             startTime: null,
-            timeLeft: 120
+            timeLeft: 120,
+            mode: 'sentence'
         };
 
         async function startListeningChallenge() {
@@ -5562,6 +5564,7 @@
             document.getElementById('toneRecognizerScreen').style.display = 'none';
             document.getElementById('listeningSourceScreen').style.display = 'block';
             document.getElementById('listeningFeedback').style.display = 'none';
+            document.getElementById('listeningHeader').style.display = 'block';
             
             // Clear all intervals
             if (listeningTimerInterval) { clearInterval(listeningTimerInterval); listeningTimerInterval = null; }
@@ -5573,6 +5576,8 @@
         async function startListeningSource(source) {
             // Reset state and UI
             listeningState.currentSource = source;
+            listeningState.mode = 'sentence';
+            document.getElementById('listeningHeader').style.display = 'none';
             const listeningInput = document.getElementById('listeningInput');
             if (listeningInput) {
                 listeningInput.value = '';
@@ -5601,6 +5606,7 @@
                 // Show loading overlay
                 const listeningContent = document.getElementById('listeningChallengeContent');
                 if (listeningContent) {
+                    listeningContent.style.display = 'block';
                     listeningContent.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating your challenge...</p></div>';
                 }
 
@@ -5643,7 +5649,7 @@
                                 difficulty: task.difficulty || 'intermediate'
                             };
 
-                            console.log('✅ Challenge loaded:', listeningState.currentChallenge);
+                            console.log('âœ… Challenge loaded:', listeningState.currentChallenge);
 
                             // Setup UI
                             document.getElementById('listeningCredits').textContent = `${task.credits} Credits`;
@@ -5688,7 +5694,7 @@
                     // Generate AI challenge using Ollama
                     const endpoint = `${API_BASE_URL}/stage1/read-challenge/ai`;
 
-                    console.log('📥 Fetching AI challenge from:', endpoint);
+                    console.log('ðŸ“¥ Fetching AI challenge from:', endpoint);
 
                     const response = await fetch(endpoint, {
                         headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
@@ -5696,10 +5702,10 @@
 
                     if (response.ok) {
                         const data = await response.json();
-                        console.log('✅ Challenge data received:', data);
+                        console.log('âœ… Challenge data received:', data);
 
                         listeningState.currentChallenge = data.challenge;
-                        console.log('✅ Current challenge set:', listeningState.currentChallenge);
+                        console.log('âœ… Current challenge set:', listeningState.currentChallenge);
 
                         // Setup UI
                         document.getElementById('listeningCredits').textContent = `${data.challenge.credits} Credits`;
@@ -5729,17 +5735,17 @@
                             </div>
                         `;
 
-                        console.log('✅ Challenge loaded. Sentence:', data.challenge.sentence);
+                        console.log('âœ… Challenge loaded. Sentence:', data.challenge.sentence);
                         showToast('success', 'Ready!', 'Click play to listen to the sentence');
                     } else {
                         const errorText = await response.text();
-                        console.error('❌ API Error:', response.status, errorText);
+                        console.error('âŒ API Error:', response.status, errorText);
                         showToast('error', 'Error', 'Failed to load challenge: ' + response.status);
                         backToListeningMenu();
                     }
                 }
             } catch (error) {
-                console.error('❌ Network error:', error);
+                console.error('âŒ Network error:', error);
                 hideEvalLoading('listeningChallengeContent');
                 showToast('error', 'Network Error', 'Check your connection: ' + error.message);
                 backToListeningMenu();
@@ -5747,24 +5753,24 @@
         }
 
         function playListeningSentence() {
-            console.log('🔊 playListeningSentence called');
+            console.log('ðŸ”Š playListeningSentence called');
             console.log('listeningState:', listeningState);
 
             const sentence = listeningState.currentChallenge?.sentence || listeningState.currentChallenge?.audio_text;
             console.log('Retrieved sentence:', sentence);
 
             if (!sentence || sentence.trim() === '') {
-                console.error('❌ No sentence to play');
+                console.error('âŒ No sentence to play');
                 showToast('error', 'No Sentence', 'Sentence not loaded yet. Please wait and try again.');
                 return;
             }
 
             try {
                 playListeningAudio(sentence);
-                console.log('✅ Playing sentence:', sentence);
+                console.log('âœ… Playing sentence:', sentence);
                 showToast('info', 'Playing', 'Listen carefully...');
             } catch (error) {
-                console.error('❌ Error playing sentence:', error);
+                console.error('âŒ Error playing sentence:', error);
                 showToast('error', 'Playback Error', 'Could not play the sentence. Please try again.');
             }
         }
@@ -5879,6 +5885,7 @@
 
         async function startListeningMCQ() {
             try {
+                document.getElementById('listeningHeader').style.display = 'none';
                 // Hide main listening screen
                 document.getElementById('listeningSourceScreen').style.display = 'none';
                 
@@ -5962,7 +5969,7 @@
                     backToListeningMenu();
                 }
             } catch (error) {
-                console.error('❌ Error starting MCQ:', error);
+                console.error('âŒ Error starting MCQ:', error);
                 showToast('error', 'Error', 'Network error');
                 backToListeningMenu();
             }
@@ -5995,6 +6002,7 @@
             try {
                 showToast('info', 'Evaluating', 'Checking your answer...');
                 document.getElementById('mcqSubmitBtn').disabled = true;
+                showEvalLoading('listeningChallengeScreen', 'AI is evaluating your choice...');
                 
                 const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-mcq`, {
                     method: 'POST',
@@ -6018,6 +6026,8 @@
                         clearInterval(listeningTimerInterval);
                         listeningTimerInterval = null;
                     }
+
+                    hideEvalLoading('listeningChallengeScreen');
 
                     // Show feedback
                     document.getElementById('listeningChallengeContent').style.display = 'none';
@@ -6073,7 +6083,7 @@
                     document.getElementById('mcqSubmitBtn').disabled = false;
                 }
             } catch (error) {
-                console.error('❌ Error evaluating MCQ:', error);
+                console.error('âŒ Error evaluating MCQ:', error);
                 showToast('error', 'Error', 'Something went wrong');
                 document.getElementById('mcqSubmitBtn').disabled = false;
             }
@@ -6086,23 +6096,44 @@
         }
 
         function startNewListeningChallenge() {
-            if (listeningState.mode === 'mcq') {
-                startListeningMCQ();
-            } else {
-                startListeningSource(listeningState.currentSource);
+            // Hide all listening screens, feedback, and header
+            document.getElementById('listeningHeader').style.display = 'none';
+            document.getElementById('listeningFeedback').style.display = 'none';
+            document.getElementById('listeningChallengeScreen').style.display = 'none';
+            document.getElementById('fillBeatsScreen').style.display = 'none';
+            document.getElementById('directionFollowerScreen').style.display = 'none';
+            document.getElementById('toneRecognizerScreen').style.display = 'none';
+
+            // Route to the correct feature based on last mode
+            switch (listeningState.mode) {
+                case 'mcq':
+                    startListeningMCQ();
+                    break;
+                case 'fillbeats':
+                    startFillBeats();
+                    break;
+                case 'direction':
+                    startDirectionFollower();
+                    break;
+                case 'tone':
+                    startToneRecognizer();
+                    break;
+                default:
+                    startListeningSource(listeningState.currentSource);
+                    break;
             }
         }
 
         // Simple audio playback for listening challenge (without assistant state management)
         async function playListeningAudio(text) {
-            console.log('🎤 playListeningAudio called with:', text);
+            console.log('ðŸŽ¤ playListeningAudio called with:', text);
 
             try {
                 // Try backend TTS first
                 const isTamil = /[\u0B80-\u0BFF]/.test(text);
                 const language = isTamil ? 'ta-IN' : 'en-US';
 
-                console.log(`🎤 Requesting gTTS voice (${language})...`);
+                console.log(`ðŸŽ¤ Requesting gTTS voice (${language})...`);
 
                 const response = await fetch(`${API_BASE_URL}/speech/generate`, {
                     method: 'POST',
@@ -6119,26 +6150,26 @@
                     const audio = new Audio(audioUrl);
 
                     audio.onended = () => {
-                        console.log('✅ Audio playback finished');
+                        console.log('âœ… Audio playback finished');
                         URL.revokeObjectURL(audioUrl);
                     };
 
                     audio.onerror = (e) => {
-                        console.error('❌ Audio playback error:', e);
+                        console.error('âŒ Audio playback error:', e);
                         URL.revokeObjectURL(audioUrl);
                         // Fallback to browser TTS
                         useBrowserTTSSimple(text);
                     };
 
                     audio.play().catch(e => {
-                        console.error('❌ Could not play audio:', e);
+                        console.error('âŒ Could not play audio:', e);
                         URL.revokeObjectURL(audioUrl);
                         useBrowserTTSSimple(text);
                     });
                     return;
                 }
             } catch (e) {
-                console.log('⚠️ Backend gTTS failed, using browser voice');
+                console.log('âš ï¸ Backend gTTS failed, using browser voice');
             }
 
             // Fallback to browser TTS
@@ -6148,12 +6179,12 @@
         // Simple browser TTS without assistant state management
         function useBrowserTTSSimple(text) {
             if (!('speechSynthesis' in window)) {
-                console.error('❌ Speech Synthesis not supported');
+                console.error('âŒ Speech Synthesis not supported');
                 showToast('error', 'Not Supported', 'Speech synthesis is not supported in your browser');
                 return;
             }
 
-            console.log('🎤 Using browser TTS:', text);
+            console.log('ðŸŽ¤ Using browser TTS:', text);
 
             try {
                 // Cancel any existing speech
@@ -6185,15 +6216,15 @@
                 utterance.volume = 1.0;
 
                 utterance.onstart = () => {
-                    console.log('🔊 Speech started');
+                    console.log('ðŸ”Š Speech started');
                 };
 
                 utterance.onend = () => {
-                    console.log('✅ Speech ended');
+                    console.log('âœ… Speech ended');
                 };
 
                 utterance.onerror = (event) => {
-                    console.error('❌ Speech error:', event.error);
+                    console.error('âŒ Speech error:', event.error);
                     showToast('error', 'Playback Error', event.error);
                 };
 
@@ -6201,7 +6232,7 @@
                 speechSynthesis.speak(utterance);
 
             } catch (error) {
-                console.error('❌ TTS Error:', error);
+                console.error('âŒ TTS Error:', error);
                 showToast('error', 'Playback Error', 'Could not play the sentence');
             }
         }
@@ -6239,9 +6270,11 @@
         // --- Fill the Beats ---
         async function startFillBeats() {
             try {
+                listeningState.mode = 'fillbeats';
+                document.getElementById('listeningHeader').style.display = 'none';
                 document.getElementById('listeningSourceScreen').style.display = 'none';
                 document.getElementById('fillBeatsScreen').style.display = 'block';
-                document.getElementById('fillBeatsContainer').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                document.getElementById('fillBeatsContainer').innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating challenge...</p></div>';
                 
                 const response = await fetch(`${API_BASE_URL}/communication/generate-listening-gap`, {
                     method: 'POST',
@@ -6307,6 +6340,7 @@
             
             try {
                 showToast('info', 'Evaluating', 'Checking your answers...');
+                showEvalLoading('fillBeatsScreen', 'AI is checking your answers...');
                 const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-gap`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
@@ -6322,6 +6356,7 @@
                     const result = await response.json();
                     if (fillBeatsTimerInterval) clearInterval(fillBeatsTimerInterval);
                     
+                    hideEvalLoading('fillBeatsScreen');
                     document.getElementById('fillBeatsScreen').style.display = 'none';
                     const feedbackDiv = document.getElementById('listeningFeedback');
                     document.getElementById('feedbackTitle').innerHTML = result.score >= 80 ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Excellent!' : '<i class="fas fa-info-circle"></i> Result';
@@ -6344,117 +6379,655 @@
             }
         }
 
-        // --- Direction Follower ---
+        // --- Direction Follower (Premium Grid Path Tracing) ---
+        let directionUserPath = [];
+        let directionGhostShown = false;
+        let directionGhostTimer = null;
+        let directionStartTime = null;
+        let directionCanvasCtx = null;
+        let directionCellSize = 0;
+        let directionPadding = 30;
+        let directionAnimFrame = null;
+        let directionPulsePhase = 0;
+
+        // Landmark icon map for canvas text rendering
+        const landmarkIcons = {
+            'Hospital': 'ðŸ¥', 'School': 'ðŸ«', 'Park': 'ðŸŒ³', 'Library': 'ðŸ“š',
+            'Station': 'ðŸš‰', 'Mall': 'ðŸ›ï¸', 'Bank': 'ðŸ¦', 'Church': 'â›ª',
+            'Mosque': 'ðŸ•Œ', 'Temple': 'ðŸ›•', 'Market': 'ðŸª', 'Cafe': 'â˜•',
+            'Restaurant': 'ðŸ½ï¸', 'Hotel': 'ðŸ¨', 'Cinema': 'ðŸŽ¬', 'Gym': 'ðŸ’ª',
+            'Pharmacy': 'ðŸ’Š', 'Museum': 'ðŸ›ï¸', 'Zoo': 'ðŸ¦', 'Airport': 'âœˆï¸',
+            'Home': 'ðŸ ', 'Office': 'ðŸ¢', 'Police': 'ðŸ‘®', 'Fire Station': 'ðŸš’'
+        };
+
+        function getLandmarkIcon(name) {
+            for (const [key, icon] of Object.entries(landmarkIcons)) {
+                if (name.toLowerCase().includes(key.toLowerCase())) return icon;
+            }
+            return 'ðŸ“';
+        }
+
+        function getDirectionGridCoords(row, col) {
+            const p = directionPadding;
+            return {
+                x: p + col * directionCellSize + directionCellSize / 2,
+                y: p + row * directionCellSize + directionCellSize / 2
+            };
+        }
+
+        function initDirectionCanvas() {
+            const canvas = document.getElementById('directionCanvas');
+            const container = document.getElementById('directionMapContainer');
+            const rect = container.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+            directionCanvasCtx = canvas.getContext('2d');
+            directionCanvasCtx.scale(dpr, dpr);
+            const gs = directionState.currentChallenge?.grid_size || 7;
+            directionCellSize = (rect.width - directionPadding * 2) / gs;
+        }
+
+        function drawDirectionGrid() {
+            const ctx = directionCanvasCtx;
+            const canvas = document.getElementById('directionCanvas');
+            const dpr = window.devicePixelRatio || 1;
+            const w = canvas.width / dpr;
+            const h = canvas.height / dpr;
+            const gs = directionState.currentChallenge?.grid_size || 7;
+            const p = directionPadding;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Background gradient
+            const bgGrad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, w * 0.7);
+            bgGrad.addColorStop(0, 'rgba(99, 102, 241, 0.06)');
+            bgGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = bgGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Grid lines with subtle glow
+            for (let i = 0; i <= gs; i++) {
+                const alpha = (i === 0 || i === gs) ? 0.15 : 0.06;
+                ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
+                ctx.lineWidth = (i === 0 || i === gs) ? 1.5 : 0.8;
+                ctx.beginPath();
+                ctx.moveTo(p + i * directionCellSize, p);
+                ctx.lineTo(p + i * directionCellSize, p + gs * directionCellSize);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(p, p + i * directionCellSize);
+                ctx.lineTo(p + gs * directionCellSize, p + i * directionCellSize);
+                ctx.stroke();
+            }
+
+            // Grid intersection dots with glow
+            for (let r = 0; r < gs; r++) {
+                for (let c = 0; c < gs; c++) {
+                    const {x, y} = getDirectionGridCoords(r, c);
+                    // Outer glow
+                    const dotGrad = ctx.createRadialGradient(x, y, 0, x, y, 6);
+                    dotGrad.addColorStop(0, 'rgba(139, 92, 246, 0.25)');
+                    dotGrad.addColorStop(1, 'rgba(139, 92, 246, 0)');
+                    ctx.fillStyle = dotGrad;
+                    ctx.fillRect(x - 6, y - 6, 12, 12);
+                    // Inner dot
+                    ctx.beginPath();
+                    ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(196, 181, 253, 0.35)';
+                    ctx.fill();
+                }
+            }
+
+            // Draw landmarks
+            const challenge = directionState.currentChallenge;
+            if (challenge && challenge.landmarks) {
+                challenge.landmarks.forEach(lm => {
+                    const {x, y} = getDirectionGridCoords(lm.row, lm.col);
+                    const isStart = lm.row === challenge.start.row && lm.col === challenge.start.col;
+                    const isEnd = lm.row === challenge.end.row && lm.col === challenge.end.col;
+                    const r = directionCellSize * 0.38;
+
+                    // Pulsing outer glow for start/end
+                    if (isStart || isEnd) {
+                        const pulseR = r + 4 + Math.sin(directionPulsePhase * (isStart ? 1 : 1.3)) * 5;
+                        const glowGrad = ctx.createRadialGradient(x, y, r * 0.5, x, y, pulseR + 8);
+                        if (isStart) {
+                            glowGrad.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+                            glowGrad.addColorStop(1, 'rgba(16, 185, 129, 0)');
+                        } else {
+                            glowGrad.addColorStop(0, 'rgba(239, 68, 68, 0.3)');
+                            glowGrad.addColorStop(1, 'rgba(239, 68, 68, 0)');
+                        }
+                        ctx.fillStyle = glowGrad;
+                        ctx.beginPath();
+                        ctx.arc(x, y, pulseR + 8, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    // Main circle with gradient fill
+                    ctx.beginPath();
+                    ctx.arc(x, y, r, 0, Math.PI * 2);
+                    if (isStart) {
+                        const grad = ctx.createRadialGradient(x - r*0.3, y - r*0.3, 0, x, y, r);
+                        grad.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
+                        grad.addColorStop(1, 'rgba(16, 185, 129, 0.15)');
+                        ctx.fillStyle = grad;
+                        ctx.strokeStyle = '#10b981';
+                    } else if (isEnd) {
+                        const grad = ctx.createRadialGradient(x - r*0.3, y - r*0.3, 0, x, y, r);
+                        grad.addColorStop(0, 'rgba(239, 68, 68, 0.5)');
+                        grad.addColorStop(1, 'rgba(239, 68, 68, 0.15)');
+                        ctx.fillStyle = grad;
+                        ctx.strokeStyle = '#ef4444';
+                    } else {
+                        const grad = ctx.createRadialGradient(x - r*0.3, y - r*0.3, 0, x, y, r);
+                        grad.addColorStop(0, 'rgba(99, 102, 241, 0.35)');
+                        grad.addColorStop(1, 'rgba(99, 102, 241, 0.08)');
+                        ctx.fillStyle = grad;
+                        ctx.strokeStyle = 'rgba(139, 92, 246, 0.5)';
+                    }
+                    ctx.lineWidth = 2;
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Icon
+                    const icon = isStart ? 'ðŸŸ¢' : isEnd ? 'ðŸ”´' : getLandmarkIcon(lm.name);
+                    ctx.font = `${Math.max(14, directionCellSize * 0.26)}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(icon, x, y - 2);
+
+                    // Landmark name with shadow
+                    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+                    ctx.shadowBlur = 4;
+                    ctx.fillStyle = isStart ? '#6ee7b7' : isEnd ? '#fca5a5' : 'rgba(255,255,255,0.85)';
+                    ctx.font = `bold ${Math.max(8, directionCellSize * 0.16)}px Inter, sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(lm.name, x, y + r * 0.55);
+                    ctx.shadowBlur = 0;
+
+                    // Start/End label badge
+                    if (isStart || isEnd) {
+                        const label = isStart ? 'START' : 'END';
+                        const labelW = ctx.measureText(label).width + 10;
+                        ctx.fillStyle = isStart ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)';
+                        const bx = x - labelW / 2, by = y - r - 14;
+                        ctx.beginPath();
+                        ctx.roundRect(bx, by, labelW, 14, 4);
+                        ctx.fill();
+                        ctx.fillStyle = '#fff';
+                        ctx.font = `bold ${Math.max(7, directionCellSize * 0.11)}px Inter, sans-serif`;
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(label, x, by + 7);
+                    }
+                });
+            }
+
+            // Draw start point radar pulse
+            if (directionUserPath.length > 0 && challenge) {
+                const startCoord = getDirectionGridCoords(directionUserPath[0].row, directionUserPath[0].col);
+                const radarR = 8 + Math.sin(directionPulsePhase * 2) * 3;
+                ctx.beginPath();
+                ctx.arc(startCoord.x, startCoord.y, radarR, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(16, 185, 129, ${0.3 + Math.sin(directionPulsePhase) * 0.2})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function drawDirectionUserPath(animate = false) {
+            const ctx = directionCanvasCtx;
+            if (directionUserPath.length < 2 && !animate) {
+                // Draw start dot
+                if (directionUserPath.length === 1) {
+                    const sc = getDirectionGridCoords(directionUserPath[0].row, directionUserPath[0].col);
+                    ctx.beginPath();
+                    ctx.arc(sc.x, sc.y, 8, 0, Math.PI * 2);
+                    ctx.fillStyle = '#10b981';
+                    ctx.shadowColor = '#10b981';
+                    ctx.shadowBlur = 12;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.beginPath();
+                    ctx.arc(sc.x, sc.y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.fill();
+                }
+                return;
+            }
+
+            const lastIdx = directionUserPath.length - 1;
+            
+            // Draw path glow (behind)
+            ctx.save();
+            ctx.shadowColor = '#6366f1';
+            ctx.shadowBlur = 10;
+            ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            const s = getDirectionGridCoords(directionUserPath[0].row, directionUserPath[0].col);
+            ctx.moveTo(s.x, s.y);
+            for (let i = 1; i < (animate ? lastIdx : directionUserPath.length); i++) {
+                const c = getDirectionGridCoords(directionUserPath[i].row, directionUserPath[i].col);
+                ctx.lineTo(c.x, c.y);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            // Main path line
+            ctx.strokeStyle = '#818cf8';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(s.x, s.y);
+            for (let i = 1; i < (animate ? lastIdx : directionUserPath.length); i++) {
+                const c = getDirectionGridCoords(directionUserPath[i].row, directionUserPath[i].col);
+                ctx.lineTo(c.x, c.y);
+            }
+            ctx.stroke();
+
+            // Node dots
+            for (let i = 0; i < (animate ? lastIdx : directionUserPath.length); i++) {
+                const c = getDirectionGridCoords(directionUserPath[i].row, directionUserPath[i].col);
+                ctx.beginPath();
+                ctx.arc(c.x, c.y, i === 0 ? 7 : 5, 0, Math.PI * 2);
+                ctx.fillStyle = i === 0 ? '#10b981' : '#c4b5fd';
+                ctx.shadowColor = i === 0 ? '#10b981' : '#6366f1';
+                ctx.shadowBlur = 8;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                if (i === 0) {
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.fill();
+                }
+            }
+
+            // Animate the last segment
+            if (animate && directionUserPath.length >= 2) {
+                const prev = getDirectionGridCoords(directionUserPath[lastIdx-1].row, directionUserPath[lastIdx-1].col);
+                const curr = getDirectionGridCoords(directionUserPath[lastIdx].row, directionUserPath[lastIdx].col);
+                animateDirectionLine(prev, curr);
+            }
+        }
+
+        function animateDirectionLine(from, to) {
+            const ctx = directionCanvasCtx;
+            const duration = 350;
+            const startTime = performance.now();
+            function step(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                // Redraw everything
+                drawDirectionGrid();
+                if (directionGhostShown) drawDirectionGhostPath();
+
+                // Draw completed segments
+                if (directionUserPath.length > 2) {
+                    const s = getDirectionGridCoords(directionUserPath[0].row, directionUserPath[0].col);
+                    ctx.save();
+                    ctx.shadowColor = '#6366f1';
+                    ctx.shadowBlur = 10;
+                    ctx.strokeStyle = 'rgba(99, 102, 241, 0.3)';
+                    ctx.lineWidth = 10;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    for (let i = 1; i < directionUserPath.length - 1; i++) {
+                        const c = getDirectionGridCoords(directionUserPath[i].row, directionUserPath[i].col);
+                        ctx.lineTo(c.x, c.y);
+                    }
+                    ctx.stroke();
+                    ctx.restore();
+
+                    ctx.strokeStyle = '#818cf8';
+                    ctx.lineWidth = 4;
+                    ctx.lineCap = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    for (let i = 1; i < directionUserPath.length - 1; i++) {
+                        const c = getDirectionGridCoords(directionUserPath[i].row, directionUserPath[i].col);
+                        ctx.lineTo(c.x, c.y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Node dots for completed segments
+                for (let i = 0; i < directionUserPath.length - 1; i++) {
+                    const c = getDirectionGridCoords(directionUserPath[i].row, directionUserPath[i].col);
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, i === 0 ? 7 : 5, 0, Math.PI * 2);
+                    ctx.fillStyle = i === 0 ? '#10b981' : '#c4b5fd';
+                    ctx.fill();
+                }
+
+                // Animated segment with glow
+                const cx = from.x + (to.x - from.x) * eased;
+                const cy = from.y + (to.y - from.y) * eased;
+                
+                ctx.save();
+                ctx.shadowColor = '#a78bfa';
+                ctx.shadowBlur = 15;
+                ctx.strokeStyle = '#a78bfa';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(from.x, from.y);
+                ctx.lineTo(cx, cy);
+                ctx.stroke();
+                ctx.restore();
+
+                // Glowing tip dot
+                ctx.beginPath();
+                ctx.arc(cx, cy, 6 + (1 - progress) * 4, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(196, 181, 253, ${0.6 + (1-progress)*0.4})`;
+                ctx.shadowColor = '#c4b5fd';
+                ctx.shadowBlur = 15;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    // Final redraw
+                    drawDirectionGrid();
+                    if (directionGhostShown) drawDirectionGhostPath();
+                    drawDirectionUserPath(false);
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        function drawDirectionGhostPath() {
+            const ctx = directionCanvasCtx;
+            const correctPath = directionState.currentChallenge?.correct_path;
+            if (!correctPath || correctPath.length < 2) return;
+            
+            ctx.save();
+            ctx.setLineDash([5, 8]);
+            ctx.lineDashOffset = -directionPulsePhase * 5;
+            ctx.strokeStyle = 'rgba(251, 191, 36, 0.3)';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.shadowColor = 'rgba(251, 191, 36, 0.2)';
+            ctx.shadowBlur = 6;
+            ctx.beginPath();
+            const gs = getDirectionGridCoords(correctPath[0].row, correctPath[0].col);
+            ctx.moveTo(gs.x, gs.y);
+            for (let i = 1; i < correctPath.length; i++) {
+                const c = getDirectionGridCoords(correctPath[i].row, correctPath[i].col);
+                ctx.lineTo(c.x, c.y);
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function shakeDirectionMap() {
+            const container = document.getElementById('directionMapContainer');
+            container.style.transition = 'transform 0.08s';
+            container.style.transform = 'translateX(-6px)';
+            setTimeout(() => { container.style.transform = 'translateX(6px)'; }, 80);
+            setTimeout(() => { container.style.transform = 'translateX(-3px)'; }, 160);
+            setTimeout(() => { container.style.transform = 'translateX(3px)'; }, 240);
+            setTimeout(() => { container.style.transform = 'translateX(0)'; }, 320);
+        }
+
+        // Continuous animation loop for pulses
+        function directionAnimationLoop() {
+            directionPulsePhase += 0.04;
+            drawDirectionGrid();
+            if (directionGhostShown) drawDirectionGhostPath();
+            drawDirectionUserPath(false);
+            directionAnimFrame = requestAnimationFrame(directionAnimationLoop);
+        }
+
+        function stopDirectionAnimation() {
+            if (directionAnimFrame) {
+                cancelAnimationFrame(directionAnimFrame);
+                directionAnimFrame = null;
+            }
+        }
+
         async function startDirectionFollower() {
             try {
+                listeningState.mode = 'direction';
+                stopDirectionAnimation();
+                document.getElementById('listeningHeader').style.display = 'none';
                 document.getElementById('listeningSourceScreen').style.display = 'none';
                 document.getElementById('directionFollowerScreen').style.display = 'block';
-                document.getElementById('directionMapGrid').innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Generating map...</p></div>';
+                document.getElementById('directionSelectedLocation').textContent = '';
+                document.getElementById('directionCheckBtn').style.display = 'none';
+                document.getElementById('directionUndoBtn').style.display = 'none';
+                document.getElementById('directionHintBtn').style.display = 'none';
+
+                // Show loading animation inside the map container
+                const mapContainer = document.getElementById('directionMapContainer');
+                mapContainer.innerHTML = `
+                    <div id="directionLoadingOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(15, 15, 35, 0.85); border-radius: 15px; backdrop-filter: blur(8px);">
+                        <div class="loader-ripple" style="margin-bottom: 20px;"><div></div><div></div></div>
+                        <p style="color: #c4b5fd; font-size: 15px; font-weight: 500; letter-spacing: 0.5px;">Generating Map...</p>
+                        <p style="color: rgba(196,181,253,0.5); font-size: 12px; margin-top: 6px;">Placing landmarks & building routes</p>
+                    </div>
+                    <canvas id="directionCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; cursor: crosshair;"></canvas>
+                `;
                 
                 const response = await fetch(`${API_BASE_URL}/communication/generate-listening-direction`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('access_token')}` }
                 });
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    directionState.currentChallenge = data;
-                    directionState.selectedLocation = null;
-                    document.getElementById('directionSelectedLocation').textContent = '';
-                    
-                    const grid = document.getElementById('directionMapGrid');
-                    grid.innerHTML = '';
-                    data.map_locations.forEach((loc, idx) => {
-                        const div = document.createElement('div');
-                        div.className = 'map-location';
-                        div.innerHTML = `<i class="fas ${loc.icon || 'fa-building'}"></i><span style="font-size: 10px; display: block;">${loc.name}</span>`;
-                        div.style.cssText = 'background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; padding: 5px; text-align: center;';
-                        div.onclick = () => {
-                            document.querySelectorAll('.map-location').forEach(el => el.style.background = 'rgba(255,255,255,0.1)');
-                            div.style.background = 'rgba(99, 102, 241, 0.4)';
-                            div.style.boxShadow = '0 0 10px var(--primary)';
-                            directionState.selectedLocation = loc.name;
-                            document.getElementById('directionSelectedLocation').textContent = `Selected: ${loc.name}`;
-                            evaluateDirection(loc.name);
-                        };
-                        grid.appendChild(div);
-                    });
-                    
-                    // Start timer
-                    directionState.timeLeft = 180;
-                    if (directionTimerInterval) clearInterval(directionTimerInterval);
-                    directionTimerInterval = setInterval(() => {
-                        directionState.timeLeft--;
-                        const mins = Math.floor(directionState.timeLeft / 60);
-                        const secs = directionState.timeLeft % 60;
-                        document.getElementById('directionTimer').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-                    }, 1000);
-                    
-                    showToast('info', 'Listen Carefully', 'Follow the directions to find the destination');
-                } else {
-                    throw new Error('Server returned ' + response.status);
+
+                if (!response.ok) throw new Error('Server returned ' + response.status);
+
+                const data = await response.json();
+                directionState.currentChallenge = data;
+                directionUserPath = [{row: data.start.row, col: data.start.col}];
+                directionGhostShown = false;
+                directionPulsePhase = 0;
+                directionStartTime = Date.now();
+
+                // Remove loading overlay with fade
+                const loader = document.getElementById('directionLoadingOverlay');
+                if (loader) {
+                    loader.style.transition = 'opacity 0.5s ease';
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
                 }
+
+                // Update status labels
+                document.getElementById('directionStartLabel').textContent = 'Start: ' + (data.start.name || 'â€”');
+                document.getElementById('directionEndLabel').textContent = 'End: ' + (data.end.name || 'â€”');
+                document.getElementById('directionStepCount').textContent = 'Steps: 1';
+
+                initDirectionCanvas();
+
+                // Animated grid reveal
+                await animateGridReveal();
+
+                const canvas = document.getElementById('directionCanvas');
+                canvas.onclick = handleDirectionCanvasClick;
+                document.getElementById('directionUndoBtn').style.display = 'inline-flex';
+
+                // Show hint button after 20 seconds
+                directionGhostTimer = setTimeout(() => {
+                    document.getElementById('directionHintBtn').style.display = 'inline-flex';
+                }, 20000);
+
+                // Start continuous animation loop
+                directionAnimationLoop();
+
+                directionState.timeLeft = 180;
+                if (directionTimerInterval) clearInterval(directionTimerInterval);
+                directionTimerInterval = setInterval(() => {
+                    directionState.timeLeft--;
+                    const mins = Math.floor(directionState.timeLeft / 60);
+                    const secs = directionState.timeLeft % 60;
+                    document.getElementById('directionTimer').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                    if (directionState.timeLeft <= 0) submitDirectionPath();
+                }, 1000);
+
+                showToast('info', 'ðŸŽ§ Listen & Trace', 'Hear the directions, then trace the route step by step!');
+
             } catch (e) {
+                console.error('Direction error:', e);
                 showToast('error', 'Error', 'Failed to load Direction Follower');
                 backToListeningMenu();
             }
         }
 
-        function playDirectionAudio() {
-            if (directionState.currentChallenge) {
-                playListeningAudio(directionState.currentChallenge.directions_text);
+        // Animated grid reveal - draws grid progressively
+        function animateGridReveal() {
+            return new Promise(resolve => {
+                const ctx = directionCanvasCtx;
+                const canvas = document.getElementById('directionCanvas');
+                const dpr = window.devicePixelRatio || 1;
+                const w = canvas.width / dpr;
+                const h = canvas.height / dpr;
+                const gs = directionState.currentChallenge?.grid_size || 7;
+                const duration = 800;
+                const start = performance.now();
+                
+                function step(now) {
+                    const progress = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 2);
+                    
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.globalAlpha = eased;
+                    drawDirectionGrid();
+                    drawDirectionUserPath(false);
+                    ctx.globalAlpha = 1.0;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        resolve();
+                    }
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        function handleDirectionCanvasClick(e) {
+            const canvas = document.getElementById('directionCanvas');
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            const clickX = (e.clientX - rect.left);
+            const clickY = (e.clientY - rect.top);
+            const gs = directionState.currentChallenge?.grid_size || 7;
+            let bestDist = Infinity, bestR = -1, bestC = -1;
+            for (let r = 0; r < gs; r++) {
+                for (let c = 0; c < gs; c++) {
+                    const {x, y} = getDirectionGridCoords(r, c);
+                    const dist = Math.sqrt((clickX - x) ** 2 + (clickY - y) ** 2);
+                    if (dist < bestDist) { bestDist = dist; bestR = r; bestC = c; }
+                }
+            }
+            if (bestDist > directionCellSize * 0.6) return;
+            const last = directionUserPath[directionUserPath.length - 1];
+            if (Math.abs(bestR - last.row) + Math.abs(bestC - last.col) !== 1) { shakeDirectionMap(); return; }
+            
+            // Stop continuous animation during line animation
+            stopDirectionAnimation();
+            directionUserPath.push({row: bestR, col: bestC});
+            
+            const prev = getDirectionGridCoords(directionUserPath[directionUserPath.length - 2].row, directionUserPath[directionUserPath.length - 2].col);
+            const curr = getDirectionGridCoords(bestR, bestC);
+            
+            // After animation completes, restart the loop
+            const origAnimate = animateDirectionLine;
+            animateDirectionLine(prev, curr);
+            setTimeout(() => directionAnimationLoop(), 400);
+            
+            document.getElementById('directionStepCount').textContent = `Steps: ${directionUserPath.length}`;
+            
+            const end = directionState.currentChallenge.end;
+            if (bestR === end.row && bestC === end.col) {
+                document.getElementById('directionSelectedLocation').innerHTML = '<span style="color: #10b981; font-weight: 700;">âœ… Destination Reached!</span>';
+            }
+            document.getElementById('directionCheckBtn').style.display = 'block';
+        }
+
+        function undoDirectionStep() {
+            if (directionUserPath.length <= 1) return;
+            directionUserPath.pop();
+            document.getElementById('directionStepCount').textContent = `Steps: ${directionUserPath.length}`;
+            document.getElementById('directionSelectedLocation').textContent = '';
+            if (directionUserPath.length <= 1) {
+                document.getElementById('directionCheckBtn').style.display = 'none';
             }
         }
 
-        async function evaluateDirection(selectedName) {
+        function showDirectionGhost() {
+            directionGhostShown = true;
+            document.getElementById('directionHintBtn').style.display = 'none';
+            showToast('info', 'ðŸ‘» Hint', 'The gold dashed line shows the correct path');
+        }
+
+        function playDirectionAudio() {
+            if (directionState.currentChallenge) playListeningAudio(directionState.currentChallenge.directions_text);
+        }
+
+        async function submitDirectionPath() {
             try {
-                showToast('info', 'Checking', 'Verifying location...');
-                showEvalLoading('directionFollowerScreen', 'Verifying your location...');
+                stopDirectionAnimation();
+                if (directionTimerInterval) clearInterval(directionTimerInterval);
+                if (directionGhostTimer) clearTimeout(directionGhostTimer);
+                showEvalLoading('directionFollowerScreen', 'AI is evaluating your path...');
                 const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-direction`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
                     body: JSON.stringify({
-                        selected_location: selectedName,
-                        correct_location: directionState.currentChallenge.correct_location,
-                        challenge_id: directionState.currentChallenge.id,
-                        difficulty: directionState.currentChallenge.difficulty
+                        user_path: directionUserPath,
+                        correct_path: directionState.currentChallenge.correct_path,
+                        start_name: directionState.currentChallenge.start.name,
+                        end_name: directionState.currentChallenge.end.name,
+                        time_taken: Math.round((Date.now() - directionStartTime) / 1000)
                     })
                 });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (directionTimerInterval) clearInterval(directionTimerInterval);
-                    
-                    setTimeout(() => {
-                        document.getElementById('directionFollowerScreen').style.display = 'none';
-                        const feedbackDiv = document.getElementById('listeningFeedback');
-                        document.getElementById('feedbackTitle').innerHTML = result.is_correct ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Correct Destination!' : '<i class="fas fa-times-circle" style="color: #ef4444;"></i> Wrong Location';
-                        document.getElementById('feedbackMessage').innerHTML = `
-                            <p>${result.feedback}</p>
-                            <p style="margin-top: 10px; color: var(--text-muted); font-style: italic;">${result.tamil_feedback || ''}</p>
-                            <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                                <strong>Transcript:</strong> <br>
-                                <span style="font-size: 13px;">${directionState.currentChallenge.directions_text}</span>
-                            </div>
-                        `;
-                        feedbackDiv.style.display = 'block';
-                        loadUserData();
-                    }, 500);
-                } else {
-                    throw new Error('Server returned ' + response.status);
-                }
+                const result = await response.json();
+                hideEvalLoading('directionFollowerScreen');
+
+                setTimeout(() => {
+                    document.getElementById('directionFollowerScreen').style.display = 'none';
+                    const feedbackDiv = document.getElementById('listeningFeedback');
+                    const isGood = result.score >= 70;
+                    document.getElementById('feedbackTitle').innerHTML = isGood 
+                        ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Great Navigation!' 
+                        : '<i class="fas fa-route" style="color: #f59e0b;"></i> Keep Practicing!';
+                    document.getElementById('feedbackMessage').innerHTML = `
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <div style="font-size: 36px; font-weight: 800; background: linear-gradient(135deg, ${isGood ? '#10b981, #6ee7b7' : '#f59e0b, #fbbf24'}); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${result.score || 0}%</div>
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Path Accuracy</div>
+                        </div>
+                        <p style="margin-bottom: 10px;">${result.feedback || ''}</p>
+                        <p style="font-style: italic; color: var(--text-muted);">${result.tamil_feedback || ''}</p>
+                    `;
+                    feedbackDiv.style.display = 'block';
+                    loadUserData();
+                }, 800);
             } catch (e) {
                 hideEvalLoading('directionFollowerScreen');
                 showToast('error', 'Error', 'Evaluation failed');
             }
         }
 
+
         // --- Tone Recognizer ---
         async function startToneRecognizer() {
             try {
+                listeningState.mode = 'tone';
+                document.getElementById('listeningHeader').style.display = 'none';
                 document.getElementById('listeningSourceScreen').style.display = 'none';
                 document.getElementById('toneRecognizerScreen').style.display = 'block';
-                document.getElementById('toneOptionsContainer').innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                document.getElementById('toneOptionsContainer').innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;"><div class="loader-ripple" style="margin: 0 auto 20px;"><div></div><div></div></div><p style="color: var(--text-muted); font-size: 16px;">Preparing audio...</p></div>';
                 
                 const response = await fetch(`${API_BASE_URL}/communication/generate-listening-tone`, {
                     method: 'POST',
@@ -6505,6 +7078,7 @@
         async function evaluateTone(selectedOption) {
             try {
                 showToast('info', 'Evaluating', 'Analyzing your choice...');
+                showEvalLoading('toneRecognizerScreen', 'AI is analyzing the tone...');
                 const response = await fetch(`${API_BASE_URL}/communication/evaluate-listening-tone`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('access_token')}` },
@@ -6520,6 +7094,7 @@
                     const result = await response.json();
                     if (toneTimerInterval) clearInterval(toneTimerInterval);
                     
+                    hideEvalLoading('toneRecognizerScreen');
                     document.getElementById('toneRecognizerScreen').style.display = 'none';
                     const feedbackDiv = document.getElementById('listeningFeedback');
                     document.getElementById('feedbackTitle').innerHTML = result.is_correct ? '<i class="fas fa-check-circle" style="color: #10b981;"></i> Spot on!' : '<i class="fas fa-times-circle" style="color: #ef4444;"></i> Not quite';
@@ -6561,6 +7136,7 @@
             document.getElementById('readingChallengeScreen').style.display = 'none';
             document.getElementById('readingSourceScreen').style.display = 'block';
             document.getElementById('readingFeedback').style.display = 'none';
+            document.getElementById('readingHeader').style.display = 'block';
 
             // Clear timers
             if (readingTimerInterval) {
@@ -6572,6 +7148,7 @@
         async function startReadingSource(source) {
             // Reset state and UI
             readingState.currentSource = source;
+            document.getElementById('readingHeader').style.display = 'none';
 
             // Stop any active timers
             if (readingTimerInterval) {
@@ -6696,7 +7273,7 @@
                     });
                 } else {
                     questionsHTML = `
-                        <h4 style="margin-bottom: 12px; color: var(--text);">❓ Question:</h4>
+                        <h4 style="margin-bottom: 12px; color: var(--text);">â“ Question:</h4>
                         <p style="margin-bottom: 15px; color: var(--text-muted); font-style: italic;">${question}</p>
                         <textarea id="readingAnswer" placeholder="Type your answer here..." style="width: 100%; height: 120px; padding: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--input-bg); color: var(--text); font-size: 14px; font-family: inherit; resize: vertical;"></textarea>
                     `;
@@ -6726,7 +7303,7 @@
 
                 showToast('success', 'Ready!', 'Read the passage and answer the question');
             } catch (error) {
-                console.error('❌ Error loading reading challenge:', error);
+                console.error('âŒ Error loading reading challenge:', error);
                 showToast('error', 'Error', error.message);
                 backToReadingMenu();
             }
@@ -6798,7 +7375,7 @@
             }
 
             try {
-                showToast('info', 'Analyzing', '⏳ AI is analyzing your answers...');
+                showToast('info', 'Analyzing', 'â³ AI is analyzing your answers...');
                 
                 // Disable all textareas and button
                 const textareas = document.querySelectorAll('.reading-answer-box, #readingAnswer');
@@ -6824,7 +7401,7 @@
 
                 if (response.ok) {
                     const result = await response.json();
-                    console.log('✅ Evaluation result:', result);
+                    console.log('âœ… Evaluation result:', result);
 
                     // Show feedback
                     document.getElementById('readingChallengeContent').style.display = 'none';
@@ -6886,15 +7463,15 @@
 
                     feedbackMessage.innerHTML = feedbackHTML;
                     feedbackDiv.style.display = 'block';
-                    console.log('✅ Reading evaluation successful:', result);
+                    console.log('âœ… Reading evaluation successful:', result);
                 } else {
                     const errorText = await response.text();
-                    console.error('❌ Evaluation error:', response.status, errorText);
+                    console.error('âŒ Evaluation error:', response.status, errorText);
                     hideEvalLoading('readingChallengeContent');
                     showToast('error', 'Evaluation Error', 'Could not evaluate your answer');
                 }
             } catch (error) {
-                console.error('❌ Submission error:', error);
+                console.error('âŒ Submission error:', error);
                 hideEvalLoading('readingChallengeContent');
                 showToast('error', 'Submission Error', error.message);
             }
@@ -6919,6 +7496,7 @@
             document.getElementById('writingChallengeScreen').style.display = 'none';
             document.getElementById('writingSourceScreen').style.display = 'block';
             document.getElementById('writingFeedback').style.display = 'none';
+            document.getElementById('writingHeader').style.display = 'block';
             if (document.getElementById('picturePromptScreen')) {
                 document.getElementById('picturePromptScreen').style.display = 'none';
             }
@@ -6938,6 +7516,7 @@
 
         function startPicturePrompt() {
             document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('writingHeader').style.display = 'none';
             document.getElementById('picturePromptScreen').style.display = 'block';
             document.getElementById('picPromptFeedback').style.display = 'none';
             document.getElementById('submitPicPromptBtn').disabled = false;
@@ -6996,7 +7575,7 @@
             if (picPromptTimerInterval) clearInterval(picPromptTimerInterval);
             textArea.disabled = true;
             document.getElementById('submitPicPromptBtn').disabled = true;
-            document.getElementById('submitPicPromptBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Evaluating...';
+            showEvalLoading('picturePromptScreen', 'AI is evaluating your description...');
             
             // Using existing AI service endpoint to evaluate writing
             try {
@@ -7065,6 +7644,8 @@
                 console.error(error);
                 showToast('error', 'Evaluation Error', 'Failed to analyze description');
             } finally {
+                hideEvalLoading('picturePromptScreen');
+                document.getElementById('submitPicPromptBtn').disabled = false;
                 document.getElementById('submitPicPromptBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Submit Description';
             }
         }
@@ -7088,6 +7669,7 @@
 
         function startNoFilterChallenge() {
             document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('writingHeader').style.display = 'none';
             document.getElementById('noFilterScreen').style.display = 'block';
             document.getElementById('nfFeedback').style.display = 'none';
             document.getElementById('submitNoFilterBtn').disabled = false;
@@ -7144,7 +7726,7 @@
             if (noFilterTimerInterval) clearInterval(noFilterTimerInterval);
             textArea.disabled = true;
             document.getElementById('submitNoFilterBtn').disabled = true;
-            document.getElementById('submitNoFilterBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Evaluating Vocabulary...';
+            showEvalLoading('noFilterScreen', 'AI is evaluating your vocabulary...');
             
             try {
                 const token = localStorage.getItem('access_token');
@@ -7167,7 +7749,7 @@
                     
                     const feedbackHTML = `
                         <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
-                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">🌟 Vocabulary Analysis</h4>
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">ðŸŒŸ Vocabulary Analysis</h4>
                             
                             <div style="margin-bottom: 20px;">
                                 <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-magic"></i> Feedback & AI Comments:</h5>
@@ -7206,6 +7788,8 @@
                 console.error(error);
                 showToast('error', 'Evaluation Error', 'Failed to analyze rewritten sentence');
             } finally {
+                hideEvalLoading('noFilterScreen');
+                document.getElementById('submitNoFilterBtn').disabled = false;
                 document.getElementById('submitNoFilterBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Submit Rewrite';
             }
         }
@@ -7224,6 +7808,7 @@
 
         function startQuickReplyChallenge() {
             document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('writingHeader').style.display = 'none';
             document.getElementById('quickReplyScreen').style.display = 'block';
             document.getElementById('qrFeedback').style.display = 'none';
             document.getElementById('submitQuickReplyBtn').disabled = false;
@@ -7272,7 +7857,7 @@
             if (qrTimerInterval) clearInterval(qrTimerInterval);
             textArea.disabled = true;
             document.getElementById('submitQuickReplyBtn').disabled = true;
-            document.getElementById('submitQuickReplyBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing Professionalism...';
+            showEvalLoading('quickReplyScreen', 'AI is analyzing your professionalism...');
             
             try {
                 const token = localStorage.getItem('access_token');
@@ -7295,7 +7880,7 @@
                     
                     const feedbackHTML = `
                         <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
-                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">📫 Professional Analysis</h4>
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">ðŸ“« Professional Analysis</h4>
                             
                             <div style="margin-bottom: 20px;">
                                 <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-briefcase"></i> AI Feedback:</h5>
@@ -7333,6 +7918,8 @@
                 console.error(error);
                 showToast('error', 'Evaluation Error', 'Failed to analyze reply');
             } finally {
+                hideEvalLoading('quickReplyScreen');
+                document.getElementById('submitQuickReplyBtn').disabled = false;
                 document.getElementById('submitQuickReplyBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Send Reply';
             }
         }
@@ -7347,6 +7934,7 @@
 
         function startWordChainChallenge() {
             document.getElementById('writingSourceScreen').style.display = 'none';
+            document.getElementById('writingHeader').style.display = 'none';
             document.getElementById('wordChainScreen').style.display = 'block';
             document.getElementById('wcFeedback').style.display = 'none';
             document.getElementById('submitWordChainBtn').disabled = false;
@@ -7471,7 +8059,7 @@
             if (wcTimerInterval) clearInterval(wcTimerInterval);
             textArea.disabled = true;
             document.getElementById('submitWordChainBtn').disabled = true;
-            document.getElementById('submitWordChainBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking Meaning...';
+            showEvalLoading('wordChainScreen', 'AI is checking your word chain...');
             
             try {
                 const token = localStorage.getItem('access_token');
@@ -7494,7 +8082,7 @@
                     
                     const feedbackHTML = `
                         <div style="background: var(--glass); padding: 25px; border-radius: 15px;">
-                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">🔗 Word Chain Analysis</h4>
+                            <h4 style="color: var(--text); margin-bottom: 15px; font-size: 18px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;">ðŸ”— Word Chain Analysis</h4>
                             
                             <div style="margin-bottom: 20px;">
                                 <h5 style="color: var(--secondary); margin-bottom: 10px; font-size: 15px;"><i class="fas fa-pen-nib"></i> AI Evaluation:</h5>
@@ -7532,6 +8120,8 @@
                 console.error(error);
                 showToast('error', 'Evaluation Error', 'Failed to analyze sentence');
             } finally {
+                hideEvalLoading('wordChainScreen');
+                document.getElementById('submitWordChainBtn').disabled = false;
                 document.getElementById('submitWordChainBtn').innerHTML = '<i class="fas fa-paper-plane"></i> Check Word Chain';
             }
         }
@@ -7539,6 +8129,7 @@
         async function startWritingSource(source) {
             // Reset state and UI
             writingState.currentSource = source;
+            document.getElementById('writingHeader').style.display = 'none';
 
             // Stop any active timers
             if (writingTimerInterval) {
@@ -7620,7 +8211,7 @@
 
                 writingState.currentChallenge = challenge;
 
-                console.log('✅ Writing challenge received:', writingState.currentChallenge);
+                console.log('âœ… Writing challenge received:', writingState.currentChallenge);
 
                 // Setup UI
                 document.getElementById('writingCredits').textContent = `${writingState.currentChallenge.credits} Credits`;
@@ -7668,7 +8259,7 @@
 
                 showToast('success', 'Ready!', 'Write your essay carefully and submit when done');
             } catch (error) {
-                console.error('❌ Error loading writing challenge:', error);
+                console.error('âŒ Error loading writing challenge:', error);
                 showToast('error', 'Error', error.message);
                 backToWritingMenu();
             }
@@ -7710,7 +8301,7 @@
 
             try {
                 // Show loading
-                showToast('info', 'Analyzing', '⏳ AI is analyzing your essay and generating feedback...');
+                showToast('info', 'Analyzing', 'â³ AI is analyzing your essay and generating feedback...');
                 document.getElementById('writingAnswer').disabled = true;
                 showEvalLoading('writingChallengeContent', 'AI is analyzing your writing...');
 
@@ -7735,7 +8326,7 @@
 
                 if (response.ok) {
                     const result = await response.json();
-                    console.log('✅ Writing Evaluation Result:', result);
+                    console.log('âœ… Writing Evaluation Result:', result);
 
                     // Show feedback screen
                     document.getElementById('writingChallengeContent').style.display = 'none';
@@ -7773,7 +8364,7 @@
                             <div style="margin-bottom: 20px;">
                                 <h4 style="color: var(--text); margin-bottom: 8px;"><i class="fas fa-language" style="color: var(--primary);"></i> Tamil Explanation:</h4>
                                 <p style="color: var(--text); font-size: 15px; line-height: 1.6; background: rgba(99, 102, 241, 0.05); padding: 15px; border-radius: 10px; border-left: 3px solid var(--primary);">
-                                    ${result.tamil_feedback || 'மிக அருமையான முயற்சி!'}
+                                    ${result.tamil_feedback || 'à®®à®¿à®• à®…à®°à¯à®®à¯ˆà®¯à®¾à®© à®®à¯à®¯à®±à¯à®šà®¿!'}
                                 </p>
                             </div>
 
@@ -7794,7 +8385,7 @@
                         try {
                             const audio = new Audio(result.audio_url);
                             audio.play();
-                            showToast('info', 'Voice Feedback', 'Akka is giving you feedback... 🎧');
+                            showToast('info', 'Voice Feedback', 'Akka is giving you feedback... ðŸŽ§');
                         } catch (e) {
                             console.warn('Audio playback failed:', e);
                         }
@@ -7810,7 +8401,7 @@
                     throw new Error(errorMessage);
                 }
             } catch (error) {
-                console.error('❌ Submission Error:', error);
+                console.error('âŒ Submission Error:', error);
                 hideEvalLoading('writingChallengeContent');
                 showToast('error', 'Submission Error', error.message || 'Could not evaluate your essay. Please try again.');
                 document.getElementById('writingAnswer').disabled = false;
@@ -7841,11 +8432,13 @@
             document.getElementById('speakingChallengeScreen').style.display = 'none';
             document.getElementById('speakingSourceScreen').style.display = 'block';
             document.getElementById('speakingFeedback').style.display = 'none';
+            document.getElementById('speakingHeader').style.display = 'block';
         }
 
         async function startSpeakingSource(source) {
             // Reset state and UI
             speakingState.currentSource = source;
+            document.getElementById('speakingHeader').style.display = 'none';
             speakingAudioChunks = [];
             speakingRecordingTime = 0;
             isRecording = false;
@@ -7961,7 +8554,7 @@
                 }
                 contentDiv.innerHTML = `
                     <div style="margin-bottom: 30px;">
-                        <h3 style="margin-bottom: 15px; color: var(--text);">🎤 Speaking Challenge</h3>
+                        <h3 style="margin-bottom: 15px; color: var(--text);">ðŸŽ¤ Speaking Challenge</h3>
                         
                         <div style="background: rgba(30, 41, 59, 0.5); padding: 20px; border-radius: 12px; border-left: 4px solid var(--stage-1); margin-bottom: 25px;">
                             <h4 style="margin-bottom: 12px; color: var(--text);">Question:</h4>
@@ -7991,7 +8584,7 @@
 
                 showToast('success', 'Ready!', 'Listen to the question and record your response');
             } catch (error) {
-                console.error('❌ Error loading speaking challenge:', error);
+                console.error('âŒ Error loading speaking challenge:', error);
                 showToast('error', 'Error', error.message);
                 backToSpeakingMenu();
             }
@@ -8008,7 +8601,7 @@
                 playListeningAudio(question);
                 showToast('info', 'Playing', 'Listen carefully to the question...');
             } catch (error) {
-                console.error('❌ Error playing question:', error);
+                console.error('âŒ Error playing question:', error);
                 showToast('error', 'Playback Error', 'Could not play the question');
             }
         }
@@ -8032,7 +8625,7 @@
                     };
 
                     speakingMediaRecorder.onstop = () => {
-                        console.log('✅ Recording stopped');
+                        console.log('âœ… Recording stopped');
                         submitBtn.style.display = 'block';
                     };
 
@@ -8041,10 +8634,10 @@
 
                     recordBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
                     recordBtn.style.background = '#ef4444';
-                    statusDiv.innerHTML = '🔴 Recording in progress...';
+                    statusDiv.innerHTML = 'ðŸ”´ Recording in progress...';
                     showToast('success', 'Recording', 'Speak now. Click Stop to finish.');
                 } catch (error) {
-                    console.error('❌ Microphone access error:', error);
+                    console.error('âŒ Microphone access error:', error);
                     showToast('error', 'Mic Error', 'Could not access microphone: ' + error.message);
                 }
             } else {
@@ -8056,8 +8649,8 @@
 
                     recordBtn.innerHTML = '<i class="fas fa-microphone"></i> Start Recording';
                     recordBtn.style.background = '';
-                    statusDiv.innerHTML = '✅ Recording complete. Click Submit to analyze.';
-                    console.log('✅ Audio chunks captured:', speakingAudioChunks.length);
+                    statusDiv.innerHTML = 'âœ… Recording complete. Click Submit to analyze.';
+                    console.log('âœ… Audio chunks captured:', speakingAudioChunks.length);
                 }
             }
         }
@@ -8070,7 +8663,7 @@
 
             try {
                 // Show loading
-                showToast('info', 'Analyzing', '⏳ AI is analyzing your pronunciation and grammar...');
+                showToast('info', 'Analyzing', 'â³ AI is analyzing your pronunciation and grammar...');
                 document.getElementById('speakingSubmitBtn').disabled = true;
                 showEvalLoading('speakingChallengeContent', 'AI is analyzing your speech...');
 
@@ -8097,7 +8690,7 @@
 
                 if (response.ok) {
                     const result = await response.json();
-                    console.log('✅ Speaking evaluation:', result);
+                    console.log('âœ… Speaking evaluation:', result);
 
                     // Show feedback
                     document.getElementById('speakingChallengeContent').style.display = 'none';
@@ -8141,15 +8734,15 @@
 
                     feedbackMessage.innerHTML = feedbackHTML;
                     feedbackDiv.style.display = 'block';
-                    console.log('✅ Speaking evaluation successful:', result);
+                    console.log('âœ… Speaking evaluation successful:', result);
                 } else {
                     const errorText = await response.text();
-                    console.error('❌ Evaluation error:', response.status, errorText);
+                    console.error('âŒ Evaluation error:', response.status, errorText);
                     hideEvalLoading('speakingChallengeContent');
                     showToast('error', 'Evaluation Error', 'Failed to evaluate recording');
                 }
             } catch (error) {
-                console.error('❌ Submission error:', error);
+                console.error('âŒ Submission error:', error);
                 hideEvalLoading('speakingChallengeContent');
                 showToast('error', 'Submission Error', 'Could not submit recording: ' + error.message);
             }
@@ -8240,13 +8833,13 @@
                 statusMessage.textContent = message;
 
                 // Add appropriate class based on message content
-                if (message.includes('❌') || message.includes('Error') || message.includes('failed')) {
+                if (message.includes('âŒ') || message.includes('Error') || message.includes('failed')) {
                     statusMessage.className = 'status-message error';
-                } else if (message.includes('✅') || message.includes('Success') || message.includes('complete')) {
+                } else if (message.includes('âœ…') || message.includes('Success') || message.includes('complete')) {
                     statusMessage.className = 'status-message success';
-                } else if (message.includes('🎤') || message.includes('Listening') || message.includes('Recording')) {
+                } else if (message.includes('ðŸŽ¤') || message.includes('Listening') || message.includes('Recording')) {
                     statusMessage.className = 'status-message recording';
-                } else if (message.includes('🤖') || message.includes('Analyzing') || message.includes('Processing')) {
+                } else if (message.includes('ðŸ¤–') || message.includes('Analyzing') || message.includes('Processing')) {
                     statusMessage.className = 'status-message processing';
                 } else {
                     statusMessage.className = 'status-message';
@@ -8281,43 +8874,43 @@
             // Test 1: Microphone access
             navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(stream => {
-                    console.log('✅ Microphone access granted');
+                    console.log('âœ… Microphone access granted');
                     stream.getTracks().forEach(track => track.stop());
 
                     // Test 2: Speech recognition support
                     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-                        console.log('✅ Speech recognition supported');
+                        console.log('âœ… Speech recognition supported');
 
                         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                         const recognition = new SpeechRecognition();
                         recognition.lang = 'en-US';
 
                         recognition.onstart = () => {
-                            console.log('✅ Speech recognition started');
+                            console.log('âœ… Speech recognition started');
                             setTimeout(() => recognition.stop(), 1000);
                         };
 
                         recognition.onerror = (e) => {
-                            console.log('❌ Speech error:', e.error);
+                            console.log('âŒ Speech error:', e.error);
                         };
 
                         recognition.onend = () => {
-                            console.log('✅ Speech recognition ended');
+                            console.log('âœ… Speech recognition ended');
                         };
 
                         // Quick test
                         try {
                             recognition.start();
                         } catch (error) {
-                            console.log('❌ Failed to start:', error);
+                            console.log('âŒ Failed to start:', error);
                         }
 
                     } else {
-                        console.log('❌ Speech recognition NOT supported');
+                        console.log('âŒ Speech recognition NOT supported');
                     }
                 })
                 .catch(error => {
-                    console.log('❌ Microphone error:', error.name, error.message);
+                    console.log('âŒ Microphone error:', error.name, error.message);
                 });
         }
 
@@ -8379,7 +8972,7 @@
                 if (response.ok) {
                     const userData = await response.json();
                     updateUIWithUserData(userData);
-                    console.log('✅ User data loaded successfully');
+                    console.log('âœ… User data loaded successfully');
                 } else if (response.status === 401) {
                     console.error('Unauthorized - token may be expired');
                     showToast('error', 'Auth Error', 'Session expired. Please login again.');
@@ -8415,19 +9008,19 @@
             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                 navigator.mediaDevices.getUserMedia({ audio: true })
                     .then(stream => {
-                        console.log('✅ Microphone permission granted');
+                        console.log('âœ… Microphone permission granted');
                         // Stop the stream immediately, we just needed permission
                         stream.getTracks().forEach(track => track.stop());
                     })
                     .catch(err => {
                         if (err.name === 'NotAllowedError') {
-                            console.warn('⚠️ Microphone permission denied by user');
+                            console.warn('âš ï¸ Microphone permission denied by user');
                             showToast('warning', 'Microphone', 'Please enable microphone in browser settings to use voice features.');
                         } else if (err.name === 'NotFoundError') {
-                            console.warn('⚠️ No microphone device found');
+                            console.warn('âš ï¸ No microphone device found');
                             showToast('warning', 'Microphone', 'No microphone device detected. Please check your hardware.');
                         } else {
-                            console.warn('⚠️ Microphone access error:', err);
+                            console.warn('âš ï¸ Microphone access error:', err);
                         }
                     });
             }
@@ -8540,8 +9133,8 @@
         // 8. TEXT-TO-SPEECH (TTS) FUNCTIONS
         // ==========================================================
 
-        // 🗣️ TEXT-TO-SPEECH IN TAMIL (TTS)
-        // 🗣️ TEXT-TO-SPEECH IN TAMIL (TTS) - Uses Girlfriend Voice
+        // ðŸ—£ï¸ TEXT-TO-SPEECH IN TAMIL (TTS)
+        // ðŸ—£ï¸ TEXT-TO-SPEECH IN TAMIL (TTS) - Uses Girlfriend Voice
         function speakInTamil(text) {
             // Use the advanced speakText function which handles both backend and browser TTS
             speakText(text);
@@ -8552,7 +9145,7 @@
             if (tipsElement) {
                 const tips = Array.from(tipsElement.getElementsByTagName('li')).map(li => li.textContent).join('. ');
                 if (tips.trim().length > 0) {
-                    speakInTamil(tips + '. இது உங்களுக்கான முன்னேற்றக் குறிப்புகள்.');
+                    speakInTamil(tips + '. à®‡à®¤à¯ à®‰à®™à¯à®•à®³à¯à®•à¯à®•à®¾à®© à®®à¯à®©à¯à®©à¯‡à®±à¯à®±à®•à¯ à®•à¯à®±à®¿à®ªà¯à®ªà¯à®•à®³à¯.');
                 }
             }
         }
@@ -8569,7 +9162,7 @@
                 return;
             }
 
-            updateStatusMessage("🤖 AI analyzing your speech...");
+            updateStatusMessage("ðŸ¤– AI analyzing your speech...");
             if (aiFeedback) aiFeedback.style.display = 'none';
 
             try {
@@ -8629,7 +9222,7 @@ Provide feedback in JSON format:
                     }
 
                     // Show success
-                    updateStatusMessage("✅ Analysis complete!");
+                    updateStatusMessage("âœ… Analysis complete!");
 
                 } else {
                     throw new Error('API Error');
@@ -8639,7 +9232,7 @@ Provide feedback in JSON format:
                 console.error('AI Analysis error:', error);
                 // Fallback to simulated response
                 simulateAIFeedback(text);
-                updateStatusMessage("⚠️ Analysis failed. Showing simulation.");
+                updateStatusMessage("âš ï¸ Analysis failed. Showing simulation.");
             }
         }
 
@@ -8701,9 +9294,9 @@ Provide feedback in JSON format:
                     ).join('');
                 } else {
                     tipsList.innerHTML = `
-                        <li>மெதுவாக பேசுங்கள்</li>
-                        <li>ஒவ்வொரு வார்த்தையும் தெளிவாக உச்சரிக்கவும்</li>
-                        <li>இடைவெளி விடுங்கள்</li>
+                        <li>à®®à¯†à®¤à¯à®µà®¾à®• à®ªà¯‡à®šà¯à®™à¯à®•à®³à¯</li>
+                        <li>à®’à®µà¯à®µà¯Šà®°à¯ à®µà®¾à®°à¯à®¤à¯à®¤à¯ˆà®¯à¯à®®à¯ à®¤à¯†à®³à®¿à®µà®¾à®• à®‰à®šà¯à®šà®°à®¿à®•à¯à®•à®µà¯à®®à¯</li>
+                        <li>à®‡à®Ÿà¯ˆà®µà¯†à®³à®¿ à®µà®¿à®Ÿà¯à®™à¯à®•à®³à¯</li>
                     `;
                 }
             }
@@ -8711,7 +9304,7 @@ Provide feedback in JSON format:
             // Show feedback section
             if (aiFeedback) {
                 aiFeedback.style.display = 'block';
-                updateStatusMessage("✅ AI analysis complete! Scroll down for feedback.");
+                updateStatusMessage("âœ… AI analysis complete! Scroll down for feedback.");
 
                 // Scroll to feedback
                 setTimeout(() => {
@@ -8722,7 +9315,7 @@ Provide feedback in JSON format:
 
         function simulateAIFeedback(text) {
             // Simulate AI response for demo
-            updateStatusMessage("✅ AI analysis complete (simulated)");
+            updateStatusMessage("âœ… AI analysis complete (simulated)");
 
             // Generate random scores
             const scores = {
@@ -8748,10 +9341,10 @@ Provide feedback in JSON format:
 
             // Speak simulated Tamil feedback
             const tamilTips = [
-                "மெதுவாக பேசுங்கள்",
-                "ஒவ்வொரு வார்த்தையும் தெளிவாக உச்சரிக்கவும்",
-                "இடைவெளி விடுங்கள்",
-                "நம்பிக்கையுடன் பேசுங்கள்"
+                "à®®à¯†à®¤à¯à®µà®¾à®• à®ªà¯‡à®šà¯à®™à¯à®•à®³à¯",
+                "à®’à®µà¯à®µà¯Šà®°à¯ à®µà®¾à®°à¯à®¤à¯à®¤à¯ˆà®¯à¯à®®à¯ à®¤à¯†à®³à®¿à®µà®¾à®• à®‰à®šà¯à®šà®°à®¿à®•à¯à®•à®µà¯à®®à¯",
+                "à®‡à®Ÿà¯ˆà®µà¯†à®³à®¿ à®µà®¿à®Ÿà¯à®™à¯à®•à®³à¯",
+                "à®¨à®®à¯à®ªà®¿à®•à¯à®•à¯ˆà®¯à¯à®Ÿà®©à¯ à®ªà¯‡à®šà¯à®™à¯à®•à®³à¯"
             ];
             const randomTip = tamilTips[Math.floor(Math.random() * tamilTips.length)];
             speakInTamil(randomTip);
@@ -8895,7 +9488,7 @@ Provide feedback in JSON format:
             assistantState.recognition.onstart = () => {
                 assistantState.isListening = true;
                 updateAssistantUI();
-                console.log('✅ Assistant: Started listening');
+                console.log('âœ… Assistant: Started listening');
             };
 
             assistantState.recognition.onresult = async (event) => {
@@ -8908,7 +9501,7 @@ Provide feedback in JSON format:
                     }
                 }
                 const transcript = fullTranscript.toLowerCase().trim();
-                console.log('🎧 Heard:', transcript, '| Final:', isFinal);
+                console.log('ðŸŽ§ Heard:', transcript, '| Final:', isFinal);
 
                 // ONLY process FINAL results (not interim)
                 if (!isFinal || transcript.length < 2) {
@@ -8924,20 +9517,20 @@ Provide feedback in JSON format:
 
                 // Check for wake word
                 if (!assistantState.wakeWordActive && (transcript.includes('hey assistant') || transcript.includes('hi assistant'))) {
-                    console.log('🔔 Wake word detected!');
+                    console.log('ðŸ”” Wake word detected!');
                     assistantState.wakeWordActive = true;
                     assistantState.isListening = false;
                     updateAssistantUI();
-                    addAssistantMessage(`🎤 "Hey Assistant" detected! Ready for your command...`, 'ai');
+                    addAssistantMessage(`ðŸŽ¤ "Hey Assistant" detected! Ready for your command...`, 'ai');
 
                     // Speak response
-                    speakResponse('Baby! I\'m listening. What do you want to tell me? 💕');
+                    speakResponse('Baby! I\'m listening. What do you want to tell me? ðŸ’•');
                     return;
                 }
 
                 // Process command if wake word active
                 if (assistantState.wakeWordActive && transcript.length > 2) {
-                    console.log('📝 Processing command:', transcript);
+                    console.log('ðŸ“ Processing command:', transcript);
                     addAssistantMessage(transcript, 'user');
                     await processVoiceCommand(transcript);
                     return;
@@ -8945,12 +9538,12 @@ Provide feedback in JSON format:
             };
 
             assistantState.recognition.onerror = (event) => {
-                console.error('❌ Speech error:', event.error);
+                console.error('âŒ Speech error:', event.error);
                 assistantState.isListening = false;
                 updateAssistantUI();
 
                 if (event.error === 'not-allowed') {
-                    addAssistantMessage('❌ Microphone access denied. Please allow microphone permissions.', 'system');
+                    addAssistantMessage('âŒ Microphone access denied. Please allow microphone permissions.', 'system');
                 } else if (event.error === 'no-speech') {
                     console.log('No speech detected, restarting...');
                     setTimeout(() => startWakeWordDetection(), 500);
@@ -8958,7 +9551,7 @@ Provide feedback in JSON format:
             };
 
             assistantState.recognition.onend = () => {
-                console.log('✅ Recognition ended');
+                console.log('âœ… Recognition ended');
                 assistantState.isListening = false;
 
                 // Auto-restart if still in wake word mode
@@ -8994,12 +9587,12 @@ Provide feedback in JSON format:
         // START COMMAND LISTENING
         function startCommandListening() {
             if (!assistantState.recognition) {
-                console.log('⚠️ Recognition not initialized');
+                console.log('âš ï¸ Recognition not initialized');
                 return;
             }
 
             if (assistantState.isSpeaking || assistantState.isThinking) {
-                console.log('⏳ Still speaking/thinking, will restart after...');
+                console.log('â³ Still speaking/thinking, will restart after...');
                 return;
             }
 
@@ -9011,10 +9604,10 @@ Provide feedback in JSON format:
                 assistantState.recognition.start();
                 assistantState.isListening = true;
                 assistantState.wakeWordActive = true;
-                console.log('👂 COMMAND LISTENING started - ready to hear your command!');
+                console.log('ðŸ‘‚ COMMAND LISTENING started - ready to hear your command!');
                 updateAssistantUI();
             } catch (error) {
-                console.error('❌ Failed to start command listening:', error);
+                console.error('âŒ Failed to start command listening:', error);
                 if (error.message.includes('already started')) {
                     console.log('Already running');
                 }
@@ -9037,7 +9630,7 @@ Provide feedback in JSON format:
                     .then(stream => {
                         // Permission granted - close stream immediately
                         stream.getTracks().forEach(track => track.stop());
-                        console.log('✅ Microphone permission granted');
+                        console.log('âœ… Microphone permission granted');
 
                         // Ensure voices are loaded
                         loadVoices();
@@ -9047,13 +9640,13 @@ Provide feedback in JSON format:
                             // assistantState.isListening = true; // CHANGED: Do not auto-start
                             // startWakeWordDetection(); // CHANGED: Do not auto-start
                             updateAssistantUI();
-                            addAssistantMessage('🎤 Hi! Click the microphone button below to speak.', 'system');
+                            addAssistantMessage('ðŸŽ¤ Hi! Click the microphone button below to speak.', 'system');
                             createAssistantControls(); // Add manual controls
                         }, 200);
                     })
                     .catch(error => {
-                        console.error('❌ Microphone access denied:', error);
-                        addAssistantMessage('❌ Microphone access denied. Please allow microphone permission in your browser.', 'system');
+                        console.error('âŒ Microphone access denied:', error);
+                        addAssistantMessage('âŒ Microphone access denied. Please allow microphone permission in your browser.', 'system');
                         if (modal) modal.classList.remove('active');
                         if (btn) btn.classList.remove('listening');
                     });
@@ -9079,12 +9672,12 @@ Provide feedback in JSON format:
             if (messagesContainer) {
                 messagesContainer.innerHTML = `
             <div class="assistant-message ai">
-                Welcome! 👋 I'm your AI English Teacher.
+                Welcome! ðŸ‘‹ I'm your AI English Teacher.
                 <br>I'm here to guide you and help you speak English professionally!
                 <br><br>You can ask me to:
-                <br>• Practice pronunciation with you
-                <br>• Check your grammar
-                <br>• Learn new vocabulary words
+                <br>â€¢ Practice pronunciation with you
+                <br>â€¢ Check your grammar
+                <br>â€¢ Learn new vocabulary words
                 <br><br>Just click the microphone and ask a question!
             </div>
         `;
@@ -9104,7 +9697,7 @@ Provide feedback in JSON format:
             // Change greeting based on language
             let greeting = '';
             if (lang === 'tamil') {
-                greeting = 'வணக்கம்! நான் உங்கள் குரல் உதவியாளர். உதவிக்கு "Hey Assistant" என்று சொல்லுங்கள்.';
+                greeting = 'à®µà®£à®•à¯à®•à®®à¯! à®¨à®¾à®©à¯ à®‰à®™à¯à®•à®³à¯ à®•à¯à®°à®²à¯ à®‰à®¤à®µà®¿à®¯à®¾à®³à®°à¯. à®‰à®¤à®µà®¿à®•à¯à®•à¯ "Hey Assistant" à®Žà®©à¯à®±à¯ à®šà¯Šà®²à¯à®²à¯à®™à¯à®•à®³à¯.';
                 assistantState.wakeWord = 'hey assistant';
             } else {
                 greeting = 'Hello! I am your voice assistant. Say "Hey Assistant" for help.';
@@ -9190,11 +9783,11 @@ Provide feedback in JSON format:
 
             // Normalize command
             command = command.toLowerCase().trim();
-            console.log('✅ Processing command:', command);
+            console.log('âœ… Processing command:', command);
 
             // Check for STOP command
             if (command === 'stop' || command === 'ok stop' || command === 'okay stop') {
-                console.log('🛑 Stop command detected - closing assistant');
+                console.log('ðŸ›‘ Stop command detected - closing assistant');
                 assistantState.wakeWordActive = false;
                 assistantState.isThinking = false;
                 updateAssistantUI();
@@ -9203,8 +9796,8 @@ Provide feedback in JSON format:
                 stopListening();
 
                 // Show closing message
-                addAssistantMessage('👋 Goodbye baby! See you later! 💕', 'ai');
-                speakResponse('Goodbye baby! See you later! 💕');
+                addAssistantMessage('ðŸ‘‹ Goodbye baby! See you later! ðŸ’•', 'ai');
+                speakResponse('Goodbye baby! See you later! ðŸ’•');
 
                 return;
             }
@@ -9243,7 +9836,7 @@ Provide feedback in JSON format:
 
                 // Show thinking status
                 updateAssistantUI('thinking');
-                addAssistantMessage('Thinking... 💕', 'ai');
+                addAssistantMessage('Thinking... ðŸ’•', 'ai');
                 const lastMsg = assistantMessages.lastElementChild;
                 const textNode = lastMsg.querySelector('div') || lastMsg;
                 textNode.innerHTML = ''; // Clear "Thinking..."
@@ -9299,10 +9892,10 @@ Provide feedback in JSON format:
                     action: determineAction(command, fullResponse)
                 };
             } catch (error) {
-                console.error('❌ AI error:', error);
+                console.error('âŒ AI error:', error);
                 updateAssistantUI('idle');
                 return {
-                    text: "என்ன baby, கொஞ்சம் பிரச்சனை இருக்குதா. மறுபடியும் சொல்வாயா? 💕",
+                    text: "à®Žà®©à¯à®© baby, à®•à¯Šà®žà¯à®šà®®à¯ à®ªà®¿à®°à®šà¯à®šà®©à¯ˆ à®‡à®°à¯à®•à¯à®•à¯à®¤à®¾. à®®à®±à¯à®ªà®Ÿà®¿à®¯à¯à®®à¯ à®šà¯Šà®²à¯à®µà®¾à®¯à®¾? ðŸ’•",
                     action: null
                 };
             }
@@ -9325,17 +9918,17 @@ Provide feedback in JSON format:
                     open_conversation: 'Opening conversation practice...'
                 },
                 tamil: {
-                    greeting: 'வணக்கம்! உங்கள் ஆங்கில தொடர்புத் திறன்களுக்கு இன்று நான் எப்படி உதவ முடியும்?',
-                    pronunciation: 'உச்சரிப்புக்கு நான் உதவ முடியும். நீங்கள் பயிற்சி செய்ய விரும்பும் ஒரு வார்த்தை அல்லது வாக்கியத்தை சொல்லுங்கள்.',
-                    grammar: 'உங்கள் இலக்கணத்தை நான் சரிபார்க்க முடியும். நீங்கள் பகுப்பாய்வு செய்ய விரும்பும் ஒரு வாக்கியத்தை சொல்லுங்கள்.',
-                    vocabulary: 'நான் உங்களுக்கு ஒரு புதிய வார்த்தையை கற்பிக்கிறேன். வார்த்தை "articulate" - தெளிவாகவும் சரளமாகவும் பேசுதல் என்று பொருள்.',
-                    practice: 'உரையாடலை பயிற்சி செய்யலாம். நான் உங்களிடம் ஒரு கேள்வி கேட்கிறேன்: "உங்களைப் பற்றி சொல்லுங்கள்."',
-                    thanks: 'வரவேற்கிறேன்! உங்கள் ஆங்கில திறன்களை மேம்படுத்த தினசரி பயிற்சி செய்யுங்கள்.',
-                    goodbye: 'பிரியாவிடை! சிறந்த முடிவுகளுக்கு தினசரி பயிற்சி செய்ய மறக்காதீர்கள்.',
-                    open_pronunciation: 'உச்சரிப்பு வழிகாட்டியை திறக்கிறது...',
-                    open_grammar: 'இலக்கண உதவியாளரை திறக்கிறது...',
-                    open_vocabulary: 'சொற்களஞ்சிய உருவாக்கியை திறக்கிறது...',
-                    open_conversation: 'உரையாடல் பயிற்சியை திறக்கிறது...'
+                    greeting: 'à®µà®£à®•à¯à®•à®®à¯! à®‰à®™à¯à®•à®³à¯ à®†à®™à¯à®•à®¿à®² à®¤à¯Šà®Ÿà®°à¯à®ªà¯à®¤à¯ à®¤à®¿à®±à®©à¯à®•à®³à¯à®•à¯à®•à¯ à®‡à®©à¯à®±à¯ à®¨à®¾à®©à¯ à®Žà®ªà¯à®ªà®Ÿà®¿ à®‰à®¤à®µ à®®à¯à®Ÿà®¿à®¯à¯à®®à¯?',
+                    pronunciation: 'à®‰à®šà¯à®šà®°à®¿à®ªà¯à®ªà¯à®•à¯à®•à¯ à®¨à®¾à®©à¯ à®‰à®¤à®µ à®®à¯à®Ÿà®¿à®¯à¯à®®à¯. à®¨à¯€à®™à¯à®•à®³à¯ à®ªà®¯à®¿à®±à¯à®šà®¿ à®šà¯†à®¯à¯à®¯ à®µà®¿à®°à¯à®®à¯à®ªà¯à®®à¯ à®’à®°à¯ à®µà®¾à®°à¯à®¤à¯à®¤à¯ˆ à®…à®²à¯à®²à®¤à¯ à®µà®¾à®•à¯à®•à®¿à®¯à®¤à¯à®¤à¯ˆ à®šà¯Šà®²à¯à®²à¯à®™à¯à®•à®³à¯.',
+                    grammar: 'à®‰à®™à¯à®•à®³à¯ à®‡à®²à®•à¯à®•à®£à®¤à¯à®¤à¯ˆ à®¨à®¾à®©à¯ à®šà®°à®¿à®ªà®¾à®°à¯à®•à¯à®• à®®à¯à®Ÿà®¿à®¯à¯à®®à¯. à®¨à¯€à®™à¯à®•à®³à¯ à®ªà®•à¯à®ªà¯à®ªà®¾à®¯à¯à®µà¯ à®šà¯†à®¯à¯à®¯ à®µà®¿à®°à¯à®®à¯à®ªà¯à®®à¯ à®’à®°à¯ à®µà®¾à®•à¯à®•à®¿à®¯à®¤à¯à®¤à¯ˆ à®šà¯Šà®²à¯à®²à¯à®™à¯à®•à®³à¯.',
+                    vocabulary: 'à®¨à®¾à®©à¯ à®‰à®™à¯à®•à®³à¯à®•à¯à®•à¯ à®’à®°à¯ à®ªà¯à®¤à®¿à®¯ à®µà®¾à®°à¯à®¤à¯à®¤à¯ˆà®¯à¯ˆ à®•à®±à¯à®ªà®¿à®•à¯à®•à®¿à®±à¯‡à®©à¯. à®µà®¾à®°à¯à®¤à¯à®¤à¯ˆ "articulate" - à®¤à¯†à®³à®¿à®µà®¾à®•à®µà¯à®®à¯ à®šà®°à®³à®®à®¾à®•à®µà¯à®®à¯ à®ªà¯‡à®šà¯à®¤à®²à¯ à®Žà®©à¯à®±à¯ à®ªà¯Šà®°à¯à®³à¯.',
+                    practice: 'à®‰à®°à¯ˆà®¯à®¾à®Ÿà®²à¯ˆ à®ªà®¯à®¿à®±à¯à®šà®¿ à®šà¯†à®¯à¯à®¯à®²à®¾à®®à¯. à®¨à®¾à®©à¯ à®‰à®™à¯à®•à®³à®¿à®Ÿà®®à¯ à®’à®°à¯ à®•à¯‡à®³à¯à®µà®¿ à®•à¯‡à®Ÿà¯à®•à®¿à®±à¯‡à®©à¯: "à®‰à®™à¯à®•à®³à¯ˆà®ªà¯ à®ªà®±à¯à®±à®¿ à®šà¯Šà®²à¯à®²à¯à®™à¯à®•à®³à¯."',
+                    thanks: 'à®µà®°à®µà¯‡à®±à¯à®•à®¿à®±à¯‡à®©à¯! à®‰à®™à¯à®•à®³à¯ à®†à®™à¯à®•à®¿à®² à®¤à®¿à®±à®©à¯à®•à®³à¯ˆ à®®à¯‡à®®à¯à®ªà®Ÿà¯à®¤à¯à®¤ à®¤à®¿à®©à®šà®°à®¿ à®ªà®¯à®¿à®±à¯à®šà®¿ à®šà¯†à®¯à¯à®¯à¯à®™à¯à®•à®³à¯.',
+                    goodbye: 'à®ªà®¿à®°à®¿à®¯à®¾à®µà®¿à®Ÿà¯ˆ! à®šà®¿à®±à®¨à¯à®¤ à®®à¯à®Ÿà®¿à®µà¯à®•à®³à¯à®•à¯à®•à¯ à®¤à®¿à®©à®šà®°à®¿ à®ªà®¯à®¿à®±à¯à®šà®¿ à®šà¯†à®¯à¯à®¯ à®®à®±à®•à¯à®•à®¾à®¤à¯€à®°à¯à®•à®³à¯.',
+                    open_pronunciation: 'à®‰à®šà¯à®šà®°à®¿à®ªà¯à®ªà¯ à®µà®´à®¿à®•à®¾à®Ÿà¯à®Ÿà®¿à®¯à¯ˆ à®¤à®¿à®±à®•à¯à®•à®¿à®±à®¤à¯...',
+                    open_grammar: 'à®‡à®²à®•à¯à®•à®£ à®‰à®¤à®µà®¿à®¯à®¾à®³à®°à¯ˆ à®¤à®¿à®±à®•à¯à®•à®¿à®±à®¤à¯...',
+                    open_vocabulary: 'à®šà¯Šà®±à¯à®•à®³à®žà¯à®šà®¿à®¯ à®‰à®°à¯à®µà®¾à®•à¯à®•à®¿à®¯à¯ˆ à®¤à®¿à®±à®•à¯à®•à®¿à®±à®¤à¯...',
+                    open_conversation: 'à®‰à®°à¯ˆà®¯à®¾à®Ÿà®²à¯ à®ªà®¯à®¿à®±à¯à®šà®¿à®¯à¯ˆ à®¤à®¿à®±à®•à¯à®•à®¿à®±à®¤à¯...'
                 }
             };
 
@@ -9458,18 +10051,18 @@ Provide feedback in JSON format:
                     const result = await response.json();
                     const feedback = result.feedback;
 
-                    let analysis = `📊 Analysis of: "${feedback.user_text || text}"\n\n`;
+                    let analysis = `ðŸ“Š Analysis of: "${feedback.user_text || text}"\n\n`;
 
                     if (feedback.mistakes_in_tamil) {
-                        analysis += `📝 Mistakes: ${feedback.mistakes_in_tamil}\n\n`;
+                        analysis += `ðŸ“ Mistakes: ${feedback.mistakes_in_tamil}\n\n`;
                     }
 
                     if (feedback.correct_english) {
-                        analysis += `✓ Correct: ${feedback.correct_english}\n\n`;
+                        analysis += `âœ“ Correct: ${feedback.correct_english}\n\n`;
                     }
 
                     if (feedback.tips_in_tamil) {
-                        analysis += `💡 Tips: ${feedback.tips_in_tamil}\n\n`;
+                        analysis += `ðŸ’¡ Tips: ${feedback.tips_in_tamil}\n\n`;
                     }
 
                     analysis += `Pronunciation Score: ${feedback.pronunciation_score || 75}/100\n`;
@@ -9479,7 +10072,7 @@ Provide feedback in JSON format:
                     speakResponse(analysis);
                 }
             } catch (error) {
-                addAssistantMessage('❌ Could not analyze. Please try again.', 'system');
+                addAssistantMessage('âŒ Could not analyze. Please try again.', 'system');
             }
         }
 
@@ -9488,17 +10081,17 @@ Provide feedback in JSON format:
 
         function loadVoices() {
             availableVoices = speechSynthesis.getVoices();
-            console.log('📢 Available voices at startup:', availableVoices.length);
+            console.log('ðŸ“¢ Available voices at startup:', availableVoices.length);
 
             // Ensure voices are loaded
             if (availableVoices.length === 0 || !availableVoices.some(v => v.name.includes('Google'))) {
                 speechSynthesis.onvoiceschanged = () => {
                     availableVoices = speechSynthesis.getVoices();
-                    console.log('✅ Voices loaded after change:', availableVoices.length);
+                    console.log('âœ… Voices loaded after change:', availableVoices.length);
                     console.log('Available voices:', availableVoices.map(v => `${v.name} (${v.lang})`).join(', '));
                 };
             } else {
-                console.log('✅ Google voices already available:', availableVoices.map(v => `${v.name} (${v.lang})`).join(', '));
+                console.log('âœ… Google voices already available:', availableVoices.map(v => `${v.name} (${v.lang})`).join(', '));
             }
         }
 
@@ -9507,7 +10100,7 @@ Provide feedback in JSON format:
             let voices = speechSynthesis.getVoices();
             let selectedVoice = null;
 
-            console.log(`🔍 Looking for ${language} voice. Available:`, voices.length);
+            console.log(`ðŸ” Looking for ${language} voice. Available:`, voices.length);
 
             if (language === 'ta') {
                 // Tamil: Prefer Google Indian female accent (Akka style)
@@ -9528,14 +10121,14 @@ Provide feedback in JSON format:
             }
 
             if (selectedVoice) {
-                console.log(`✅ Selected voice for ${language}:`, selectedVoice.name, `(${selectedVoice.lang})`);
+                console.log(`âœ… Selected voice for ${language}:`, selectedVoice.name, `(${selectedVoice.lang})`);
             }
             return selectedVoice;
         }
 
         // Speak Response for Assistant - Hybrid: Backend gTTS (Best) -> Browser TTS (Fallback)
         async function speakResponse(text) {
-            console.log('🎤 speakResponse called with:', text);
+            console.log('ðŸŽ¤ speakResponse called with:', text);
 
             if (assistantState.recognition) {
                 try { assistantState.recognition.stop(); assistantState.isListening = false; } catch (e) { }
@@ -9549,7 +10142,7 @@ Provide feedback in JSON format:
                 const isTamil = /[\u0B80-\u0BFF]/.test(text);
                 const language = isTamil ? 'ta-IN' : 'en-US';
 
-                console.log(`🎤 Requesting gTTS voice (${language})...`);
+                console.log(`ðŸŽ¤ Requesting gTTS voice (${language})...`);
 
                 // Try backend if available
                 const response = await fetch(`${API_BASE_URL}/speech/generate`, {
@@ -9577,7 +10170,7 @@ Provide feedback in JSON format:
                     return;
                 }
             } catch (e) {
-                console.log('⚠️ Backend gTTS failed, using optimized browser voice');
+                console.log('âš ï¸ Backend gTTS failed, using optimized browser voice');
             }
 
             // FALLBACK TO BROWSER TTS (FORCE FEMALE GOOGLE VOICE)
@@ -9588,7 +10181,7 @@ Provide feedback in JSON format:
 
         function useBrowserTTS(text) {
             if (!('speechSynthesis' in window)) {
-                console.error('❌ Speech Synthesis not supported');
+                console.error('âŒ Speech Synthesis not supported');
                 assistantState.isSpeaking = false;
                 updateAssistantUI();
                 restartListeningLoop(text);
@@ -9597,7 +10190,7 @@ Provide feedback in JSON format:
 
             // Cancel any existing speech
             speechSynthesis.cancel();
-            console.log('🎤 Speaking (Browser Fallback):', text);
+            console.log('ðŸŽ¤ Speaking (Browser Fallback):', text);
 
             return new Promise((resolve) => {
                 try {
@@ -9630,19 +10223,19 @@ Provide feedback in JSON format:
 
                     // Event handlers
                     utterance.onstart = () => {
-                        console.log('🔊 SPEECH STARTED - BROWSER TTS');
+                        console.log('ðŸ”Š SPEECH STARTED - BROWSER TTS');
                         assistantState.isSpeaking = true;
                         updateAssistantUI();
                     };
 
                     utterance.onend = () => {
-                        console.log('✅ Browser Speech ended');
+                        console.log('âœ… Browser Speech ended');
                         assistantState.isSpeaking = false;
                         updateAssistantUI();
 
                         // TURN ON MICROPHONE AFTER SPEECH ENDS + RESTART LISTENING
                         setTimeout(() => {
-                            console.log('🎤 Turning microphone back ON');
+                            console.log('ðŸŽ¤ Turning microphone back ON');
                             restartListeningLoop(text);
                         }, 500);
 
@@ -9650,7 +10243,7 @@ Provide feedback in JSON format:
                     };
 
                     utterance.onerror = (event) => {
-                        console.error('❌ Speech error:', event.error);
+                        console.error('âŒ Speech error:', event.error);
                         assistantState.isSpeaking = false;
                         updateAssistantUI();
 
@@ -9665,7 +10258,7 @@ Provide feedback in JSON format:
                     speechSynthesis.speak(utterance);
 
                 } catch (error) {
-                    console.error('❌ TTS Error:', error);
+                    console.error('âŒ TTS Error:', error);
                     assistantState.isSpeaking = false;
                     updateAssistantUI();
                     restartListeningLoop(text);
@@ -9676,7 +10269,7 @@ Provide feedback in JSON format:
 
         function restartListeningLoop(lastText) {
             // STOPPED AUTO-RESTART - User must click mic manually
-            console.log('🔄 Conversation loop paused. Waiting for user click.');
+            console.log('ðŸ”„ Conversation loop paused. Waiting for user click.');
             assistantState.isListening = false;
             assistantState.wakeWordActive = false;
             updateAssistantUI();
@@ -10135,7 +10728,7 @@ Provide feedback in JSON format:
                         ${isCorrect ? '<i class="fas fa-check-circle" style="color: var(--secondary);"></i>' : '<i class="fas fa-times-circle" style="color: #ef4444;"></i>'}
                     </div>
                     <h3 style="margin: 0 0 10px 0; color: var(--text); font-size: 20px;">
-                        ${isCorrect ? '✨ Excellent!' : '📚 Not quite right'}
+                        ${isCorrect ? 'âœ¨ Excellent!' : 'ðŸ“š Not quite right'}
                     </h3>
                     <p style="margin: 0 0 20px 0; color: var(--text-muted); font-size: 15px;">
                         ${isCorrect ? 'You got it correct!' : `The correct answer is: <strong style="color: var(--primary);">${correctAnswer}</strong>`}
@@ -10203,17 +10796,17 @@ Provide feedback in JSON format:
                 let performanceMessage = '';
                 let performanceEmoji = '';
                 if (percentage >= 90) {
-                    performanceMessage = 'Outstanding performance! You are a vocabulary master! 🌟';
-                    performanceEmoji = '🏆';
+                    performanceMessage = 'Outstanding performance! You are a vocabulary master! ðŸŒŸ';
+                    performanceEmoji = 'ðŸ†';
                 } else if (percentage >= 75) {
                     performanceMessage = 'Great job! You have strong vocabulary skills. Keep practicing!';
-                    performanceEmoji = '⭐';
+                    performanceEmoji = 'â­';
                 } else if (percentage >= 60) {
                     performanceMessage = 'Good effort! Review the words you missed and practice more.';
-                    performanceEmoji = '👍';
+                    performanceEmoji = 'ðŸ‘';
                 } else {
                     performanceMessage = 'Keep learning! Regular practice will improve your vocabulary quickly.';
-                    performanceEmoji = '📚';
+                    performanceEmoji = 'ðŸ“š';
                 }
 
                 // If both quizzes complete, show completion message and hide quiz section
@@ -10226,7 +10819,7 @@ Provide feedback in JSON format:
 
                     resultContainer.innerHTML = `
                         <div style="text-align: center; padding: 40px 0;">
-                            <div style="font-size: 100px; margin-bottom: 20px; animation: pulse 1s infinite;">🎉</div>
+                            <div style="font-size: 100px; margin-bottom: 20px; animation: pulse 1s infinite;">ðŸŽ‰</div>
                             <h2 style="margin: 0 0 20px 0; color: var(--text); font-size: 32px;">Today's Challenge Completed!</h2>
                             
                             <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2)); padding: 25px; border-radius: 15px; border: 2px solid var(--secondary); margin: 25px 0;">
@@ -10671,7 +11264,7 @@ ${JSON.parse(localStorage.getItem('myWords') || '[]').map(word =>
                 `  - ${word.word}: ${word.meaning} (${word.tamil})`
             ).join('\n') || '  No words saved yet.'}
 
-Keep learning! 📚
+Keep learning! ðŸ“š
     `.trim();
 
             const blob = new Blob([report], { type: 'text/plain' });
@@ -10822,7 +11415,7 @@ Keep learning! 📚
                 console.error('Grammar analysis error:', error);
                 const typingIndicator = document.getElementById('typingIndicator');
                 if (typingIndicator) typingIndicator.remove();
-                addMessage("Oops baby, I couldn't check that. Try again? 💕", 'ai');
+                addMessage("Oops baby, I couldn't check that. Try again? ðŸ’•", 'ai');
             }
         }
 
@@ -10831,9 +11424,9 @@ Keep learning! 📚
 
         function simulateGrammarResponse(text) {
             const responses = [
-                `Your sentence: "${text}"\n\n✅ <strong>Good attempt!</strong>\n\n📝 <strong>Mistakes in Tamil:</strong>\n"${text}" என்பது சரியான வாக்கியம். சிறு திருத்தம்: "I am" என்பதை பயன்படுத்துங்கள்.\n\n✓ <strong>Correct English:</strong>\nI am going to college today.\n\n💡 <strong>Tips in Tamil:</strong>\nதினசரி நடக்கும் செயல்களுக்கு Simple Present Tense பயன்படுத்துங்கள்.`,
+                `Your sentence: "${text}"\n\nâœ… <strong>Good attempt!</strong>\n\nðŸ“ <strong>Mistakes in Tamil:</strong>\n"${text}" à®Žà®©à¯à®ªà®¤à¯ à®šà®°à®¿à®¯à®¾à®© à®µà®¾à®•à¯à®•à®¿à®¯à®®à¯. à®šà®¿à®±à¯ à®¤à®¿à®°à¯à®¤à¯à®¤à®®à¯: "I am" à®Žà®©à¯à®ªà®¤à¯ˆ à®ªà®¯à®©à¯à®ªà®Ÿà¯à®¤à¯à®¤à¯à®™à¯à®•à®³à¯.\n\nâœ“ <strong>Correct English:</strong>\nI am going to college today.\n\nðŸ’¡ <strong>Tips in Tamil:</strong>\nà®¤à®¿à®©à®šà®°à®¿ à®¨à®Ÿà®•à¯à®•à¯à®®à¯ à®šà¯†à®¯à®²à¯à®•à®³à¯à®•à¯à®•à¯ Simple Present Tense à®ªà®¯à®©à¯à®ªà®Ÿà¯à®¤à¯à®¤à¯à®™à¯à®•à®³à¯.`,
 
-                `Your sentence: "${text}"\n\n📝 <strong>Mistakes in Tamil:</strong>\n"has" என்பதற்கு பதிலாக "have" பயன்படுத்துங்கள். "brother" என்பதற்கு பதிலாக "brothers" பயன்படுத்துங்கள்.\n\n✓ <strong>Correct English:</strong>\nI have two brothers.\n\n💡 <strong>Tips in Tamil:</strong>\nPlural nouns (பன்மை) சொற்களுடன் 's' சேர்க்கவும்.`
+                `Your sentence: "${text}"\n\nðŸ“ <strong>Mistakes in Tamil:</strong>\n"has" à®Žà®©à¯à®ªà®¤à®±à¯à®•à¯ à®ªà®¤à®¿à®²à®¾à®• "have" à®ªà®¯à®©à¯à®ªà®Ÿà¯à®¤à¯à®¤à¯à®™à¯à®•à®³à¯. "brother" à®Žà®©à¯à®ªà®¤à®±à¯à®•à¯ à®ªà®¤à®¿à®²à®¾à®• "brothers" à®ªà®¯à®©à¯à®ªà®Ÿà¯à®¤à¯à®¤à¯à®™à¯à®•à®³à¯.\n\nâœ“ <strong>Correct English:</strong>\nI have two brothers.\n\nðŸ’¡ <strong>Tips in Tamil:</strong>\nPlural nouns (à®ªà®©à¯à®®à¯ˆ) à®šà¯Šà®±à¯à®•à®³à¯à®Ÿà®©à¯ 's' à®šà¯‡à®°à¯à®•à¯à®•à®µà¯à®®à¯.`
             ];
 
             const randomResponse = responses[Math.floor(Math.random() * responses.length)];
@@ -10905,30 +11498,10 @@ Keep learning! 📚
 
         function setAIChatMode(mode) {
             currentAIChatMode = mode;
-
-            // Update button states
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.closest('.mode-btn').classList.add('active');
-
-            // Show mode change in chat
-            const modes = {
-                'general': 'General Learning (all-in-one)',
-                'conversation': 'Conversation Practice',
-                'grammar': 'Grammar Correction',
-                'pronunciation': 'Pronunciation Guide'
-            };
-
-            const messagesDiv = document.getElementById('aiChatMessages');
-            const modeChangeMsg = document.createElement('div');
-            modeChangeMsg.className = 'message system';
-            modeChangeMsg.innerHTML = `Switched to <strong>${modes[mode]}</strong> mode.`;
-            messagesDiv.appendChild(modeChangeMsg);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
         function insertAIChatExample(text) {
+
             const input = document.getElementById('aiChatInput');
             input.value = text;
             input.focus();
@@ -10949,44 +11522,14 @@ Keep learning! 📚
             }
         }
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return text.replace(/[&<>"']/g, m => map[m]);
-        }
-
         function cleanMarkdownFormatting(text) {
             if (!text) return '';
-
-            // Remove **bold** formatting
             text = text.replace(/\*\*([^*]+)\*\*/g, '$1');
-            // Remove *italic* formatting
-            text = text.replace(/(?<!\*)\*(?!\*)([^*\n]+)\*(?!\*)/g, '$1');
-            // Remove __bold__ formatting
-            text = text.replace(/__+([^_]+)__+/g, '$1');
-            // Remove _italic_ formatting
-            text = text.replace(/(?<!_)_(?!_)([^_\n]+)_(?!_)/g, '$1');
-            // Remove markdown headers
-            text = text.replace(/^#+\s+/gm, '');
-            // Remove numbered lists (1. 2. 3. etc) with optional parenthesis
-            text = text.replace(/^\s*\d+[\.\)]\s+/gm, '');
-            // Remove bullet points (-, *, +, •)
+            text = text.replace(/\*([^*]+)\*/g, '$1');
+            text = text.replace(/#+\s+/gm, '');
             text = text.replace(/^\s*[-*+•]\s+/gm, '');
-            // Remove backticks and code blocks
-            text = text.replace(/```[\s\S]*?```/g, '');
             text = text.replace(/`([^`]+)`/g, '$1');
-
-            // Clean up extra whitespace
-            text = text.split('\n').map(line => line.trim()).join('\n');
-            text = text.replace(/\n\s*\n/g, '\n');
-
-            return text;
+            return text.trim();
         }
 
         async function sendAIChat() {
@@ -10999,7 +11542,6 @@ Keep learning! 📚
             }
 
             try {
-                // Show user message
                 const messagesDiv = document.getElementById('aiChatMessages');
                 const userMsg = document.createElement('div');
                 userMsg.className = 'message user';
@@ -11008,7 +11550,6 @@ Keep learning! 📚
                 inputElement.value = '';
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-                // Show loading indicator
                 const loadingMsg = document.createElement('div');
                 loadingMsg.className = 'message ai';
                 loadingMsg.id = 'loadingMsg';
@@ -11016,83 +11557,45 @@ Keep learning! 📚
                 messagesDiv.appendChild(loadingMsg);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-                // Call the new /api/communication/ai-chat endpoint
-                const response = await fetch('/api/communication/ai-chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        mode: currentAIChatMode
-                    })
-                });
+                const systemConfig = "You are a helpful english teacher and grammar expert. Give short corrections and encouraging feedback.";
+                const response = await window.puter.ai.chat(
+                    systemConfig + "\n\nUser text: " + message,
+                    { model: 'gpt-4o', stream: false }
+                );
 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                // Remove loading message
                 const loading = document.getElementById('loadingMsg');
                 if (loading) loading.remove();
 
-                // Show AI response with clean formatting
-                if (data.status === 'success') {
-                    const reply = data.reply || 'I am here to help you improve your English. Please try again with a different message.';
-                    const aiMsg = document.createElement('div');
-                    aiMsg.className = 'message ai';
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message ai';
+                
+                let text = '';
+                if (typeof response === 'string') text = response;
+                else if (response?.message?.content?.[0]?.text) text = response.message.content[0].text;
+                else if (response?.text) text = response.text;
+                else text = 'Help mode active. How can I assist you further?';
 
-                    // Build professional response
-                    let responseHTML = `<div style="line-height: 1.6;">${escapeHtml(reply)}`;
-
-                    // Add tips section if available
-                    if (data.tips && Array.isArray(data.tips) && data.tips.length > 0) {
-                        responseHTML += `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--glass-border);">`;
-                        data.tips.forEach((tip, idx) => {
-                            if (idx < 2) { // Limit to 2 tips for cleaner look
-                                responseHTML += `<div style="margin: 6px 0; font-size: 0.95em; opacity: 0.9;">• ${escapeHtml(tip)}</div>`;
-                            }
-                        });
-                        responseHTML += `</div>`;
-                    }
-
-                    // Add encouragement if available
-                    if (data.encouragement) {
-                        responseHTML += `<div style="margin-top: 8px; font-style: italic; opacity: 0.8;">${escapeHtml(data.encouragement)}</div>`;
-                    }
-
-                    responseHTML += `</div><div class="message-time">Just now</div>`;
-                    aiMsg.innerHTML = responseHTML;
-                    messagesDiv.appendChild(aiMsg);
-                } else {
-                    const errorMsg = document.createElement('div');
-                    errorMsg.className = 'message ai';
-                    errorMsg.innerHTML = `${data.message || 'Error processing request. Please try again.'} <div class="message-time">Just now</div>`;
-                    messagesDiv.appendChild(errorMsg);
-                }
-
+                let formatted = escapeHtml(text).replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                aiMsg.innerHTML = `<div style="line-height: 1.6;">${formatted}</div><div class="message-time">Just now</div>`;
+                messagesDiv.appendChild(aiMsg);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
             } catch (error) {
-                console.error('AI Chat error:', error);
+                console.error('Puter Error:', error);
+                const loading = document.getElementById('loadingMsg');
+                if (loading) loading.remove();
+                
                 const messagesDiv = document.getElementById('aiChatMessages');
                 const errorMsg = document.createElement('div');
                 errorMsg.className = 'message ai';
-                errorMsg.innerHTML = `Sorry, there was an error connecting to the AI service. Please check if Ollama is running and try again. <div class="message-time">Just now</div>`;
+                errorMsg.innerHTML = `Service unavailable at the moment. Please try again. <div class="message-time">Just now</div>`;
                 messagesDiv.appendChild(errorMsg);
                 messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-                // Remove loading message if still there
-                const loading = document.getElementById('loadingMsg');
-                if (loading) loading.remove();
             }
         }
 
         // ==========================================================
-        // 17. CONVERSATION PRACTICE (DEPRECATED - NOW IN UNIFIED AI CHAT)
+        // 17. CONVERSATION PRACTICE (RESTORED)
         // ==========================================================
 
         function openConversationPractice() {
@@ -11103,159 +11606,54 @@ Keep learning! 📚
         async function sendConversationResponse() {
             const input = document.getElementById('conversationInput');
             if (!input) return;
-
             const message = input.value.trim();
             if (!message) return;
-
             const messagesContainer = document.getElementById('conversationMessages');
             if (!messagesContainer) return;
 
-            // Add user message
             const userMsg = document.createElement('div');
             userMsg.className = 'message-bubble user';
             userMsg.textContent = message;
             messagesContainer.appendChild(userMsg);
-
-            // Clear input
             input.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // AI Response using Gemini
-            // Typing Indicator
-            const typingId = 'convTyping-' + Date.now();
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'message-bubble ai typing';
-            typingIndicator.id = typingId;
             typingIndicator.innerHTML = '<div class="typing-dots"><span>.</span><span>.</span><span>.</span></div>';
             messagesContainer.appendChild(typingIndicator);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
             try {
-                const token = localStorage.getItem('access_token');
+                const response = await window.puter.ai.chat(
+                    "You are a helpful conversation partner. Respond to: " + message,
+                    { model: 'gpt-4o', stream: false }
+                );
+                typingIndicator.remove();
 
-                const response = await fetch(`${API_BASE_URL}/ai/chat-stream`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        context: 'girlfriend'
-                    })
-                });
-
-                // Remove typing indicator
-                const indicator = document.getElementById(typingId);
-                if (indicator) indicator.remove();
-
-                if (response.ok) {
-                    // Add AI message bubble (empty initially for typewriter)
-                    const aiMsg = document.createElement('div');
-                    aiMsg.className = 'message-bubble ai';
-                    messagesContainer.appendChild(aiMsg);
-
-                    const reader = response.body.getReader();
-                    const decoder = new TextDecoder();
-                    let fullResponse = '';
-
-                    while (true) {
-                        const { done, value } = await reader.read();
-                        if (done) break;
-
-                        const chunk = decoder.decode(value);
-                        const lines = chunk.split('\n');
-
-                        for (const line of lines) {
-                            if (line.startsWith('data: ')) {
-                                const dataStr = line.slice(6);
-                                if (dataStr === '[DONE]') break;
-                                try {
-                                    const data = JSON.parse(dataStr);
-                                    if (data.token) {
-                                        fullResponse += data.token;
-                                        const cleanedResponse = cleanMarkdownFormatting(fullResponse);
-                                        aiMsg.textContent = cleanedResponse;
-                                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                                    }
-                                } catch (e) { }
-                            }
-                        }
-                    }
-                    speakText(fullResponse);
-                } else {
-                    addConversationAIMessage("I'm having a bit of trouble connecting. Let's try again in a moment.");
-                }
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'message-bubble ai';
+                aiMsg.textContent = (typeof response === 'string') ? response : (response.message?.content?.[0]?.text || response.text || '...');
+                messagesContainer.appendChild(aiMsg);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
             } catch (err) {
-
+                typingIndicator.remove();
                 console.error(err);
-                const indicator = document.getElementById(typingId);
-                if (indicator) indicator.remove();
-                addConversationAIMessage("Network error. Please check your connection.");
             }
         }
-
-        function addConversationAIMessage(text) {
-            const messagesContainer = document.getElementById('conversationMessages');
-            if (!messagesContainer) return;
-            const aiMsg = document.createElement('div');
-            aiMsg.className = 'message-bubble ai';
-            aiMsg.textContent = text;
-            messagesContainer.appendChild(aiMsg);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function speakResponse() {
-            const input = document.getElementById('conversationInput');
-            if (!input) return;
-
-            const text = input.value.trim();
-            if (!text) return;
-
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.9;
-                speechSynthesis.speak(utterance);
-            }
-        }
-
-        function nextQuestion() {
-            const questions = [
-                "Why do you want this job?",
-                "What are your strengths?",
-                "Where do you see yourself in 5 years?",
-                "Tell me about a challenge you overcame.",
-                "Why should we hire you?"
-            ];
-
-            const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-
-            const messagesContainer = document.getElementById('conversationMessages');
-            if (!messagesContainer) return;
-
-            const aiMsg = document.createElement('div');
-            aiMsg.className = 'message-bubble ai';
-            aiMsg.textContent = randomQuestion;
-            messagesContainer.appendChild(aiMsg);
-
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        // ==========================================================
         // 17. PRONUNCIATION GUIDE
         // ==========================================================
 
         function initPronunciationGuide() {
             const phoneticWords = [
-                { word: "Thorough", ipa: "/ˈθɜː.rəʊ/", tamil: "முழுமையான" },
-                { word: "Entrepreneur", ipa: "/ˌɒn.trə.prəˈnɜːr/", tamil: "தொழில்முனைவோர்" },
-                { word: "Schedule", ipa: "/ˈʃed.juːl/", tamil: "நேரக்கட்டுப்பாடு" },
-                { word: "Recipe", ipa: "/ˈres.ə.pi/", tamil: "செய்முறை" },
-                { word: "Rendezvous", ipa: "/ˈrɒn.deɪ.vuː/", tamil: "சந்திப்பு" },
-                { word: "Queue", ipa: "/kjuː/", tamil: "வரிசை" },
-                { word: "Colonel", ipa: "/ˈkɜː.nəl/", tamil: "கனல்" },
-                { word: "Epitome", ipa: "/ɪˈpɪt.ə.mi/", tamil: "சிறந்த எடுத்துக்காட்டு" }
+                { word: "Thorough", ipa: "/ËˆÎ¸ÉœË.rÉ™ÊŠ/", tamil: "à®®à¯à®´à¯à®®à¯ˆà®¯à®¾à®©" },
+                { word: "Entrepreneur", ipa: "/ËŒÉ’n.trÉ™.prÉ™ËˆnÉœËr/", tamil: "à®¤à¯Šà®´à®¿à®²à¯à®®à¯à®©à¯ˆà®µà¯‹à®°à¯" },
+                { word: "Schedule", ipa: "/ËˆÊƒed.juËl/", tamil: "à®¨à¯‡à®°à®•à¯à®•à®Ÿà¯à®Ÿà¯à®ªà¯à®ªà®¾à®Ÿà¯" },
+                { word: "Recipe", ipa: "/Ëˆres.É™.pi/", tamil: "à®šà¯†à®¯à¯à®®à¯à®±à¯ˆ" },
+                { word: "Rendezvous", ipa: "/ËˆrÉ’n.deÉª.vuË/", tamil: "à®šà®¨à¯à®¤à®¿à®ªà¯à®ªà¯" },
+                { word: "Queue", ipa: "/kjuË/", tamil: "à®µà®°à®¿à®šà¯ˆ" },
+                { word: "Colonel", ipa: "/ËˆkÉœË.nÉ™l/", tamil: "à®•à®©à®²à¯" },
+                { word: "Epitome", ipa: "/ÉªËˆpÉªt.É™.mi/", tamil: "à®šà®¿à®±à®¨à¯à®¤ à®Žà®Ÿà¯à®¤à¯à®¤à¯à®•à¯à®•à®¾à®Ÿà¯à®Ÿà¯" }
             ];
 
             const container = document.getElementById('phoneticGrid');
@@ -11301,7 +11699,7 @@ Keep learning! 📚
             resetRecording();
             if (aiFeedback) aiFeedback.style.display = 'none';
             if (speechInput) speechInput.value = '';
-            if (speechOutput) speechOutput.innerHTML = '🎯 Click "Speak Now" to start speech recognition. Speak clearly in English.';
+            if (speechOutput) speechOutput.innerHTML = 'ðŸŽ¯ Click "Speak Now" to start speech recognition. Speak clearly in English.';
             updateStatusMessage("Ready to start again!");
         }
 
@@ -11377,7 +11775,7 @@ Keep learning! 📚
         }
 
         function showPhoneticChart() {
-            showToast('info', 'Phonetic Symbols', 'Wait... I am showing you common symbols: /θ/ as in Thin, /ð/ as in This, /ʃ/ as in Ship.');
+            showToast('info', 'Phonetic Symbols', 'Wait... I am showing you common symbols: /Î¸/ as in Thin, /Ã°/ as in This, /Êƒ/ as in Ship.');
         }
 
         function simulateFluency() {
@@ -11446,12 +11844,12 @@ Keep learning! 📚
                             initVoiceAssistant();
                         }
                         showToast('success', 'Voice Assistant Activated', 'Press Alt+V again to hide');
-                        console.log('✅ Voice Assistant activated with Alt+V');
+                        console.log('âœ… Voice Assistant activated with Alt+V');
                     } else {
                         // Hide and stop voice assistant
                         closeAssistant();
                         showToast('info', 'Voice Assistant Hidden', 'Press Alt+V to show again');
-                        console.log('🔇 Voice Assistant hidden with Alt+V');
+                        console.log('ðŸ”‡ Voice Assistant hidden with Alt+V');
                     }
                 }
             }
@@ -11537,10 +11935,10 @@ Keep learning! 📚
         document.head.appendChild(statusStyles);
 
         // Voice Assistant will be initialized on user click
-        console.log('✅ Communication Skills JavaScript loaded successfully!');
-        console.log('✅ Voice Assistant initialized successfully!');
-        console.log('✅ Speech Recognition ready to use!');
-        console.log('✅ Tamil TTS support activated!');
+        console.log('âœ… Communication Skills JavaScript loaded successfully!');
+        console.log('âœ… Voice Assistant initialized successfully!');
+        console.log('âœ… Speech Recognition ready to use!');
+        console.log('âœ… Tamil TTS support activated!');
 
         // ==========================================================
         // 21. MISSING HELPER FUNCTIONS
@@ -11613,15 +12011,15 @@ Keep learning! 📚
         };
 
         const scenarioMeta = {
-            interview: { icon: '💼', name: 'Job Interview' },
-            sales: { icon: '🛒', name: 'Sales Pitch' },
-            team_lead: { icon: '👥', name: 'Team Leadership' },
-            customer_support: { icon: '🎧', name: 'Customer Support' }
+            interview: { icon: 'ðŸ’¼', name: 'Job Interview' },
+            sales: { icon: 'ðŸ›’', name: 'Sales Pitch' },
+            team_lead: { icon: 'ðŸ‘¥', name: 'Team Leadership' },
+            customer_support: { icon: 'ðŸŽ§', name: 'Customer Support' }
         };
 
         function selectRoleplayScenario(type) {
             roleplayState.scenarioType = type;
-            const meta = scenarioMeta[type] || { icon: '🎭', name: type };
+            const meta = scenarioMeta[type] || { icon: 'ðŸŽ­', name: type };
             roleplayState.scenarioName = meta.name;
 
             document.getElementById('roleplaySelectedTitle').textContent = meta.icon + ' ' + meta.name;
@@ -11659,9 +12057,9 @@ Keep learning! 📚
                 roleplayState.maxTurns = data.max_turns || 8;
 
                 const meta = scenarioMeta[roleplayState.scenarioType] || {};
-                document.getElementById('roleplayChatIcon').textContent = meta.icon || '🎭';
+                document.getElementById('roleplayChatIcon').textContent = meta.icon || 'ðŸŽ­';
                 document.getElementById('roleplayChatTitle').textContent = data.scenario?.name || roleplayState.scenarioName;
-                document.getElementById('roleplayChatMeta').textContent = `${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} · ${data.scenario?.credits_possible || 15} credits`;
+                document.getElementById('roleplayChatMeta').textContent = `${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Â· ${data.scenario?.credits_possible || 15} credits`;
                 document.getElementById('roleplayTurnBadge').textContent = `Turn 0/${roleplayState.maxTurns}`;
 
                 document.getElementById('roleplayDifficultyScreen').style.display = 'none';
@@ -11835,15 +12233,15 @@ Keep learning! 📚
 
             if (evalData.strengths?.length) {
                 html += `<div class="feature-card"><h4 style="margin-bottom: 10px;"><i class="fas fa-star" style="color: #fbbf24;"></i> Strengths</h4>
-                    <ul style="list-style: none; padding: 0;">${evalData.strengths.map(s => `<li style="padding: 6px 0; color: var(--text-muted); font-size: 14px;">✅ ${s}</li>`).join('')}</ul></div>`;
+                    <ul style="list-style: none; padding: 0;">${evalData.strengths.map(s => `<li style="padding: 6px 0; color: var(--text-muted); font-size: 14px;">âœ… ${s}</li>`).join('')}</ul></div>`;
             }
             if (evalData.weaknesses?.length) {
                 html += `<div class="feature-card"><h4 style="margin-bottom: 10px;"><i class="fas fa-tools" style="color: #f59e0b;"></i> Areas to Improve</h4>
-                    <ul style="list-style: none; padding: 0;">${evalData.weaknesses.map(s => `<li style="padding: 6px 0; color: var(--text-muted); font-size: 14px;">🔧 ${s}</li>`).join('')}</ul></div>`;
+                    <ul style="list-style: none; padding: 0;">${evalData.weaknesses.map(s => `<li style="padding: 6px 0; color: var(--text-muted); font-size: 14px;">ðŸ”§ ${s}</li>`).join('')}</ul></div>`;
             }
             if (evalData.improvement_tips?.length) {
                 html += `<div class="feature-card"><h4 style="margin-bottom: 10px;"><i class="fas fa-lightbulb" style="color: #a855f7;"></i> Tips</h4>
-                    <ul style="list-style: none; padding: 0;">${evalData.improvement_tips.map(s => `<li style="padding: 6px 0; color: var(--text-muted); font-size: 14px;">💡 ${s}</li>`).join('')}</ul></div>`;
+                    <ul style="list-style: none; padding: 0;">${evalData.improvement_tips.map(s => `<li style="padding: 6px 0; color: var(--text-muted); font-size: 14px;">ðŸ’¡ ${s}</li>`).join('')}</ul></div>`;
             }
             if (evalData.overall_feedback) {
                 html += `<div class="feature-card" style="border-left: 4px solid var(--stage-1);"><h4 style="margin-bottom: 8px;"><i class="fas fa-comment-alt" style="color: var(--stage-1);"></i> Final Feedback</h4>
@@ -11981,7 +12379,7 @@ Keep learning! 📚
                     btn.style.color = 'white';
                     btn.style.animation = 'pulse 1.5s infinite';
                     document.getElementById('analyzerRecordIcon').className = 'fas fa-stop';
-                    document.getElementById('analyzerRecordStatus').textContent = '🔴 Recording... Click to stop';
+                    document.getElementById('analyzerRecordStatus').textContent = 'ðŸ”´ Recording... Click to stop';
                     document.getElementById('analyzerRecordStatus').style.color = '#ef4444';
 
                     // Start timer
@@ -12175,7 +12573,7 @@ Keep learning! 📚
 
             // Pace Badge
             const paceBadge = document.getElementById('analyzerPaceBadge');
-            const paceLabels = { too_slow: '🐢 Too Slow', slow: '🚶 Slow', good: '✅ Perfect', fast: '🏃 Fast', too_fast: '⚡ Too Fast' };
+            const paceLabels = { too_slow: 'ðŸ¢ Too Slow', slow: 'ðŸš¶ Slow', good: 'âœ… Perfect', fast: 'ðŸƒ Fast', too_fast: 'âš¡ Too Fast' };
             const paceColors = { too_slow: '#ef4444', slow: '#f59e0b', good: '#10b981', fast: '#3b82f6', too_fast: '#ef4444' };
             const paceRating = data.pace_rating || 'good';
             paceBadge.textContent = paceLabels[paceRating] || 'Good';
@@ -12207,11 +12605,11 @@ Keep learning! 📚
             if (data.filler_words_found?.length) {
                 fillerList.innerHTML = data.filler_words_found.map(f => `
                     <span style="padding: 6px 14px; border-radius: 20px; font-size: 13px; background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2);">
-                        "${f.word}" <strong>×${f.count}</strong>
+                        "${f.word}" <strong>Ã—${f.count}</strong>
                     </span>
                 `).join('');
             } else {
-                fillerList.innerHTML = '<span style="color: #10b981; font-size: 14px;">🎯 No filler words detected! Clean speech!</span>';
+                fillerList.innerHTML = '<span style="color: #10b981; font-size: 14px;">ðŸŽ¯ No filler words detected! Clean speech!</span>';
             }
 
             // Clarity Circle
@@ -12224,30 +12622,30 @@ Keep learning! 📚
             clarityCircle.style.border = `3px solid ${clarityColor}`;
 
             const clarityText = document.getElementById('analyzerClarityText');
-            if (clarity >= 80) clarityText.textContent = '🌟 Excellent clarity! Your speech is clean and professional. Very impressive!';
-            else if (clarity >= 60) clarityText.textContent = '👍 Good clarity. A few improvements in pacing and filler usage would make it even better.';
-            else clarityText.textContent = '💪 Room for improvement. Focus on reducing filler words and maintaining a steady pace.';
+            if (clarity >= 80) clarityText.textContent = 'ðŸŒŸ Excellent clarity! Your speech is clean and professional. Very impressive!';
+            else if (clarity >= 60) clarityText.textContent = 'ðŸ‘ Good clarity. A few improvements in pacing and filler usage would make it even better.';
+            else clarityText.textContent = 'ðŸ’ª Room for improvement. Focus on reducing filler words and maintaining a steady pace.';
 
             // AI Feedback
             const aiFeedback = document.getElementById('analyzerAIFeedback');
             const wpmNum = data.wpm || 0;
             const fillerPct = data.filler_percentage || 0;
-            let aiText = `📊 Your speech contained <strong>${data.total_words || 0} words</strong> over <strong>${durationUsed || 60} seconds</strong>.\n\n`;
+            let aiText = `ðŸ“Š Your speech contained <strong>${data.total_words || 0} words</strong> over <strong>${durationUsed || 60} seconds</strong>.\n\n`;
 
             if (wpmNum >= 120 && wpmNum <= 160 && fillerPct < 5) {
-                aiText += `🎉 <strong>Outstanding performance!</strong> Your pace of ${wpmNum} WPM is right in the sweet spot, and your filler word usage is minimal (${fillerPct}%). You speak like a professional presenter!`;
+                aiText += `ðŸŽ‰ <strong>Outstanding performance!</strong> Your pace of ${wpmNum} WPM is right in the sweet spot, and your filler word usage is minimal (${fillerPct}%). You speak like a professional presenter!`;
             } else if (wpmNum >= 120 && wpmNum <= 160) {
-                aiText += `✅ <strong>Good pace!</strong> Your speed of ${wpmNum} WPM is ideal. However, try reducing filler words — you used "${(data.filler_words_found || [])[0]?.word || 'um'}" ${(data.filler_words_found || [])[0]?.count || 0} times. Practice pausing instead of using fillers.`;
+                aiText += `âœ… <strong>Good pace!</strong> Your speed of ${wpmNum} WPM is ideal. However, try reducing filler words â€” you used "${(data.filler_words_found || [])[0]?.word || 'um'}" ${(data.filler_words_found || [])[0]?.count || 0} times. Practice pausing instead of using fillers.`;
             } else if (wpmNum < 100) {
-                aiText += `🐢 <strong>You're speaking a bit slowly</strong> at ${wpmNum} WPM. The ideal range is 120-160 WPM. Try to speak with more energy and confidence. Practice with shorter sentences first.`;
+                aiText += `ðŸ¢ <strong>You're speaking a bit slowly</strong> at ${wpmNum} WPM. The ideal range is 120-160 WPM. Try to speak with more energy and confidence. Practice with shorter sentences first.`;
             } else if (wpmNum > 180) {
-                aiText += `⚡ <strong>You're speaking too fast</strong> at ${wpmNum} WPM! Slow down — your audience needs time to process. Ideal range is 120-160 WPM. Take deliberate pauses between sentences.`;
+                aiText += `âš¡ <strong>You're speaking too fast</strong> at ${wpmNum} WPM! Slow down â€” your audience needs time to process. Ideal range is 120-160 WPM. Take deliberate pauses between sentences.`;
             } else {
-                aiText += `👍 <strong>Decent pace</strong> at ${wpmNum} WPM. Keep practicing to hit the ideal range of 120-160 WPM consistently.`;
+                aiText += `ðŸ‘ <strong>Decent pace</strong> at ${wpmNum} WPM. Keep practicing to hit the ideal range of 120-160 WPM consistently.`;
             }
 
             if (fillerPct > 10) {
-                aiText += `<br><br>⚠️ <strong>Filler Alert:</strong> ${fillerPct}% of your words were fillers. That's quite high! Try the "Pause & Think" technique — replace every "um" and "like" with a deliberate 1-second silence.`;
+                aiText += `<br><br>âš ï¸ <strong>Filler Alert:</strong> ${fillerPct}% of your words were fillers. That's quite high! Try the "Pause & Think" technique â€” replace every "um" and "like" with a deliberate 1-second silence.`;
             }
 
             aiFeedback.innerHTML = aiText;
@@ -12346,11 +12744,11 @@ Keep learning! 📚
             wordMap.innerHTML = refWords.map(word => {
                 let bg, color, icon;
                 if (matchSet.has(word)) {
-                    bg = 'rgba(16,185,129,0.15)'; color = '#10b981'; icon = '✓';
+                    bg = 'rgba(16,185,129,0.15)'; color = '#10b981'; icon = 'âœ“';
                 } else if (mispronSet.has(word)) {
                     bg = 'rgba(245,158,11,0.15)'; color = '#f59e0b'; icon = '~';
                 } else if (missingSet.has(word)) {
-                    bg = 'rgba(239,68,68,0.15)'; color = '#ef4444'; icon = '✗';
+                    bg = 'rgba(239,68,68,0.15)'; color = '#ef4444'; icon = 'âœ—';
                 } else {
                     bg = 'rgba(255,255,255,0.05)'; color = 'var(--text-muted)'; icon = '?';
                 }
@@ -12366,7 +12764,7 @@ Keep learning! 📚
                     <div style="padding: 10px 14px; background: rgba(245,158,11,0.06); border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(245,158,11,0.1);">
                         <div>
                             <span style="color: #ef4444; text-decoration: line-through; font-size: 14px;">${mp.actual}</span>
-                            <span style="margin: 0 8px; color: var(--text-muted);">→</span>
+                            <span style="margin: 0 8px; color: var(--text-muted);">â†’</span>
                             <span style="color: #10b981; font-weight: 600; font-size: 14px;">${mp.expected}</span>
                         </div>
                         <span style="font-size: 12px; padding: 3px 10px; border-radius: 10px; background: rgba(245,158,11,0.15); color: #fbbf24;">${mp.similarity}% match</span>
@@ -12379,7 +12777,7 @@ Keep learning! 📚
             // Tips
             const tipsList = document.getElementById('shadowTipsList');
             tipsList.innerHTML = (data.tips || []).map(tip => `
-                <li style="padding: 8px 0; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid var(--glass-border);">💡 ${tip}</li>
+                <li style="padding: 8px 0; color: var(--text-muted); font-size: 14px; border-bottom: 1px solid var(--glass-border);">ðŸ’¡ ${tip}</li>
             `).join('');
 
             document.getElementById('shadowResults').scrollIntoView({ behavior: 'smooth', block: 'start' });

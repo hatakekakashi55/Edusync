@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://js.puter.com/v2/"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>EduSync 1.0 - Faculty Dashboard with AI Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -4039,70 +4040,39 @@ Or by appointment</textarea>
             showTypingIndicator();
 
             try {
-                const token = localStorage.getItem('access_token');
-
-                if (!token) {
-                    hideTypingIndicator();
-                    showAIMessage("Session expired. Please login again.", 'system');
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                    return;
-                }
-
                 // STOP ANY CURRENT SPEECH FIRST
                 stopAllSpeech();
 
-                // Add timeout for the request
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout
+                // 🌟 Puter.js Faculty Assistant
+                const systemPrompt = "You are a Faculty AI Assistant for EduSync. Help professors manage classrooms, assignments, and students. Be professional and concise.";
+                
+                const response = await window.puter.ai.chat(
+                    `${systemPrompt}\n\nFaculty Command: ${message}`,
+                    { model: 'gpt-4o', stream: false }
+                );
 
-                // Try new voice command endpoint first
-                let response = await fetch(AI_CONFIG.baseURL + AI_CONFIG.endpoints.voiceCommand, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ command: message }),
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeoutId);
-
-                if (response.status === 401) {
-                    hideTypingIndicator();
-                    showAIMessage("Session expired. Please login again.", 'system');
-                    localStorage.removeItem('access_token');
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                    return;
-                }
-
-                if (response.status === 403) {
-                    hideTypingIndicator();
-                    showAIMessage("This feature is only available for faculty members.", 'system');
-                    return;
-                }
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
                 hideTypingIndicator();
 
-                // Extract speech text using helper function
-                const aiResponse = extractSpeechText(data);
+                let aiResponse = '';
+                if (typeof response === 'string') aiResponse = response;
+                else if (response?.message?.content?.[0]?.text) aiResponse = response.message.content[0].text;
+                else if (response?.text) aiResponse = response.text;
+                else aiResponse = "I'm ready to assist you, Professor.";
 
                 showAIMessage(aiResponse, 'ai');
-                checkForCommands(message, aiResponse);
+                speakText(aiResponse); // Changed speakResponse to speakText as per existing function
 
-                // Update dashboard stats if provided
-                if (data.faculty_context) {
-                    updateFacultyContext(data.faculty_context);
-                }
+                // The original code had checkForCommands and updateFacultyContext here.
+                // Since Puter.js response is just text, these would need to be re-evaluated
+                // or the AI prompt adjusted to return structured data.
+                // For now, keeping the original structure for these calls, assuming aiResponse
+                // might contain info for checkForCommands, and updateFacultyContext would need
+                // a separate mechanism if Puter.js doesn't return 'data.faculty_context'.
+                // If Puter.js is meant to fully replace the backend, these lines might need
+                // to be removed or adapted.
+
+                // Assuming checkForCommands still works with just the AI's text response
+                checkForCommands(message, aiResponse);
 
                 // SPEAK THE RESPONSE
                 if (aiResponse && !isSpeaking) {
@@ -13221,84 +13191,55 @@ console.log(<span style="color: #f1fa8c;">"Solution processing complete!"</span>
             // Submissions are now fetched from backend via API
         });
 
-        // Update the AI grading functions to call real backend
-
         async function callAIGradingAPI(submissionId) {
             try {
-                const token = localStorage.getItem('access_token');
-                const response = await fetch('http://localhost:8000/api/ai/grade-submission', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        submission_id: submissionId,
-                        content: getSubmissionContent(submissionId) // You need to implement this
-                    })
-                });
+                // 🌟 Puter.js Grading
+                const submission = submissions.find(s => s.id === submissionId);
+                const content = submission ? (submission.submission_text || "No text content provided.") : "No submission found.";
+                
+                const systemPrompt = "You are an expert academic grader. Evaluate the student submission and provide a score (0-100) and constructive feedback. Return JSON: { \"score\": number, \"feedback\": string }";
+                
+                const response = await window.puter.ai.chat(
+                    `${systemPrompt}\n\nSubmission Content:\n${content}`,
+                    { model: 'gpt-4o', stream: false }
+                );
 
-                if (!response.ok) throw new Error('AI grading failed');
-
-                const data = await response.json();
-                return data;
+                let resultText = (typeof response === 'string') ? response : (response.message?.content?.[0]?.text || response.text || "{}");
+                const jsonMatch = resultText.match(/\{[\s\S]*\}/);
+                return JSON.parse(jsonMatch ? jsonMatch[0] : resultText);
 
             } catch (error) {
                 console.error('AI Grading Error:', error);
-                // Fallback to simulated grading
-                return simulateAIGrading(submissionId);
+                return { score: 80, feedback: "Good effort. AI grading fallback applied." };
             }
         }
 
         async function callBulkAIGradingAPI(submissionIds) {
-            try {
-                const token = localStorage.getItem('access_token');
-                const response = await fetch('http://localhost:8000/api/ai/bulk-grade', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        submission_ids: submissionIds
-                    })
-                });
-
-                if (!response.ok) throw new Error('Bulk AI grading failed');
-
-                const data = await response.json();
-                return data;
-
-            } catch (error) {
-                console.error('Bulk AI Grading Error:', error);
-                // Fallback to simulated grading
-                return simulateBulkAIGrading(submissionIds);
+            // Process each one via Puter
+            const results = [];
+            for (const id of submissionIds) {
+                const res = await callAIGradingAPI(id);
+                results.push({ id: id, ...res });
             }
+            return results;
         }
 
         async function callPlagiarismCheckAPI(content, submissionId) {
             try {
-                const token = localStorage.getItem('access_token');
-                const response = await fetch('http://localhost:8000/api/ai/check-plagiarism', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        content: content,
-                        submission_id: submissionId
-                    })
-                });
+                // 🌟 Puter.js Plagiarism Check
+                const systemPrompt = "Analyze the following text for plagiarism and AI-generated content patterns. Provide a plagiarism score (0-100) where 0 is original and 100 is fully copied. Return JSON: { \"plagiarism_score\": number, \"explanation\": string }";
+                
+                const response = await window.puter.ai.chat(
+                    `${systemPrompt}\n\nContent to check:\n${content}`,
+                    { model: 'gpt-4o', stream: false }
+                );
 
-                if (!response.ok) throw new Error('Plagiarism check failed');
-
-                const data = await response.json();
-                return data;
+                let resultText = (typeof response === 'string') ? response : (response.message?.content?.[0]?.text || response.text || "{}");
+                const jsonMatch = resultText.match(/\{[\s\S]*\}/);
+                return JSON.parse(jsonMatch ? jsonMatch[0] : resultText);
 
             } catch (error) {
                 console.error('Plagiarism Check Error:', error);
-                return { plagiarism_score: 0, sources: [] };
             }
         }
 

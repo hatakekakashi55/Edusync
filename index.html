@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://js.puter.com/v2/"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduSync 4.0 - Revolutionizing Education</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1088,38 +1089,37 @@
             chatDisplay.scrollTop = chatDisplay.scrollHeight;
 
             try {
-                const response = await fetch('/api/ai/public-assistant', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        conversation_history: conversationHistory
-                    })
-                });
-
-                const data = await response.json();
+                // 🌟 Puter.js client-side assistant
+                const systemPrompt = "You are a helpful education assistant for EduSync. Provide concise, friendly answers about education and learning English.";
+                const lastMessages = conversationHistory.map(m => m.role + ": " + m.content).join("\n");
                 
+                const response = await window.puter.ai.chat(
+                    `${systemPrompt}\n\nPrevious context:\n${lastMessages}\n\nUser: ${message}`,
+                    { model: 'gpt-4o', stream: false }
+                );
+
                 // Hide typing indicator
                 typingStatus.style.display = 'none';
 
-                if (data.success) {
-                    appendMessage('ai', data.response);
-                    conversationHistory.push({ role: 'user', content: message });
-                    conversationHistory.push({ role: 'assistant', content: data.response });
-                    // Keep history short
-                    if (conversationHistory.length > 6) {
-                        conversationHistory = conversationHistory.slice(-6);
-                    }
-                } else {
-                    appendMessage('ai', "Sorry, I'm having trouble connecting right now. Please try again later.");
+                let aiText = '';
+                if (typeof response === 'string') aiText = response;
+                else if (response?.message?.content?.[0]?.text) aiText = response.message.content[0].text;
+                else if (response?.text) aiText = response.text;
+                else aiText = "I'm here to help you learn!";
+
+                appendMessage('ai', aiText);
+                conversationHistory.push({ role: 'user', content: message });
+                conversationHistory.push({ role: 'assistant', content: aiText });
+                
+                if (conversationHistory.length > 6) {
+                    conversationHistory = conversationHistory.slice(-6);
                 }
             } catch (error) {
                 console.error("Chat Error:", error);
                 typingStatus.style.display = 'none';
-                appendMessage('ai', "Error connecting to service. Is the server running?");
+                appendMessage('ai', "Puter service is currently busy. Please try again in a moment.");
             }
+
             
             chatDisplay.scrollTop = chatDisplay.scrollHeight;
         }

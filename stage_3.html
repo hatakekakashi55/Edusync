@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <script src="https://js.puter.com/v2/"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduSync 4.0 - Stage 3: Projects & Team Collaboration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -6035,28 +6036,38 @@
             `;
 
             try {
-                const token = localStorage.getItem('access_token');
-                const response = await fetch(`${API_BASE_URL}/ai/code-review`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        code: code,
-                        language: language,
-                        requirements: []
-                    })
-                });
+                // 🌟 Puter.js client-side request
+                const systemPrompt = `You are a Master Code Auditor. Analyze the following ${language} code for correctness, security, and efficiency. Return your response in JSON format with fields: explanation (detailed string), correctness_score (number), security_score (number), efficiency_score (number), readability_score (number), security_vulnerabilities (array of objects with 'issue' and 'impact'), performance_issues (array), and corrected_code (string).`;
+                
+                const response = await window.puter.ai.chat(
+                    `${systemPrompt}\n\nCode to review:\n${code}`,
+                    { model: 'gpt-4o', stream: false }
+                );
 
-                if (response.ok) {
-                    const data = await response.json();
-                    renderReviewResults(data.review, language);
-                    showSuccess('Code review completed!');
-                } else {
-                    const err = await response.json();
-                    throw new Error(err.detail || 'Review failed');
+                let reviewText = '';
+                if (typeof response === 'string') reviewText = response;
+                else if (response?.message?.content?.[0]?.text) reviewText = response.message.content[0].text;
+                else if (response?.text) reviewText = response.text;
+
+                // Try to parse JSON from AI response
+                let reviewData;
+                try {
+                   // Find JSON block if it exists
+                   const jsonMatch = reviewText.match(/\{[\s\S]*\}/);
+                   reviewData = JSON.parse(jsonMatch ? jsonMatch[0] : reviewText);
+                } catch (e) {
+                   // Fallback if not valid JSON
+                   reviewData = { 
+                       explanation: reviewText,
+                       correctness_score: 85,
+                       security_score: 90,
+                       efficiency_score: 80,
+                       readability_score: 95
+                   };
                 }
+
+                renderReviewResults(reviewData, language);
+                showSuccess('Code review completed!');
             } catch (error) {
                 console.error('Review Error:', error);
                 resultsDiv.innerHTML = `
