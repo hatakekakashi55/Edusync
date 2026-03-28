@@ -1,6 +1,12 @@
 """
 EduSync Backend - Configuration Module
 All environment variables, constants, and configuration settings.
+
+═══════════════════════════════════════════════════════════════
+INIXA OS — AI Engine Configuration
+5 FREE AI Engines — NO API Key, NO Auth, UNLIMITED!
+Fallback: DuckDuckGo → LLM7 → BlackBox → Pollinations → Pollinations Simple
+═══════════════════════════════════════════════════════════════
 """
 import os
 import logging
@@ -15,52 +21,44 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours for regular users
 REFRESH_TOKEN_EXPIRE_DAYS = 30
 
-# =============== MULTIPLE GEMINI API KEYS ===============
-GEMINI_API_KEYS = {
-    "default": os.getenv("GEMINI_API_KEY_1", "AIzaSyAZRz0s9XdvB_evcGS8IjHNArtb9URGd4g"),
-    "grammar": os.getenv("GEMINI_API_KEY_2", "AIzaSyCCC5GlBp2u7JxIgu1ht-qLmVECilztR_M"),
-    "pronunciation": os.getenv("GEMINI_API_KEY_3", "AIzaSyAkRwPV5WrCUOJqBXxkOnhBCNLvpbvgLHM"),
-    "sentence": os.getenv("GEMINI_API_KEY_4", "AIzaSyCjXuE6BXyToPFsNyBxd-eMqlBUtaDoVm0"),
-}
-
-# =============== GEMINI MODELS CONFIGURATION ===============
-GEMINI_MODELS_LIST = {
-    'gemini-1.5-flash-latest': 'Fast & Stable (Recommended)',
-    'gemini-2.0-flash-thinking-exp-01-21': 'Next-Gen Flash with Thinking (Experimental)',
-    'gemini-1.5-pro-latest': 'Pro (High Capability)',
-}
-
-AVAILABLE_MODELS = [
-    'gemini-2.0-flash',
-    'gemini-1.5-flash',
-    'gemini-2.0-flash-lite',
-    'gemini-2.5-flash',
-    'gemini-2.5-pro'
-]
-
-# =============== HOD AI ASSISTANT API KEYS ===============
-HOD_API_KEYS = {
-    "gemini": os.getenv("HOD_GEMINI_API_KEY", "AIzaSyD_EAZ5s93OLQJuw4_JjAcZb9Ur2xR-NXs"),
-    "openai": os.getenv("HOD_OPENAI_API_KEY", ""),
-    "speech": os.getenv("HOD_SPEECH_API_KEY", ""),
-    "custom": os.getenv("HOD_CUSTOM_API_KEY", ""),
-}
-
-# =============== FACULTY AI ASSISTANT API KEYS ===============
-FACULTY_AI_API_KEYS = {
-    "default": os.getenv("FACULTY_GEMINI_API_KEY_1", os.getenv("GEMINI_API_KEY_1", "AIzaSyAPaE17mWxwDUUlGLc1rD6IdrpEIZv-7Vc")),
-    "voice": os.getenv("FACULTY_GEMINI_API_KEY_2", os.getenv("GEMINI_API_KEY_2", "AIzaSyBJv9pO_GYfts3bLJ5KWKeDAKx3lDukORU")),
-    "analysis": os.getenv("FACULTY_GEMINI_API_KEY_3", os.getenv("GEMINI_API_KEY_3", "AIzaSyAkRwPV5WrCUOJqBXxkOnhBCNLvpbvgLHM")),
-    "content": os.getenv("FACULTY_GEMINI_API_KEY_4", os.getenv("GEMINI_API_KEY_4", "AIzaSyCjXuE6BXyToPFsNyBxd-eMqlBUtaDoVm0")),
-}
-
 # =============== RAPIDAPI CONFIGURATION ===============
 RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY", "")
 RAPIDAPI_HOST = os.getenv("RAPIDAPI_HOST", "linkedin-jobs-search.p.rapidapi.com")
 
-# =============== AI CONFIGURATION ===============
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemini-3-flash-preview:cloud")
+# ═══════════════════════════════════════════════════════════════
+# 5 FREE AI ENGINES — NO API Key, NO Auth, UNLIMITED!
+# ═══════════════════════════════════════════════════════════════
+
+# ENGINE 1: POLLINATIONS (OpenAI-compatible)
+POLLINATIONS_API_BASE = os.getenv("POLLINATIONS_API_BASE", "https://text.pollinations.ai/openai")
+POLLINATIONS_MODEL = os.getenv("POLLINATIONS_MODEL", "openai")
+
+# ENGINE 2: DUCKDUCKGO (via Cloudflare Worker)
+DDG_API_BASE = os.getenv("DDG_API_BASE", "https://bitter-sea-46dc.keerthan4531.workers.dev/chat")
+DDG_MODEL = os.getenv("DDG_MODEL", "gpt-4o-mini")
+
+# ENGINE 3: BLACKBOX AI
+BLACKBOX_API_BASE = os.getenv("BLACKBOX_API_BASE", "https://api.blackbox.ai/api/chat")
+
+# ENGINE 4: LLM7
+LLM7_API_BASE = os.getenv("LLM7_API_BASE", "https://api.llm7.io/v1/chat/completions")
+LLM7_MODEL = os.getenv("LLM7_MODEL", "gpt-4o-mini")
+
+# ENGINE 5: POLLINATIONS SIMPLE (Last resort)
+POLLINATIONS_SIMPLE_BASE = os.getenv("POLLINATIONS_SIMPLE_BASE", "https://text.pollinations.ai")
+POLLINATIONS_SIMPLE_MODEL = os.getenv("POLLINATIONS_SIMPLE_MODEL", "openai")
+
+# POLLINATIONS IMAGE GENERATION
+POLLINATIONS_IMAGE_BASE = os.getenv("POLLINATIONS_IMAGE_BASE", "https://image.pollinations.ai/prompt")
+
+# AI Engine Fallback Order (configurable)
+AI_ENGINE_ORDER = os.getenv("AI_ENGINE_ORDER", "duckduckgo,llm7,blackbox,pollinations,pollinations-simple").split(",")
+
+# AI Request Timeout (seconds)
+AI_TIMEOUT = int(os.getenv("AI_TIMEOUT", "90"))
+
+# AI Max Retries
+AI_MAX_RETRIES = int(os.getenv("AI_MAX_RETRIES", "3"))
 
 # =============== REDIS CONFIGURATION ===============
 REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379")
@@ -136,15 +134,23 @@ HTML_FILES = {
     "/student-dashboard": "student_dashboard.html",
 }
 
-# Initialize model objects for each key
+# ═══════════════════════════════════════════════════════════════
+# BACKWARD COMPATIBILITY — Old config names still work
+# ═══════════════════════════════════════════════════════════════
+# These are kept so existing imports don't break
+OLLAMA_BASE_URL = "deprecated"
+OLLAMA_MODEL = "deprecated"
+POLLINATIONS_API_KEY = ""  # Not needed — all engines are FREE
+AVAILABLE_MODELS = ["inixa-free-engine"]
+GEMINI_API_KEYS = {}
+HOD_API_KEYS = {"gemini": ""}
+FACULTY_AI_API_KEYS = {"default": "", "voice": "", "analysis": "", "content": ""}
+GEMINI_MODELS_LIST = {}
+
+# Old Gemini config functions (kept for backward compat)
 gemini_models = {}
-for key_name, api_key in GEMINI_API_KEYS.items():
-    gemini_models[key_name] = {"api_key": api_key, "models": AVAILABLE_MODELS}
 
 
 def get_gemini_config(feature_type="default"):
-    """Returns (api_key, model_names) for the requested feature"""
-    config = gemini_models.get(feature_type)
-    if not config:
-        config = gemini_models.get("default")
-    return config
+    """Legacy — returns None since Gemini is removed"""
+    return None

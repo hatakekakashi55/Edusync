@@ -1,6 +1,9 @@
 """
-EduSync Backend - AI Service
-Auto-extracted from main.py
+═══════════════════════════════════════════════════════════════
+EduSync Backend — AI Service
+Uses INIXA 5-Engine Fallback (NO API Key, NO Auth, UNLIMITED!)
+DuckDuckGo → LLM7 → BlackBox → Pollinations → Pollinations Simple
+═══════════════════════════════════════════════════════════════
 """
 import logging
 import os
@@ -19,16 +22,18 @@ import httpx
 
 from app.database import *
 from app.config import *
-from app.services.ai_wrapper import gemini_model, get_gemini_model, AIModelWrapper
+from app.services.ai_wrapper import (
+    gemini_model, get_gemini_model, AIModelWrapper,
+    ai_chat, ai_generate, ai_chat_with_retry, check_ai_status,
+)
 
 logger = logging.getLogger("edusync")
+
 
 class AIService:
     @staticmethod
     async def analyze_english_with_gemini(user_text: str, correct_text: str) -> Dict:
         try:
-            model = get_gemini_model("analysis")
-            
             prompt = f"""
             Act as a friendly and professional English teacher providing constructive feedback. 
             Analyze the student's pronunciation and grammar carefully.
@@ -53,13 +58,11 @@ class AIService:
             Return only the JSON object.
             """
             
-            response = await model.generate_content_async(prompt)
-            text = response.text.strip()
+            response = await AIService.call_ollama(prompt, json_mode=True)
             
-            json_match = re.search(r'\{.*\}', text, re.DOTALL)
+            json_match = re.search(r'\{.*\}', response, re.DOTALL)
             if json_match:
                 data = json.loads(json_match.group(0))
-                # Ensure alias keys exist for frontend compatibility
                 if "score" not in data: data["score"] = data.get("pronunciation_score", 70)
                 if "feedback_tamil" not in data: data["feedback_tamil"] = data.get("overall_feedback", "Super baby!")
                 return data
@@ -77,7 +80,7 @@ class AIService:
                 "improvement_plan": ["Day 1: Practice vowels", "Day 2: Word stress"]
             }
         except Exception as e:
-            logger.error(f"Gemini error: {e}")
+            logger.error(f"English analysis error: {e}")
             return {
                 "pronunciation_score": 70,
                 "grammar_score": 75,
@@ -194,13 +197,10 @@ class AIService:
             IMPORTANT: The 'explanation' field must be at least 1000 words. If the code is small, perform a theoretical dive into how it would scale.
             """
             
-            # Using call_ollama which handles Gemini fallback and rotation
             response = await AIService.call_ollama(prompt, system_prompt, json_mode=True)
             
             try:
-                # Attempt to parse the JSON
                 if isinstance(response, str):
-                    # Clean up possible AI preamble/markdown blocks
                     json_match = re.search(r'\{(?:[^{}]|\{[^{}]*\})*\}', response, re.DOTALL)
                     if json_match:
                         data = json.loads(json_match.group(0))
@@ -209,7 +209,6 @@ class AIService:
                 else:
                     data = response
 
-                # Ensure necessary fields exist for frontend
                 for key in ["correctness_score", "efficiency_score", "security_score", "readability_score"]:
                     if key not in data: data[key] = 70
                 
@@ -389,7 +388,7 @@ class AIService:
         system_prompt = f"""You are an expert {language} programming tutor. Help students fix code errors and improve their solutions.
         Provide clear explanations and examples."""
         
-        # Pre-process conditional sections to avoid backslashes in f-string expressions
+        # Pre-process conditional sections
         code_section = f"Code Provided:\n```{language}\n{code}\n```" if code else ""
         error_section = f"Error Message:\n{error}" if error else ""
         req_section = f"Requirement:\n{requirement}" if requirement else ""
@@ -475,12 +474,11 @@ class AIService:
     
     @staticmethod
     async def english_teacher_feedback(user_text: str) -> Dict:
-        """Provide English grammar and pronunciation feedback with Tamil explanations (Professional)"""
+        """Provide English grammar and pronunciation feedback with Tamil explanations"""
         try:
-            model = get_gemini_model("analysis")
+            system_prompt = "You are a friendly and professional English teacher who explains in Tamil."
             
             prompt = f"""
-            You are a friendly and professional English teacher who explains in Tamil. 
             The student wrote: "{user_text}"
             
             1. Identify any mistakes professionally and constructively.
@@ -493,8 +491,8 @@ class AIService:
             Additional Tips in Tamil: (Helpful learning tips and encouragement)
             """
             
-            response = await model.generate_content_async(prompt)
-            text = response.text
+            response = await AIService.call_ollama(prompt, system_prompt, json_mode=False)
+            text = response
             
             # Parse response
             mistakes = ""
@@ -535,144 +533,72 @@ class AIService:
     
     @staticmethod
     async def call_ollama(prompt: str, system_prompt: str = None, json_mode: bool = False):
-        # Premium Key-Rotation Fallback Logic
-        # This identifies the most reliable keys to try in order
-        priority_keys = ["default", "grammar", "pronunciation", "sentence"]
+        """
+        ═══════════════════════════════════════════════════════════════
+        INIXA 5-Engine AI Call (Replaces old Ollama/Gemini chain)
+        DuckDuckGo → LLM7 → BlackBox → Pollinations → Pollinations Simple
+        ═══════════════════════════════════════════════════════════════
+        """
+        messages = []
+        if system_prompt:
+            messages.append({"role": "system", "content": system_prompt})
         
-        for key_type in priority_keys:
-            config = get_gemini_config(key_type)
-            if not config: continue
-            
-            api_key = config["api_key"]
-            models_to_try = config["models"]
-            
-            try:
-                # Create a client with this API key
-                genai_client = genai.Client(api_key=api_key)
-                
-                for model_name in models_to_try:
-                    try:
-                        full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
-                        if json_mode:
-                            full_prompt += "\n\nIMPORTANT: Return ONLY valid JSON."
-                        
-                        # Execute AI generation with local thread safety using new SDK
-                        response = await asyncio.to_thread(
-                            genai_client.models.generate_content,
-                            model=model_name,
-                            contents=full_prompt
-                        )
-                        text = response.text.strip()
-                        
-                        if text:
-                            if json_mode:
-                                json_match = re.search(r"\{.*\}", text, re.DOTALL)
-                                if json_match:
-                                    return json_match.group(0)
-                            return text
-                    except Exception as me:
-                        logger.warning(f"Key {key_type} | Model {model_name} failed: {me}")
-                        continue # Try next model
-            except Exception as ke:
-                logger.error(f"Failed to configure Gemini Key {key_type}: {ke}")
-                continue # Try next key
-
-        # Safety Fallback: Ollama Local Infrastructure
-        try:
-            logger.info("All Gemini nodes exhausted. Diverting to local Ollama fallback...")
-            messages = []
-            if system_prompt:
-                messages.append({"role": "system", "content": system_prompt})
-            messages.append({"role": "user", "content": prompt})
-            
-            async with httpx.AsyncClient(timeout=90.0) as client:
-                response = await client.post(
-                    f"{OLLAMA_BASE_URL}/api/chat",
-                    json={
-                        "model": OLLAMA_MODEL,
-                        "messages": messages,
-                        "stream": False,
-                        "options": {"temperature": 0.6, "num_predict": 1200}
-                    }
-                )
-                if response.status_code == 200:
-                    return response.json()["message"]["content"]
-        except Exception as oe:
-            logger.error(f"Ollama critical failure: {oe}")
-
-        # Terminal Error State
+        full_prompt = prompt
         if json_mode:
-            return json.dumps({
-                "error": "AI service unavailable",
-                "correctness_score": 0,
-                "explanation": "Expert Analysis System is currently under extreme load. Our engineers have been notified. Please try again in 5 minutes."
-            })
-        return "Critical: Expert Analysis Node Offline. Please retry shortly."
+            full_prompt += "\n\nIMPORTANT: Return ONLY valid JSON."
+        messages.append({"role": "user", "content": full_prompt})
+        
+        # Use the INIXA 5-engine fallback
+        result = await ai_chat(messages)
+        
+        if json_mode and result:
+            # Extract JSON from response
+            json_match = re.search(r"\{.*\}", result, re.DOTALL)
+            if json_match:
+                return json_match.group(0)
+        
+        return result
 
     @staticmethod
     async def call_kimi(prompt: str, system_prompt: str = None, json_mode: bool = False):
-        """Call Gemini/AI (via Ollama/Cloud) directly for Communication Stage features"""
+        """
+        call_kimi — Same as call_ollama now (both use INIXA 5-engine fallback)
+        Kept for backward compatibility
+        """
         try:
-            full_prompt = f"{system_prompt}\n\n{prompt}" if system_prompt else prompt
+            messages = []
+            if system_prompt:
+                messages.append({"role": "system", "content": system_prompt})
+            
+            full_prompt = prompt
             if json_mode:
                 if "Return ONLY valid JSON" not in full_prompt:
                     full_prompt += "\n\nIMPORTANT: Your response must be a valid JSON object only. No preamble, no explanation."
+            messages.append({"role": "user", "content": full_prompt})
             
-            logger.info(f"🔄 Calling Gemini Model ({OLLAMA_MODEL}) for communication feature")
+            result = await ai_chat(messages)
             
-            async with httpx.AsyncClient(timeout=90.0) as client:
-                # Some deployments might use /api/generate (Ollama style) or /v1/chat/completions (OpenAI style)
-                # We'll stick to the Ollama format established in the codebase
-                response = await client.post(
-                    f"{OLLAMA_BASE_URL}/api/generate",
-                    json={
-                        "model": OLLAMA_MODEL,
-                        "prompt": full_prompt,
-                        "stream": False,
-                        "options": {
-                            "temperature": 0.7,
-                            "top_p": 0.9,
-                            "num_predict": 2048
-                        }
-                    }
-                )
-                
-                if response.status_code == 200:
-                    result = response.json()
-                    text = result.get("response", "").strip()
-                    
-                    if json_mode:
-                        # Find the first { and last } to extract JSON
-                        start_idx = text.find('{')
-                        end_idx = text.rfind('}')
-                        if start_idx != -1 and end_idx != -1:
-                            return text[start_idx:end_idx+1]
-                    return text
-                else:
-                    logger.error(f"❌ Gemini API error: {response.status_code} - {response.text}")
-                    return None
+            if json_mode and result:
+                start_idx = result.find('{')
+                end_idx = result.rfind('}')
+                if start_idx != -1 and end_idx != -1:
+                    return result[start_idx:end_idx+1]
+            
+            return result
         except Exception as e:
-            logger.error(f"❌ Gemini connection error: {e}")
+            logger.error(f"❌ call_kimi error: {e}")
             return None
         
-        
+
 async def call_gemini_with_retry(prompt: str, max_retries: int = 3) -> Any:
-    """Call Gemini AI with retry logic"""
-    if not gemini_model:
-        return None
+    """Call AI with retry logic (backward compatible — uses INIXA engines now)"""
+    result = await ai_chat_with_retry(
+        [{"role": "user", "content": prompt}],
+        max_retries=max_retries
+    )
     
-    for attempt in range(max_retries):
-        try:
-            response = gemini_model.generate_content(prompt)
-            return response
-        except Exception as e:
-            if attempt == max_retries - 1:
-                logger.error(f"Gemini API failed after {max_retries} attempts: {e}")
-                raise
-            wait_time = 2 ** attempt  # Exponential backoff
-            logger.warning(f"Gemini API attempt {attempt + 1} failed, retrying in {wait_time}s...")
-            await asyncio.sleep(wait_time)
+    class MockResponse:
+        def __init__(self, t):
+            self.text = t
     
-    return None
-
-
+    return MockResponse(result)

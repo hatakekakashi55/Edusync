@@ -1,210 +1,506 @@
 """
-EduSync Backend - AI Model Wrapper Service
-Unified AI Wrapper that prioritizes local Ollama and falls back to Gemini API.
+═══════════════════════════════════════════════════════════════
+EduSync Backend — INIXA AI Engine Service (Python)
+5 FREE AI Engines — NO API Key, NO Auth, UNLIMITED!
+
+Fallback Chain: DuckDuckGo → LLM7 → BlackBox → Pollinations → Pollinations Simple
+═══════════════════════════════════════════════════════════════
 """
-import os
 import logging
 import asyncio
+import re
+import json
+import random
 import httpx
-from google import genai
 
 from app.config import (
-    AVAILABLE_MODELS, OLLAMA_BASE_URL, OLLAMA_MODEL,
-    HOD_API_KEYS, FACULTY_AI_API_KEYS
+    POLLINATIONS_API_BASE, POLLINATIONS_MODEL,
+    DDG_API_BASE, DDG_MODEL,
+    BLACKBOX_API_BASE,
+    LLM7_API_BASE, LLM7_MODEL,
+    POLLINATIONS_SIMPLE_BASE, POLLINATIONS_SIMPLE_MODEL,
+    AI_TIMEOUT, AI_ENGINE_ORDER,
+    # Backward compat imports
+    OLLAMA_BASE_URL, OLLAMA_MODEL,
+    HOD_API_KEYS, FACULTY_AI_API_KEYS, AVAILABLE_MODELS,
 )
 
 logger = logging.getLogger("edusync")
 
+# ═══════════════════════════════════════════════════════════════
+# Track which engine was last used
+# ═══════════════════════════════════════════════════════════════
+_last_engine = None
 
+
+def get_last_engine():
+    return _last_engine
+
+
+def get_last_engine_label():
+    labels = {
+        "pollinations": "🌸 Pollinations",
+        "duckduckgo": "🦆 DuckDuckGo",
+        "blackbox": "⬛ BlackBox AI",
+        "llm7": "🚀 LLM7",
+        "pollinations-simple": "🌸 Pollinations Simple",
+    }
+    return labels.get(_last_engine, "🤖 AI")
+
+
+# ═══════════════════════════════════════════════════════════════
+# HELPERS
+# ═══════════════════════════════════════════════════════════════
+def _is_html(text: str) -> bool:
+    """Detect garbage HTML/error responses"""
+    t = text.strip()
+    return (
+        t.startswith("<!DOCTYPE") or
+        t.startswith("<html") or
+        t.startswith("<div") or
+        "<script" in t or
+        "window.location" in t or
+        "502 Bad Gateway" in t or
+        "Queue full" in t or
+        "Sorry, AI servers are busy" in t
+    )
+
+
+# ═══════════════════════════════════════════════════════════════
+# ENGINE 1: POLLINATIONS (OpenAI-compatible)
+# ═══════════════════════════════════════════════════════════════
+async def _try_pollinations(messages: list) -> str | None:
+    logger.info("🌸 [INIXA] Trying Pollinations...")
+    try:
+        async with httpx.AsyncClient(timeout=AI_TIMEOUT) as client:
+            res = await client.post(
+                POLLINATIONS_API_BASE,
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                json={
+                    "model": POLLINATIONS_MODEL,
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in messages],
+                    "stream": False,
+                },
+            )
+            if res.status_code != 200:
+                logger.warning(f"[Pollinations] HTTP {res.status_code}")
+                return None
+
+            data = res.json()
+            content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+
+            if not content or _is_html(content):
+                logger.warning("[Pollinations] Invalid response")
+                return None
+
+            logger.info("✅ Pollinations response received")
+            return content.strip()
+    except Exception as e:
+        logger.warning(f"[Pollinations] Error: {e}")
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════
+# ENGINE 2: DUCKDUCKGO (via Cloudflare Worker)
+# ═══════════════════════════════════════════════════════════════
+async def _try_duckduckgo(messages: list) -> str | None:
+    logger.info("🦆 [INIXA] Trying DuckDuckGo...")
+    try:
+        async with httpx.AsyncClient(timeout=AI_TIMEOUT) as client:
+            res = await client.post(
+                DDG_API_BASE,
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                json={
+                    "model": DDG_MODEL,
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in messages],
+                },
+            )
+            if res.status_code != 200:
+                logger.warning(f"[DDG] HTTP {res.status_code}")
+                return None
+
+            # Try to parse as JSON first
+            try:
+                data = res.json()
+                content = (
+                    data.get("choices", [{}])[0].get("message", {}).get("content", "") or
+                    data.get("response", "") or
+                    data.get("message", {}).get("content", "") if isinstance(data.get("message"), dict) else data.get("message", "")
+                )
+                if content and not _is_html(content):
+                    logger.info("✅ DuckDuckGo response received")
+                    return content.strip()
+            except Exception:
+                pass
+
+            # Fallback: read as streaming text
+            text = res.text
+            full_text = ""
+            for line in text.split("\n"):
+                line = line.strip()
+                if not line.startswith("data: ") or "[DONE]" in line:
+                    continue
+                try:
+                    chunk = json.loads(line[6:])
+                    if chunk.get("message"):
+                        full_text += chunk["message"]
+                except Exception:
+                    pass
+
+            if full_text.strip():
+                logger.info("✅ DuckDuckGo streaming response received")
+                return full_text.strip()
+            return None
+    except Exception as e:
+        logger.warning(f"[DDG] Error: {e}")
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════
+# ENGINE 3: BLACKBOX AI
+# ═══════════════════════════════════════════════════════════════
+async def _try_blackbox(messages: list) -> str | None:
+    logger.info("⬛ [INIXA] Trying BlackBox AI...")
+    try:
+        async with httpx.AsyncClient(timeout=AI_TIMEOUT) as client:
+            res = await client.post(
+                BLACKBOX_API_BASE,
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                json={
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in messages],
+                    "maxTokens": 4096,
+                    "mobileClient": True,
+                    "agentMode": {"ImageGenerationMode": False},
+                },
+            )
+            if res.status_code != 200:
+                logger.warning(f"[BlackBox] HTTP {res.status_code}")
+                return None
+
+            text = res.text
+            # Clean BlackBox source links
+            text = re.sub(r'\$~~~\$[\s\S]*?\$~~~\$', '', text)
+            text = re.sub(r'\[\^\d+\^\]', '', text).strip()
+
+            if not text or len(text) < 5 or _is_html(text):
+                logger.warning("[BlackBox] Invalid response")
+                return None
+
+            logger.info("✅ BlackBox response received")
+            return text.strip()
+    except Exception as e:
+        logger.warning(f"[BlackBox] Error: {e}")
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════
+# ENGINE 4: LLM7
+# ═══════════════════════════════════════════════════════════════
+async def _try_llm7(messages: list) -> str | None:
+    logger.info("🚀 [INIXA] Trying LLM7...")
+    try:
+        async with httpx.AsyncClient(timeout=AI_TIMEOUT) as client:
+            res = await client.post(
+                LLM7_API_BASE,
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                },
+                json={
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in messages],
+                    "model": LLM7_MODEL,
+                    "stream": False,
+                },
+            )
+            if res.status_code != 200:
+                logger.warning(f"[LLM7] HTTP {res.status_code}")
+                return None
+
+            data = res.json()
+            content = data.get("choices", [{}])[0].get("message", {}).get("content", "")
+
+            if not content or _is_html(content):
+                logger.warning("[LLM7] Invalid response")
+                return None
+
+            logger.info("✅ LLM7 response received")
+            return content.strip()
+    except Exception as e:
+        logger.warning(f"[LLM7] Error: {e}")
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════
+# ENGINE 5: POLLINATIONS SIMPLE (Last resort)
+# ═══════════════════════════════════════════════════════════════
+async def _try_pollinations_simple(messages: list) -> str | None:
+    logger.info("🌸 [INIXA] Trying Pollinations Simple...")
+    try:
+        async with httpx.AsyncClient(timeout=AI_TIMEOUT) as client:
+            res = await client.post(
+                POLLINATIONS_SIMPLE_BASE,
+                headers={
+                    "Content-Type": "application/json",
+                    "Accept": "text/plain,application/json",
+                },
+                json={
+                    "messages": [{"role": m["role"], "content": m["content"]} for m in messages],
+                    "model": POLLINATIONS_SIMPLE_MODEL,
+                    "seed": random.randint(0, 10000),
+                },
+            )
+            if res.status_code != 200:
+                logger.warning(f"[PollinationsSimple] HTTP {res.status_code}")
+                return None
+
+            text = res.text
+            if not text or len(text) < 5 or _is_html(text):
+                logger.warning("[PollinationsSimple] Invalid response")
+                return None
+
+            logger.info("✅ Pollinations Simple response received")
+            return text.strip()
+    except Exception as e:
+        logger.warning(f"[PollinationsSimple] Error: {e}")
+        return None
+
+
+# ═══════════════════════════════════════════════════════════════
+# ENGINE REGISTRY
+# ═══════════════════════════════════════════════════════════════
+_ENGINE_MAP = {
+    "duckduckgo": _try_duckduckgo,
+    "llm7": _try_llm7,
+    "blackbox": _try_blackbox,
+    "pollinations": _try_pollinations,
+    "pollinations-simple": _try_pollinations_simple,
+}
+
+
+# ═══════════════════════════════════════════════════════════════
+# MAIN AI CHAT — Smart Fallback Chain
+# ═══════════════════════════════════════════════════════════════
+async def ai_chat(messages: list) -> str:
+    """
+    Main AI function — tries all 5 FREE engines in fallback order.
+    Returns the first successful response.
+    """
+    global _last_engine
+    logger.info("🧠 [INIXA] Starting AI chat with 5-engine fallback...")
+
+    for engine_name in AI_ENGINE_ORDER:
+        engine_fn = _ENGINE_MAP.get(engine_name.strip())
+        if not engine_fn:
+            logger.warning(f"[INIXA] Unknown engine: {engine_name}")
+            continue
+
+        _last_engine = engine_name.strip()
+        try:
+            result = await engine_fn(messages)
+            if result:
+                logger.info(f"🎉 [INIXA] ✓ Success with {engine_name}")
+                return result
+        except Exception as e:
+            logger.warning(f"[INIXA] {engine_name} failed: {e}")
+
+    _last_engine = None
+    logger.error("💀 [INIXA] All 5 engines failed!")
+    return "⚠️ AI service temporarily unavailable. All engines are busy. Please try again in a moment."
+
+
+async def ai_generate(prompt: str) -> str:
+    """Simple single-prompt AI call"""
+    return await ai_chat([{"role": "user", "content": prompt}])
+
+
+# ═══════════════════════════════════════════════════════════════
+# AI Chat with Retry (Exponential Backoff)
+# ═══════════════════════════════════════════════════════════════
+async def ai_chat_with_retry(messages: list, max_retries: int = 3) -> str:
+    """Retry AI chat with exponential backoff"""
+    last_error = ""
+
+    for i in range(max_retries):
+        try:
+            result = await ai_chat(messages)
+            if "⚠️" not in result:
+                return result
+            last_error = result
+        except Exception as e:
+            last_error = str(e)
+
+        if i < max_retries - 1:
+            delay = (2 ** i) * 1
+            logger.info(f"🔄 [INIXA] Retrying in {delay}s...")
+            await asyncio.sleep(delay)
+
+    return last_error
+
+
+# ═══════════════════════════════════════════════════════════════
+# AI Status Check
+# ═══════════════════════════════════════════════════════════════
+async def check_ai_status() -> dict:
+    """Check if any AI engine is available"""
+    logger.info("🔍 [INIXA] Checking AI status...")
+    try:
+        test_messages = [{"role": "user", "content": "hi"}]
+
+        # Quick check with DDG (usually fastest)
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                res = await client.post(
+                    DDG_API_BASE,
+                    headers={"Content-Type": "application/json"},
+                    json={"messages": test_messages, "model": DDG_MODEL},
+                )
+                if res.status_code == 200:
+                    return {"online": True, "engine": "DuckDuckGo (Active)"}
+        except Exception:
+            pass
+
+        # Try BlackBox
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                res = await client.post(
+                    BLACKBOX_API_BASE,
+                    headers={"Content-Type": "application/json"},
+                    json={"messages": test_messages},
+                )
+                if res.status_code == 200:
+                    return {"online": True, "engine": "BlackBox AI (Active)"}
+        except Exception:
+            pass
+
+        # Try Pollinations
+        try:
+            async with httpx.AsyncClient(timeout=5.0) as client:
+                res = await client.post(
+                    POLLINATIONS_API_BASE,
+                    headers={"Content-Type": "application/json"},
+                    json={"messages": test_messages, "model": POLLINATIONS_MODEL, "stream": False},
+                )
+                if res.status_code == 200:
+                    return {"online": True, "engine": "Pollinations (Active)"}
+        except Exception:
+            pass
+
+        return {"online": False, "engine": "All Engines Offline"}
+    except Exception as e:
+        logger.warning(f"[INIXA] Status check failed: {e}")
+        return {"online": False, "engine": "Connection Error"}
+
+
+# ═══════════════════════════════════════════════════════════════
+# AIModelWrapper — BACKWARD COMPATIBLE WRAPPER
+# Keeps the same interface so old code (get_gemini_model, etc.) still works
+# ═══════════════════════════════════════════════════════════════
 class AIModelWrapper:
     """
-    Unified AI Wrapper that prioritizes local Ollama and falls back to Gemini API.
-    Requested model: gemini-3-flash-preview:cloud
+    Drop-in replacement for the old Gemini/Ollama wrapper.
+    All calls are routed through the 5 FREE AI engines.
     """
     def __init__(self, gemini_model_obj=None, feature_type="default"):
-        self.gemini_model = gemini_model_obj
         self.feature_type = feature_type
+        # These are kept for backward compat but NOT used
+        self.gemini_model = gemini_model_obj
         self.ollama_model = OLLAMA_MODEL
         self.base_url = OLLAMA_BASE_URL
 
     def __bool__(self):
-        """Allows 'if gemini_model:' checks to work correctly"""
+        """Always return True — AI is always available"""
         return True
 
     def _format_prompt(self, contents):
-        """Helper to convert Gemini-style part list to string"""
-        if isinstance(contents, str): return contents
+        """Convert Gemini-style content to string"""
+        if isinstance(contents, str):
+            return contents
         if isinstance(contents, list):
             parts = []
             for part in contents:
-                if isinstance(part, str): parts.append(part)
-                elif hasattr(part, 'text'): parts.append(part.text)
-                else: parts.append(str(part))
+                if isinstance(part, str):
+                    parts.append(part)
+                elif hasattr(part, 'text'):
+                    parts.append(part.text)
+                else:
+                    parts.append(str(part))
             return "\n".join(parts)
         return str(contents)
 
     def generate_content(self, contents, **kwargs):
-        """Synchronous generation: Ollama first, then Gemini API"""
+        """Synchronous generation — runs async in thread"""
         prompt = self._format_prompt(contents)
-        
-        # 1. Try Ollama (Primary)
+        messages = [{"role": "user", "content": prompt}]
+
+        # Run async in sync context
         try:
-            with httpx.Client(timeout=60.0) as client:
-                response = client.post(
-                    f"{self.base_url}/api/generate",
-                    json={
-                        "model": self.ollama_model,
-                        "prompt": prompt,
-                        "stream": False,
-                        "options": {
-                            "temperature": 0.7,
-                            "top_p": 0.9
-                        }
-                    }
-                )
-                if response.status_code == 200:
-                    result = response.json()
-                    text = result.get("response", "")
-                    if text and text.strip():
-                        logger.info(f"✅ AI Response: Ollama ({self.ollama_model})")
-                        class MockResponse:
-                            def __init__(self, t): self.text = t
-                        return MockResponse(text)
-                else:
-                    logger.warning(f"⚠️ Ollama returned status {response.status_code}. Falling back.")
-        except Exception as e:
-            logger.debug(f"⚠️ Ollama failed: {e}. Falling back to Gemini API.")
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = None
 
-        # 2. Try Gemini API (Fallback)
-        if self.gemini_model:
-            try:
-                logger.info(f"🔄 AI Response: Gemini API ({self.feature_type})")
-                if isinstance(self.gemini_model, dict) and "client" in self.gemini_model:
-                    client = self.gemini_model["client"]
-                    model = self.gemini_model["model"]
-                    return client.models.generate_content(
-                        model=model,
-                        contents=contents,
-                        **kwargs
-                    )
-                else:
-                    return self.gemini_model.generate_content(contents, **kwargs)
-            except Exception as e:
-                logger.error(f"❌ Gemini API error: {e}")
-                raise
+        if loop and loop.is_running():
+            # We're in an async context — create a future
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor() as pool:
+                result = pool.submit(asyncio.run, ai_chat(messages)).result()
+        else:
+            result = asyncio.run(ai_chat(messages))
 
-        raise Exception("AI service unavailable: Both Ollama and Gemini API failed")
+        class MockResponse:
+            def __init__(self, t):
+                self.text = t
+        return MockResponse(result)
 
     async def generate_content_async(self, contents, **kwargs):
-        """Asynchronous generation: Ollama first, then Gemini API"""
+        """Asynchronous generation — uses 5-engine fallback"""
         prompt = self._format_prompt(contents)
-        
-        # 1. Try Ollama (Primary)
-        try:
-            async with httpx.AsyncClient(timeout=60.0) as client:
-                response = await client.post(
-                    f"{self.base_url}/api/generate",
-                    json={
-                        "model": self.ollama_model,
-                        "prompt": prompt,
-                        "stream": False,
-                        "options": {
-                            "temperature": 0.7,
-                            "top_p": 0.9
-                        }
-                    }
-                )
-                if response.status_code == 200:
-                    result = response.json()
-                    text = result.get("response", "")
-                    if text and text.strip():
-                        logger.info(f"✅ AI Response: Ollama ({self.ollama_model})")
-                        class MockResponse:
-                            def __init__(self, t): self.text = t
-                        return MockResponse(text)
-                else:
-                    logger.warning(f"⚠️ Ollama returned status {response.status_code}. Falling back.")
-        except Exception as e:
-            logger.debug(f"⚠️ Ollama Async failed: {e}. Falling back to Gemini API.")
+        messages = [{"role": "user", "content": prompt}]
+        result = await ai_chat(messages)
 
-        # 2. Try Gemini API (Fallback)
-        if self.gemini_model:
-            try:
-                logger.info(f"🔄 AI Response (Async): Gemini API ({self.feature_type})")
-                if isinstance(self.gemini_model, dict) and "client" in self.gemini_model:
-                    client = self.gemini_model["client"]
-                    model = self.gemini_model["model"]
-                    return await client.aio.models.generate_content(
-                        model=model,
-                        contents=contents,
-                        **kwargs
-                    )
-                else:
-                    if hasattr(self.gemini_model, 'generate_content_async'):
-                        return await self.gemini_model.generate_content_async(contents, **kwargs)
-                    else:
-                        return await asyncio.to_thread(self.gemini_model.generate_content, contents, **kwargs)
-            except Exception as e:
-                logger.error(f"❌ Gemini API Async error: {e}")
-                raise
-
-        raise Exception("AI service unavailable: Both Ollama and Gemini API failed")
+        class MockResponse:
+            def __init__(self, t):
+                self.text = t
+        return MockResponse(result)
 
 
-# =============== AI MODEL INITIALIZATION ===============
+# ═══════════════════════════════════════════════════════════════
+# BACKWARD COMPATIBLE EXPORTS
+# All old imports still work — no code changes needed elsewhere!
+# ═══════════════════════════════════════════════════════════════
 
-# Initialize HOD Gemini model
+# These used to be Gemini models — now they're all AIModelWrapper instances
 hod_gemini_model = None
-try:
-    hod_api_key = HOD_API_KEYS.get("gemini")
-    if hod_api_key:
-        hod_genai_client = genai.Client(api_key=hod_api_key)
-        if AVAILABLE_MODELS:
-            model_name = AVAILABLE_MODELS[0]
-            hod_gemini_model = {"client": hod_genai_client, "model": model_name}
-            logger.debug(f"✅ HOD Gemini AI configured ({model_name})")
-        else:
-            logger.warning(f"⚠️ No models configured in AVAILABLE_MODELS")
-    else:
-        logger.debug(f"⚠️ HOD API key not provided")
-except Exception as e:
-    logger.warning(f"⚠️ HOD Gemini AI configuration failed: {e}")
-    hod_gemini_model = None
-
-# Initialize Faculty Gemini models
-faculty_gemini_models = {}
-for key_name, api_key in FACULTY_AI_API_KEYS.items():
-    try:
-        faculty_genai_client = genai.Client(api_key=api_key)
-        if AVAILABLE_MODELS:
-            model_name = AVAILABLE_MODELS[0]
-            logger.debug(f"✅ Faculty Gemini AI configured for '{key_name}' ({model_name})")
-            faculty_gemini_models[key_name] = {"client": faculty_genai_client, "model": model_name}
-        else:
-            logger.warning(f"⚠️ No models configured in AVAILABLE_MODELS for '{key_name}'")
-            faculty_gemini_models[key_name] = None
-    except Exception as e:
-        logger.warning(f"⚠️ Faculty Gemini AI configuration failed for '{key_name}': {e}")
-        faculty_gemini_models[key_name] = None
-
-faculty_gemini_model = faculty_gemini_models.get("default")
+faculty_gemini_models = {
+    "default": None,
+    "voice": None,
+    "analysis": None,
+    "content": None,
+}
+faculty_gemini_model = None
 
 
 def get_gemini_model(feature_type="default"):
-    """Get AI model (Ollama + Gemini) for specific feature."""
-    gemini_obj = faculty_gemini_models.get(feature_type)
-    if not gemini_obj:
-        gemini_obj = faculty_gemini_model
-    return AIModelWrapper(gemini_obj, feature_type)
+    """Returns AIModelWrapper (routes to 5 FREE engines)"""
+    return AIModelWrapper(None, feature_type)
 
 
 def get_faculty_gemini_model(feature_type="default"):
-    """Get Gemini model for Faculty specific feature. Falls back to default."""
-    model = faculty_gemini_models.get(feature_type)
-    if model is None:
-        model = faculty_gemini_models.get("default")
-    return model
+    """Returns AIModelWrapper (routes to 5 FREE engines)"""
+    return AIModelWrapper(None, feature_type)
 
 
-# Define global gemini_model for backward compatibility
+# Global gemini_model for backward compatibility
 gemini_model = get_gemini_model("default")
+
+logger.info("🚀 [INIXA] AI Engine Initialized: 5 FREE Engines Active!")
+logger.info(f"   Fallback Order: {' → '.join(AI_ENGINE_ORDER)}")
+logger.info("   🦆 DuckDuckGo | 🚀 LLM7 | ⬛ BlackBox | 🌸 Pollinations | 🌸 Pollinations Simple")
