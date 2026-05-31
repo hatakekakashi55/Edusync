@@ -22,3 +22,5 @@ google-generativeai==0.8.6
 gTTS==2.4.0
 qrcode==7.4.2
 GitPython==3.1.40
+aiohttp==3.9.1
+aiofiles==24.1.0
